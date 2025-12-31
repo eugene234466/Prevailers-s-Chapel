@@ -1,99 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Welcome - Prevailers Chapel International</title>
-        <link rel="icon" href="3.JPG"> 
-        <link rel="stylesheet" href="home.css">
-        <script src="home.js" defer></script>
-    </head>
-    <body>
-        <nav>
-            <div class="container">
-                <a href="home.html" class="logo"><img src="3.JPG" alt="PCI Logo" class="logo-img"> 
-                <span class="logo-text">PCI</span>
-                </a>
-                <button class="menu-toggle" onclick="toggleMenu()">===</button>
-                <ul id="navMenu">
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="livestream.html">Live Stream</a></li>
-                    <li><a href="devotional.html">Devotional</a></li>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="event.html">Events</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Prevailers Chapel International</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-        <section class="hero">
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="home.html" class="logo">
+                <img src="3.JPG" alt="PCI Logo" class="logo-img">
+                <span>PCI</span>
+            </a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="home.html" class="active">Home</a></li>
+                <li><a href="livestream.html">Live Stream</a></li>
+                <li><a href="devotional.html">Devotionals</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Prayer Request</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
             <h1>Welcome to Prevailers Chapel International</h1>
-            <p>A House of Transformation where Nobodies are made Somebody- Join Us in Fellowship</p>
+            <p class="hero-subtitle">A House of Transformation where Nobodies are made Somebody</p>
+            <p class="hero-verse">"...and the Lord will make you the head and not the tail..." — Deuteronomy 28:13</p>
             <div class="hero-buttons">
-                <a href="livestream.html" class="btn-primary">Watch us Live</a>
-                <a href="event.html" class="btn-secondary">Upcoming Events</a>
+                <a href="livestream.html" class="btn-primary">Join Live Service</a>
+                <a href="events.html" class="btn-secondary">Upcoming Events</a>
             </div>
-        </section>
-        <section>
-            <div class="container">
-                <h2 class="section-title">About Us</h2>
-                <div class="about-content">
-                    <p>Prevailers Chapel International is a vibrant community of believers
-                        committed to experiencing God's transforming power and sharing his love
-                        with the world. We are a family where everyone belongs,growing together in faith,
-                        worship and service. We also highly acknowledge soul-winning.
-                    </p>
-                    <p style="margin-top: 1.5rem;">
-                        Our mission is to empower people to discover their purpose, devlop their faith, and make a difference
-                        in their communities. Through dynamic worship, biblical teaching and genuine fellowship, we create an
-                        atmosphere where lives are changed and destinies are fulfilled. 
-                    </p>
-                </div>
+        </div>
+    </section>
+
+    <!-- Featured Event (Watch Night Service - Dec 31, 2025) -->
+    <section class="featured-event container">
+        <h2 class="section-title">Featured Event Today</h2>
+        <div class="event-card featured">
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/professional-church%2Ccrossover-night-flyer%2C-wa-design-template-aa734f9f883d1dee37e709cc9a9741f3_26dab8e2-7637-4704-b951-c951f983bd4e_screen.png?ts=1765576016" alt="Watch Night Service 2025 Flyer" class="event-image">
+            <div class="event-content">
+                <span class="event-category special">Special Event</span>
+                <h3>A Night of Exit & Entrance - Watch Night Service 2025</h3>
+                <p class="event-date">Wednesday, December 31, 2025 | 9:00 PM onwards</p>
+                <p class="event-description">
+                    Join us for a powerful crossover night of worship, praise, and thanksgiving as we exit 2025 and enter 2026. 
+                    Guest Minister: Apostle Frank E. Dzese. Spiritual Tokens: Red Scarves & White Candle.
+                </p>
+                <a href="events.html" class="btn-primary">Learn More</a>
             </div>
-        </section>
-        <section>
-            <div class="container">
-                <h2 class="section-title">Service Times</h2>
-                <div class="service-times">
-                    <div class="service-card">
-                        <h3>Sunday Service</h3>
-                        <p class="time">8:00 AM - 10:00 AM</p>
-                        <p class="day">Every Sunday</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Bible Study</h3>
-                        <p class="time">6:30PM - 8:30PM</p>
-                        <p class="day">Every Sunday</p>
-                    </div>
-                    <div class="service-card">
-                        <h3>Prayer Meeting</h3>
-                        <p class="time">6:30PM - 7:30PM</p>
-                        <p class="day">Every Friday</p>
-                    </div>
-                </div>                
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container about-grid">
+            <div class="about-text">
+                <h2>About PCI</h2>
+                <p>Prevailers Chapel International is a vibrant, Spirit-filled church committed to transforming lives through the power of God's Word. We believe in raising champions and making disciples who impact their world.</p>
+                <p>Our services are filled with anointed worship, practical teaching, and genuine fellowship. Whether you're new to faith or a long-time believer, there's a place for you here.</p>
+                <a href="#" class="btn-secondary">Learn More About Us</a>
             </div>
-        </section>
-        <section>
-            <div class="container">
-                <h2 class="section-title">Upcoming Events</h2>
-                <div class="event-grid">
-                    <div class="event-card">
-                        <div class="event-image">
-                            <img src="2.jpeg" alt="Watch Night Service Poster">
-                        </div>
-                        <div class="event-content">
-                            <p class="event-date">December 31, 2025</p>
-                            <h3>Watch Night Service</h3>
-                            <p>Join us for a powerful time of worship praise and thanksgiving as the Lord ushers us into 2026</p>
-                            <a href="events.html" class="event-link">Learn More</a>    
-                        </div>
-                    </div>
-                </div>
+            <div class="about-images">
+                <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=3363452413718976" alt="PCI Worship Service" class="about-img main">
+                <img src="https://media.istockphoto.com/id/157693132/photo/church-service.jpg?s=612x612&w=0&k=20&c=t_uRs5xKqoGl4Ocd_Y7PMQnVdJVGBbHJQex3jAlOJ7s=" alt="Congregation Praising" class="about-img">
+                <img src="https://media.istockphoto.com/id/2181729074/photo/group-of-people-clapping-and-singing-at-a-church-service.jpg?s=612x612&w=0&k=20&c=dvDhb6X6rzY_n46tpq_rcNJIP3RfR2IOCENlQN4TURI=" alt="Happy Church Family" class="about-img">
             </div>
-        </section>
-        <footer>
-            <p>&copy; 2025 Prevailers Chapel International. All rights reserved</p>
+        </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="quick-links container">
+        <h2 class="section-title">Quick Access</h2>
+        <div class="links-grid">
+            <a href="devotional.html" class="link-card">
+                <img src="https://media.istockphoto.com/id/2248896243/photo/cross-and-bible-inside-church.jpg?s=612x612&w=is&k=20&c=RFTgf08mNm4-x1iUKGUikkHJu4OrTseeUIzon5k6w0o=" alt="Daily Devotional">
+                <h3>Daily Devotional</h3>
+                <p>Feed your spirit with God's Word every day</p>
+            </a>
+            <a href="livestream.html" class="link-card">
+                <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=3418470711634772&get_thumbnail=1" alt="Live Stream">
+                <h3>Live Stream</h3>
+                <p>Join our services live from anywhere</p>
+            </a>
+            <a href="services.html" class="link-card">
+                <img src="https://cdn11.bigcommerce.com/s-cnam78/images/stencil/original/image-manager/welcome-retractable-banners-button.png?t=1747425802" alt="Service Times">
+                <h3>Service Times</h3>
+                <p>Plan your visit - Sunday & midweek services</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2025 Prevailers Chapel International. All rights reserved.</p>
             <p>A House of Transformation where Nobodies are made Somebody</p>
-        </footer>
-    </body>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("navMenu").classList.toggle("active");
+        }
+    </script>
+</body>
 </html>
