@@ -84,7 +84,7 @@ nav ul li a:hover {
                 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23005580" width="1200" height="600"/></svg>');
     background-size: cover;
     background-position: center;
-    color: white;
+    color: #003d5c;
     padding: 8rem 2rem;
     text-align: center;
 }
