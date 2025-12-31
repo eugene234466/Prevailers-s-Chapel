@@ -518,7 +518,7 @@
             window.open(`https://wa.me/?text=\( {text} \){url}`, '_blank');
         }
 
-        // Fixed Prayer submission using proper mailto with encoding
+        // Corrected Prayer submission: Fixed mailto construction and encoding
         function submitPrayer() {
             const prayerText = document.getElementById('prayerRequest').value.trim();
 
@@ -531,16 +531,18 @@
             const churchEmail = 'prayer@prevailedchapel.org'; // <-- UPDATE THIS!
 
             const subject = 'Prayer Request from Live Stream Website';
-            const body = `Prayer Request:\n\n${prayerText}\n\nSent from: ${window.location.href}`;
+            const body = `Prayer Request:\n\n${prayerText}\n\n---\nSent from: ${window.location.href}`;
 
-            // Properly encode subject and body to handle special characters and line breaks
-            const mailtoLink = `mailto:\( {churchEmail}?subject= \){encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            // Build mailto link with proper encoding (no extra characters)
+            const mailtoLink = 'mailto:' + encodeURIComponent(churchEmail) +
+                               '?subject=' + encodeURIComponent(subject) +
+                               '&body=' + encodeURIComponent(body);
 
             // Open the user's default email client
             window.location.href = mailtoLink;
 
             // Provide feedback and clear the form
-            alert('Thank you! Your email app has opened with your prayer request. Please review and press Send.');
+            alert('Thank you! Your email app has opened with your prayer request. Please add the recipient if needed, review, and press Send.');
             document.getElementById('prayerRequest').value = '';
         }
     </script>
