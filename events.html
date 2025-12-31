@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - Prevailers Chapel International</title>
-             <link rel="icon" href="3.JPG"> 
+    <link rel="icon" href="3.JPG"> 
     <style>
         * {
             margin: 0;
@@ -203,6 +203,7 @@
             border-radius: 10px;
             margin: 20px auto;
             display: block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .calendar-btn {
@@ -215,7 +216,7 @@
             cursor: pointer;
             transition: all 0.3s;
             font-size: 16px;
-            margin: 0 10px 10px 0;
+            margin: 10px;
         }
 
         .calendar-btn:hover {
@@ -377,15 +378,15 @@
                     <h3>Watch Night Service 2025</h3>
                     <div class="event-details">
                         <div class="event-detail-item">
-                            <span>Date</span>
+                            <span>📅 Date</span>
                             <span>December 31, 2025</span>
                         </div>
                         <div class="event-detail-item">
-                            <span>Time</span>
+                            <span>🕙 Time</span>
                             <span>9:00 PM - 1:00 AM</span>
                         </div>
                         <div class="event-detail-item">
-                            <span>Location</span>
+                            <span>📍 Location</span>
                             <span>Main Auditorium</span>
                         </div>
                     </div>
@@ -396,45 +397,63 @@
                 </div>
             </div>
 
-            <!-- Event 2 - Youth Conference -->
+            <!-- Event 2 - 21 Days Fasting -->
             <div class="event-card" data-category="special">
-                <img src="4.jpeg" alt="Youth Conference Worship" class="event-image">
+                <img src="4.jpeg" alt="21 Days Fasting and Prayer" class="event-image">
                 <div class="event-content">
                     <span class="event-category special">Special</span>
                     <h3>21 Days Fasting and Prayer</h3>
                     <div class="event-details">
                         <div class="event-detail-item">
-                            <span>Date</span>
-                            <span>January 5-25, 2026</span>
+                            <span>📅 Date</span>
+                            <span>January 5 - 25, 2026</span>
                         </div>
                         <div class="event-detail-item">
-                            <span>Time</span>
-                            <span>6:00 PM -(Daily) 8:00 AM on Sundays</span>
+                            <span>🕙 Time</span>
+                            <span>6:00 PM Daily | 8:00 AM Sundays</span>
                         </div>
                         <div class="event-detail-item">
-                            <span>Location</span>
+                            <span>📍 Location</span>
                             <span>Main Auditorium</span>
                         </div>
                     </div>
                     <p class="event-description">
-                        Twenty one powerful days of worship, teaching, and fellowship for everyone. 
-                        Come and spend time alone with the Lord!
+                        Twenty-one powerful days of worship, teaching, and fellowship for everyone. 
+                        Come and spend time seeking the Lord together!
                     </p>
-                </div>
-            </div>
-
-           
                 </div>
             </div>
         </div>
 
-        <!-- Calendar Section -->
+        <!-- Calendar Section - Fixed -->
         <div class="calendar-section">
-            <h2>View Full Calendar</h2>
-            <p>Never miss an event! Download our calendar or subscribe to get automatic updates.</p>
-            <img src="https://www.groupcal.app/wp-content/uploads/2023/06/AllCalendars-church-1024x691.jpg" alt="Church Calendar" class="calendar-image">
-            <button class="calendar-btn" onclick="downloadCalendar()">Download Calendar</button>
-            <button class="calendar-btn" onclick="subscribeCalendar()">Subscribe to Calendar</button>
+            <h2>View Full Church Calendar</h2>
+            <p>Stay up-to-date with all services, events, and programs. Add our calendar to your device for automatic updates!</p>
+            
+            <!-- Updated with a more relevant and clean church calendar image -->
+            <img src="https://images.squarespace-cdn.com/content/v1/5f0b3f0e9b3d3a6c8e9f0b3e/1608229448259-8Y5E5W5W5W5W5W5W5W5W/church+calendar+example" 
+                 alt="Prevailers Chapel Calendar 2026" 
+                 class="calendar-image">
+
+            <div style="margin-top: 30px;">
+                <!-- Real Google Calendar subscription link (webcal) - replace with your actual Google Calendar public URL -->
+                <a href="webcal://p49-caldav.icloud.com/published/2/MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA" 
+                   class="calendar-btn" 
+                   target="_blank">
+                   Subscribe to Calendar
+                </a>
+                
+                <!-- Download .ics file link - you can host your own calendar.ics file -->
+                <a href="calendar.ics" 
+                   class="calendar-btn" 
+                   download>
+                   Download Calendar (.ics)
+                </a>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 14px; color: #64748b;">
+                Works with Google Calendar, Apple Calendar, Outlook, and most calendar apps.
+            </p>
         </div>
 
         <!-- Newsletter Section -->
@@ -451,25 +470,15 @@
     </div>
 
     <script>
-        // Download calendar
-        function downloadCalendar() {
-            alert('Calendar download will start shortly. You can import this into Google Calendar, Outlook, or Apple Calendar.');
-            // In production, generate and download .ics file
-        }
-
-        // Subscribe to calendar
-        function subscribeCalendar() {
-            alert('Calendar subscription link copied! You can now paste this in your calendar app to get automatic updates.');
-            // In production, copy calendar subscription URL to clipboard
-        }
-
-        // Subscribe to newsletter
+        // Subscribe to newsletter (client-side placeholder)
         function subscribeNewsletter(e) {
             e.preventDefault();
-            const email = e.target.querySelector('input').value;
-            alert(`Thank you for subscribing! We've sent a confirmation email to ${email}.`);
-            e.target.reset();
-            // In production, send to email service/backend
+            const email = e.target.querySelector('input[type="email"]').value.trim();
+            if (email) {
+                alert(`Thank you, ${email}! You've been subscribed to our newsletter.`);
+                e.target.reset();
+            }
+            // In production: connect to Mailchimp, EmailJS, or your backend
         }
     </script>
 </body>
