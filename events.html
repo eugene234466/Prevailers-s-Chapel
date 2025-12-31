@@ -138,13 +138,7 @@
             align-self: flex-start;
         }
 
-        .event-category.youth { background: #7c3aed; }
-        .event-category.family { background: #db2777; }
-        .event-category.women { background: #ec4899; }
-        .event-category.men { background: #0891b2; }
-        .event-category.outreach { background: #059669; }
         .event-category.special { background: #dc2626; }
-        .event-category.weekly { background: #0284c7; }
 
         .event-card h3 {
             color: #1e3a8a;
@@ -198,30 +192,46 @@
 
         .calendar-image {
             width: 100%;
-            max-width: 600px;
-            height: auto;
+            max-width: 700px;
             border-radius: 10px;
-            margin: 20px auto;
+            margin: 30px auto;
             display: block;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .calendar-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
         }
 
         .calendar-btn {
             background: #1e3a8a;
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 16px 40px;
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             font-size: 16px;
-            margin: 10px;
+            width: 100%;
+            max-width: 400px;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .calendar-btn:hover {
             background: #1e40af;
             transform: translateY(-2px);
+        }
+
+        .calendar-note {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #64748b;
         }
 
         /* Newsletter Section */
@@ -340,6 +350,10 @@
             .newsletter-input {
                 min-width: 100%;
             }
+
+            .calendar-btn {
+                padding: 14px 30px;
+            }
         }
     </style>
 </head>
@@ -377,18 +391,9 @@
                     <span class="event-category special">Special</span>
                     <h3>Watch Night Service 2025</h3>
                     <div class="event-details">
-                        <div class="event-detail-item">
-                            <span>📅 Date</span>
-                            <span>December 31, 2025</span>
-                        </div>
-                        <div class="event-detail-item">
-                            <span>🕙 Time</span>
-                            <span>9:00 PM - 1:00 AM</span>
-                        </div>
-                        <div class="event-detail-item">
-                            <span>📍 Location</span>
-                            <span>Main Auditorium</span>
-                        </div>
+                        <div class="event-detail-item">📅 Date: December 31, 2025</div>
+                        <div class="event-detail-item">🕙 Time: 9:00 PM - 1:00 AM</div>
+                        <div class="event-detail-item">📍 Location: Main Auditorium</div>
                     </div>
                     <p class="event-description">
                         Join us as we usher in the New Year with praise, worship, and thanksgiving. 
@@ -404,18 +409,9 @@
                     <span class="event-category special">Special</span>
                     <h3>21 Days Fasting and Prayer</h3>
                     <div class="event-details">
-                        <div class="event-detail-item">
-                            <span>📅 Date</span>
-                            <span>January 5 - 25, 2026</span>
-                        </div>
-                        <div class="event-detail-item">
-                            <span>🕙 Time</span>
-                            <span>6:00 PM Daily | 8:00 AM Sundays</span>
-                        </div>
-                        <div class="event-detail-item">
-                            <span>📍 Location</span>
-                            <span>Main Auditorium</span>
-                        </div>
+                        <div class="event-detail-item">📅 Date: January 5 - 25, 2026</div>
+                        <div class="event-detail-item">🕙 Time: 6:00 PM Daily | 8:00 AM Sundays</div>
+                        <div class="event-detail-item">📍 Location: Main Auditorium</div>
                     </div>
                     <p class="event-description">
                         Twenty-one powerful days of worship, teaching, and fellowship for everyone. 
@@ -425,33 +421,29 @@
             </div>
         </div>
 
-        <!-- Calendar Section - Fixed -->
+        <!-- Calendar Section - Fixed with separated buttons and updated image -->
         <div class="calendar-section">
             <h2>View Full Church Calendar</h2>
             <p>Stay up-to-date with all services, events, and programs. Add our calendar to your device for automatic updates!</p>
             
-            <!-- Updated with a more relevant and clean church calendar image -->
-            <img src="5.jpeg" 
-                 alt="Prevailers Chapel Calendar 2026" 
+            <!-- Updated to a relevant 2026 Christian church calendar image (January focus) -->
+            <img src="https://www.wiki-calendar.com/wp-content/uploads/2025/10/January-2026-Calendar.jpg" 
+                 alt="January 2026 Church Calendar - Prevailers Chapel International" 
                  class="calendar-image">
 
-            <div style="margin-top: 30px;">
-                <!-- Real Google Calendar subscription link (webcal) - replace with your actual Google Calendar public URL -->
-                <a href="webcal://p49-caldav.icloud.com/published/2/MTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA" 
-                   class="calendar-btn" 
-                   target="_blank">
-                   Subscribe to Calendar
+            <div class="calendar-buttons">
+                <!-- Subscribe button - replace with your real Google Calendar public webcal URL -->
+                <a href="webcal://your-church-google-calendar-public-url" class="calendar-btn">
+                    Subscribe to Calendar (Auto Updates)
                 </a>
                 
-                <!-- Download .ics file link - you can host your own calendar.ics file -->
-                <a href="calendar.ics" 
-                   class="calendar-btn" 
-                   download>
-                   Download Calendar (.ics)
+                <!-- Download button - upload your own calendar.ics file to the site root -->
+                <a href="calendar.ics" class="calendar-btn" download>
+                    Download Calendar (.ics File)
                 </a>
             </div>
             
-            <p style="margin-top: 20px; font-size: 14px; color: #64748b;">
+            <p class="calendar-note">
                 Works with Google Calendar, Apple Calendar, Outlook, and most calendar apps.
             </p>
         </div>
@@ -478,7 +470,7 @@
                 alert(`Thank you, ${email}! You've been subscribed to our newsletter.`);
                 e.target.reset();
             }
-            // In production: connect to Mailchimp, EmailJS, or your backend
+            // In production: integrate with Mailchimp, EmailJS, etc.
         }
     </script>
 </body>
