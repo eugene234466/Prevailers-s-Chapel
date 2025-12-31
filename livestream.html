@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Stream - Prevailed Chapel International</title>
     <style>
+        /* Existing styles remain unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -397,13 +398,6 @@
             <div class="video-section">
                 <div class="video-wrapper">
                     <!-- FACEBOOK LIVE EMBED CODE GOES HERE -->
-                    <!-- To get your Facebook Live embed:
-                         1. Go to your Facebook Page
-                         2. Click on the Live video you want to embed
-                         3. Click on the three dots (...)
-                         4. Select "Embed"
-                         5. Copy the iframe code
-                         6. Replace the iframe below -->
                     <iframe 
                         src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2FYOUR_PAGE%2Fvideos%2FYOUR_VIDEO_ID%2F&show_text=false&width=560&t=0" 
                         width="560" 
@@ -516,26 +510,34 @@
         function shareOnTwitter() {
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent('Join us for live worship at Prevailed Chapel International!');
-            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+            window.open(`https://twitter.com/intent/tweet?url=\( {url}&text= \){text}`, '_blank', 'width=600,height=400');
         }
 
         function shareOnWhatsApp() {
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent('Join us for live worship at Prevailed Chapel International! ');
-            window.open(`https://wa.me/?text=${text}${url}`, '_blank');
+            window.open(`https://wa.me/?text=\( {text} \){url}`, '_blank');
         }
 
-        // Prayer submission
+        // Updated Prayer submission to send via email using mailto
         function submitPrayer() {
-            const prayer = document.getElementById('prayerRequest').value;
+            const prayer = document.getElementById('prayerRequest').value.trim();
             
-            if (prayer.trim() === '') {
+            if (prayer === '') {
                 alert('Please enter your prayer request.');
                 return;
             }
 
-            // You can integrate this with your backend or email service
-            alert('Thank you for sharing your prayer request. Our prayer team will be interceding for you!');
+            // Replace with your actual church email address
+            const churchEmail = 'prayer@prevailedchapel.org';  // <-- CHANGE THIS TO YOUR REAL EMAIL
+            const subject = encodeURIComponent('Prayer Request from Website');
+            const body = encodeURIComponent('Prayer Request:\n\n' + prayer);
+
+            // Opens the user's default email client with pre-filled details
+            window.location.href = `mailto:\( {churchEmail}?subject= \){subject}&body=${body}`;
+
+            // Optional: Show confirmation and clear the field
+            alert('Thank you! Your default email client has opened to send the prayer request. Our prayer team will intercede for you once received.');
             document.getElementById('prayerRequest').value = '';
         }
 
