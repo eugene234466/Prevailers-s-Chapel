@@ -534,7 +534,7 @@
             const body = encodeURIComponent('Prayer Request:\n\n' + prayer);
 
             // Opens the user's default email client with pre-filled details
-            window.location.href = `mailto:\( {churchEmail}?subject= \){subject}&body=${body}`;
+            window.location.href = `mailto:\( ${churchEmail}?subject= \)${subject}&body=${body}`;
 
             // Optional: Show confirmation and clear the field
             alert('Thank you! Your default email client has opened to send the prayer request. Our prayer team will intercede for you once received.');
