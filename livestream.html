@@ -521,24 +521,27 @@
 
         // Updated Prayer submission to send via email using mailto
         function submitPrayer() {
-            const prayer = document.getElementById('prayerRequest').value.trim();
-            
-            if (prayer === '') {
-                alert('Please enter your prayer request.');
-                return;
-            }
+    const prayer = document.getElementById('prayerRequest').value.trim();
+    
+    if (prayer === '') {
+        alert('Please enter your prayer request.');
+        return;
+    }
 
-            // Replace with your actual church email address
-            const churchEmail = 'dzesefrank108@gmail.com';  // <-- CHANGE THIS TO YOUR REAL EMAIL
-            const subject = encodeURIComponent('Prayer Request from Website');
-            const body = encodeURIComponent('Prayer Request:\n\n' + prayer);
+    // Replace with your actual church email address
+    const churchEmail = 'dzesefrank108@gmail.com';  // ← CHANGE THIS
 
-            // Opens the user's default email client with pre-filled details
-            window.location.href = `mailto:\( ${churchEmail}?subject= \)${subject}&body=${body}`;
+    const subject = 'Prayer Request from Website';
+    const body = 'Prayer Request:\n\n' + prayer;
 
-            // Optional: Show confirmation and clear the field
-            alert('Thank you! Your default email client has opened to send the prayer request. Our prayer team will intercede for you once received.');
-            document.getElementById('prayerRequest').value = '';
+    // Properly encode and use backticks
+    const mailtoLink = `mailto:\( {churchEmail}?subject= \){encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+
+    alert('Thank you! Your email app has opened. Please press Send to submit your prayer request.');
+    document.getElementById('prayerRequest').value = '';
+}
         }
 
         // Update viewer count (demo - replace with actual API)
