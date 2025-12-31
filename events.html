@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Prevailers Chapel International</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+        }
+
+        /* Navigation */
+        nav {
+            background: #1e3a8a;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Header Section */
+        .events-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .events-subtitle {
+            color: #64748b;
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Events Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            position: relative;
+        }
+
+        .event-featured {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc2626;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .event-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 6px 15px;
+            background: #1e3a8a;
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .event-category.youth { background: #7c3aed; }
+        .event-category.family { background: #db2777; }
+        .event-category.women { background: #ec4899; }
+        .event-category.men { background: #0891b2; }
+        .event-category.outreach { background: #059669; }
+        .event-category.special { background: #dc2626; }
+        .event-category.weekly { background: #0284c7; }
+
+        .event-card h3 {
+            color: #1e3a8a;
+            font-size: 24px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .event-details {
+            margin: 15px 0;
+            flex-grow: 1;
+        }
+
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #64748b;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .event-description {
+            color: #475569;
+            line-height: 1.7;
+            margin: 15px 0;
+            font-size: 15px;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .calendar-section h2 {
+            color: #1e3a8a;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-section p {
+            color: #64748b;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .calendar-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .calendar-btn {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            margin: 0 10px 10px 0;
+        }
+
+        .calendar-btn:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+            color: white;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://stlukelex.com/wp-content/uploads/2025/08/Sign-up-for-our-newsletter-st-luke.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .newsletter-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .newsletter-section h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .newsletter-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+        }
+
+        .newsletter-btn {
+            background: white;
+            color: #1e3a8a;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .newsletter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+
+            .events-container {
+                padding: 40px 15px;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-image {
+                height: 200px;
+            }
+
+            .calendar-section,
+            .newsletter-section {
+                padding: 30px 20px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="livestream.html">Live Stream</a></li>
+            <li><a href="devotional.html">Devotional</a></li>
+            <li><a href="events.html" class="active">Events</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="events-container">
+        <!-- Header -->
+        <div class="events-header">
+            <h1>Upcoming Events</h1>
+            <p class="events-subtitle">
+                Join us for these exciting activities, fellowship opportunities, and life-changing experiences. 
+                Mark your calendar and be part of what God is doing!
+            </p>
+        </div>
+
+        <!-- Events Grid -->
+        <div class="events-grid">
+            <!-- Event 1 - Watch Night -->
+            <div class="event-card" data-category="special">
+                <div class="event-image" style="background-image: url('2.jpeg'); background-size: cover; background-position: center;">
+                    <span class="event-featured">FEATURED</span>
+                </div>
+                <div class="event-content">
+                    <span class="event-category special">Special</span>
+                    <h3>Watch Night Service 2025</h3>
+                    <div class="event-details">
+                        <div class="event-detail-item">
+                            <span>Date</span>
+                            <span>December 31, 2025</span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span>Time</span>
+                            <span>9:00 PM - 1:00 AM</span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span>Location</span>
+                            <span>Main Auditorium</span>
+                        </div>
+                    </div>
+                    <p class="event-description">
+                        Join us as we usher in the New Year with praise, worship, and thanksgiving. 
+                        A powerful night of ministry and dedication for 2026!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Event 2 - Youth Conference -->
+            <div class="event-card" data-category="special">
+                <img src="4.jpeg" alt="Youth Conference Worship" class="event-image">
+                <div class="event-content">
+                    <span class="event-category special">Special</span>
+                    <h3>21 Days Fasting and Prayer</h3>
+                    <div class="event-details">
+                        <div class="event-detail-item">
+                            <span>Date</span>
+                            <span>January 5-25, 2026</span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span>Time</span>
+                            <span>6:00 PM -(Daily) 8:00 AM on Sundays</span>
+                        </div>
+                        <div class="event-detail-item">
+                            <span>Location</span>
+                            <span>Main Auditorium</span>
+                        </div>
+                    </div>
+                    <p class="event-description">
+                        Twenty one powerful days of worship, teaching, and fellowship for everyone. 
+                        Come and spend time alone with the Lord!
+                    </p>
+                </div>
+            </div>
+
+           
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div class="calendar-section">
+            <h2>View Full Calendar</h2>
+            <p>Never miss an event! Download our calendar or subscribe to get automatic updates.</p>
+            <img src="https://www.groupcal.app/wp-content/uploads/2023/06/AllCalendars-church-1024x691.jpg" alt="Church Calendar" class="calendar-image">
+            <button class="calendar-btn" onclick="downloadCalendar()">Download Calendar</button>
+            <button class="calendar-btn" onclick="subscribeCalendar()">Subscribe to Calendar</button>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <div class="newsletter-content">
+                <h2>Stay Updated!</h2>
+                <p>Subscribe to our newsletter and never miss an event or announcement</p>
+                <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Download calendar
+        function downloadCalendar() {
+            alert('Calendar download will start shortly. You can import this into Google Calendar, Outlook, or Apple Calendar.');
+            // In production, generate and download .ics file
+        }
+
+        // Subscribe to calendar
+        function subscribeCalendar() {
+            alert('Calendar subscription link copied! You can now paste this in your calendar app to get automatic updates.');
+            // In production, copy calendar subscription URL to clipboard
+        }
+
+        // Subscribe to newsletter
+        function subscribeNewsletter(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            alert(`Thank you for subscribing! We've sent a confirmation email to ${email}.`);
+            e.target.reset();
+            // In production, send to email service/backend
+        }
+    </script>
+</body>
+</html>

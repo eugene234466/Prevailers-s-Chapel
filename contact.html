@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Prevailed Chapel International</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+        }
+
+        /* Navigation */
+        nav {
+            background: #1e3a8a;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+         nav .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        nav .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        nav .logo-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Contact Info Cards */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .contact-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .contact-card p {
+            color: #64748b;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* Google Form Section */
+        .form-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+
+        .form-section h2 {
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 32px;
+        }
+
+        .form-section p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .google-form-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .google-form-container iframe {
+            width: 100%;
+            min-height: 1200px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        /* Social Media Section */
+        .social-section {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-section h2 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        .social-section p {
+            color: #64748b;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            background: transparent;
+            border: 2px solid #1e3a8a;
+            color: #1e3a8a;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .social-btn:hover {
+            background: #1e3a8a;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+
+            .contact-container {
+                padding: 40px 15px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .form-section h2 {
+                font-size: 26px;
+            }
+
+            .google-form-container iframe {
+                min-height: 1400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href = "home.html" class = "logo"><img src = "3.JPG" alt = "PCI Logo" class = "logo-img"> 
+                <span class = "logo-text">PCI</span>
+                </a>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="devotional.html">Devotional</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="contact-container">
+        <h1>Get In Touch</h1>
+        <p class="subtitle">
+            We'd love to hear from you! Whether you have questions, need prayer, prayer requests, 
+            or want to visit us, feel free to reach out using any of the methods below.
+        </p>
+
+        <!-- Contact Information Cards -->
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <h3>Visit Us</h3>
+                <p>Doboro<br>Main Auditurium Adjacent Ayebi New Mosque, Doboro<br>Ghana</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Call Us</h3>
+                <p>Main: (555) 123-4567<br>Prayer Line: (555) 123-4568<br>Mon-Fri: 9AM - 5PM</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Email Us</h3>
+                <p>info@prevailedchapel.org<br>prayer@prevailedchapel.org<br>We respond within 24 hours</p>
+            </div>
+        </div>
+
+        <!-- Google Form Section -->
+        <div class="form-section">
+            <h2>Send Us a Message</h2>
+            <p>Fill out the form below and we'll get back to you as soon as possible</p>
+            
+            <div class="google-form-container">
+                <!-- REPLACE THE URL BELOW WITH YOUR ACTUAL GOOGLE FORM EMBED URL -->
+                <!-- To get the embed URL:
+                     1. Open your Google Form
+                     2. Click "Send" button
+                     3. Click the embed icon (<>)
+                     4. Copy the URL from src="..." 
+                     5. Replace the URL below -->
+                
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7GgELO6maNwzOr3UT8f_M3rxbfPzNNnlddqWSaBAp4hYK_A/viewform?embedded=true" width="640" height="1560" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+            </div>
+        </div>
+
+        <!-- Social Media Section -->
+        <div class="social-section">
+            <h2>Connect With Us</h2>
+            <p>Follow us on social media for updates, inspiration, and community</p>
+            <div class="social-buttons">
+                <a href="#" class="social-btn">📘 Facebook</a>
+                <a href="#" class="social-btn">📸 Instagram</a>
+                <a href="#" class="social-btn">▶️ YouTube</a>
+                <a href="#" class="social-btn">🐦 Twitter</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
