@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Stream - Prevailed Chapel International</title>
     <style>
-        /* Existing styles remain unchanged */
         * {
             margin: 0;
             padding: 0;
@@ -397,7 +396,7 @@
             <!-- Video Section -->
             <div class="video-section">
                 <div class="video-wrapper">
-                    <!-- FACEBOOK LIVE EMBED CODE GOES HERE -->
+                    <!-- Replace with your actual Facebook Live embed code -->
                     <iframe 
                         src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2FYOUR_PAGE%2Fvideos%2FYOUR_VIDEO_ID%2F&show_text=false&width=560&t=0" 
                         width="560" 
@@ -413,7 +412,7 @@
                 <div class="video-info">
                     <h2>Sunday Worship Service</h2>
                     <div class="video-meta">
-                        <span>📅 January 04, 2026</span>
+                        <span>📅 December 31, 2025</span>
                         <span>⏰ 8:00 AM GMT</span>
                         <span>👥 500+ Watching</span>
                     </div>
@@ -464,7 +463,7 @@
                         class="prayer-input" 
                         placeholder="Share your prayer request here..."
                         id="prayerRequest"></textarea>
-                    <button class="submit-btn" onclick="submitPrayer()">Submit Prayer</button>
+                    <button class="submit-btn" onclick="submitPrayer()">Submit Prayer Request</button>
                 </div>
             </div>
         </div>
@@ -519,40 +518,31 @@
             window.open(`https://wa.me/?text=\( {text} \){url}`, '_blank');
         }
 
-        // Updated Prayer submission to send via email using mailto
+        // Fixed Prayer submission using proper mailto with encoding
         function submitPrayer() {
-    const prayer = document.getElementById('prayerRequest').value.trim();
-    
-    if (prayer === '') {
-        alert('Please enter your prayer request.');
-        return;
-    }
+            const prayerText = document.getElementById('prayerRequest').value.trim();
 
-    // Replace with your actual church email address
-    const churchEmail = 'dzesefrank108@gmail.com';  // ← CHANGE THIS
+            if (prayerText === '') {
+                alert('Please enter your prayer request before submitting.');
+                return;
+            }
 
-    const subject = 'Prayer Request from Website';
-    const body = 'Prayer Request:\n\n' + prayer;
+            // ==== CHANGE THIS TO YOUR CHURCH'S ACTUAL EMAIL ADDRESS ====
+            const churchEmail = 'prayer@prevailedchapel.org'; // <-- UPDATE THIS!
 
-    // Properly encode and use backticks
-    const mailtoLink = `mailto:\( {churchEmail}?subject= \){encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const subject = 'Prayer Request from Live Stream Website';
+            const body = `Prayer Request:\n\n${prayerText}\n\nSent from: ${window.location.href}`;
 
-    window.location.href = mailtoLink;
+            // Properly encode subject and body to handle special characters and line breaks
+            const mailtoLink = `mailto:\( {churchEmail}?subject= \){encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    alert('Thank you! Your email app has opened. Please press Send to submit your prayer request.');
-    document.getElementById('prayerRequest').value = '';
-}
+            // Open the user's default email client
+            window.location.href = mailtoLink;
+
+            // Provide feedback and clear the form
+            alert('Thank you! Your email app has opened with your prayer request. Please review and press Send.');
+            document.getElementById('prayerRequest').value = '';
         }
-
-        // Update viewer count (demo - replace with actual API)
-        function updateViewerCount() {
-            // This would connect to Facebook API in production
-            const count = Math.floor(Math.random() * 100) + 500;
-            // Update display
-        }
-
-        // Auto-refresh viewer count every 30 seconds
-        setInterval(updateViewerCount, 30000);
     </script>
 </body>
 </html>
