@@ -191,6 +191,40 @@ section:nth-child(even) {
     color: #555;
 }
 
+/* Declaration Section */
+.declaration-section {
+    background: linear-gradient(135deg, #003d5c, #005580);
+    color: white;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.declaration-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.declaration-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.declaration-content p {
+    margin-bottom: 1rem;
+}
+
+.declaration-final {
+    font-size: 2rem;
+    color: #ffd700;
+    margin-top: 2rem !important;
+}
+
 /* Service Times */
 .service-times {
     display: grid;
@@ -374,5 +408,21 @@ footer p {
 
     .event-image {
         height: 200px; /* Slightly smaller on mobile */
+    }
+
+    .declaration-section {
+        padding: 3rem 1.5rem;
+    }
+
+    .declaration-title {
+        font-size: 2rem;
+    }
+
+    .declaration-content {
+        font-size: 1rem;
+    }
+
+    .declaration-final {
+        font-size: 1.5rem;
     }
 }
