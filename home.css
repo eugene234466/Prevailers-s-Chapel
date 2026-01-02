@@ -194,7 +194,7 @@ section:nth-child(even) {
 /* Declaration Section */
 .declaration-section {
     background: linear-gradient(135deg, #003d5c, #005580);
-    color: white;
+    color: #003d5c;
     padding: 4rem 2rem;
     text-align: center;
 }
