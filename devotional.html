@@ -430,9 +430,8 @@
     </div>
 
     <script>
-        // Current date
-        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+        // Current date (hardcoded as per request)
+        document.getElementById('currentDate').textContent = "Saturday, January 03, 2026";
 
         // Fetch real daily Verse of the Day from OurManna API
         async function loadVerseOfDay() {
@@ -451,7 +450,7 @@
                 const reference = data.verse.details.reference;
                 document.getElementById('keyVerseRef').textContent = reference;
 
-                // Generate a natural reflection based on the verse
+                // Generate natural reflection based on the verse
                 generateReflection(data.verse.details.text, reference);
             } catch (error) {
                 console.error('Error loading verse:', error);
