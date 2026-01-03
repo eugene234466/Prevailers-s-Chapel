@@ -261,6 +261,39 @@
             font-size: 18px;
         }
 
+        /* Share Button */
+        .share-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px solid #f1f5f9;
+        }
+
+        .share-btn-main {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .share-btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+        }
+
+        .share-btn-main:active {
+            transform: translateY(-1px);
+        }
+
         /* Bible Search Section - Enhanced */
         .bible-search {
             background: white;
@@ -523,6 +556,12 @@
                 <p class="prayer-text" id="dailyPrayer">
                     Loading prayer...
                 </p>
+            </div>
+
+            <div class="share-section">
+                <button class="share-btn-main" onclick="shareDevotional()">
+                    <span>📤</span> Share Today's Devotional
+                </button>
             </div>
         </div>
 
@@ -807,6 +846,57 @@ Write only the prayer text, nothing else.`
 
         // Load everything on page load
         window.addEventListener('load', loadVerseOfDay);
+
+        // Share devotional function
+        function shareDevotional() {
+            const verseElement = document.querySelector('.verse-text');
+            const referenceElement = document.querySelector('.verse-reference');
+            const verseText = verseElement ? verseElement.textContent.replace(/"/g, '') : '';
+            const reference = referenceElement ? referenceElement.textContent.replace('- ', '') : '';
+            
+            const shareText = `Today's Devotional - ${reference}\n\n${verseText}\n\nRead the full devotional at Prevailed Chapel International`;
+            const shareUrl = window.location.href;
+
+            // Try native share API first (works on mobile)
+            if (navigator.share) {
+                navigator.share({
+                    title: `Daily Devotional - ${reference}`,
+                    text: shareText,
+                    url: shareUrl
+                }).then(() => {
+                    console.log('Shared successfully');
+                }).catch((error) => {
+                    console.log('Error sharing:', error);
+                });
+            } else {
+                // Fallback: Show share options
+                const choice = confirm('Choose sharing method:\nOK = Copy to Clipboard\nCancel = Share on Facebook');
+                
+                if (choice) {
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(shareText + '\n' + shareUrl).then(() => {
+                        alert('✅ Devotional copied to clipboard! You can now paste it anywhere.');
+                    }).catch((err) => {
+                        // Fallback if clipboard API fails
+                        const textArea = document.createElement('textarea');
+                        textArea.value = shareText + '\n' + shareUrl;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            alert('✅ Devotional copied to clipboard!');
+                        } catch (err) {
+                            alert('❌ Unable to copy. Please try again.');
+                        }
+                        document.body.removeChild(textArea);
+                    });
+                } else {
+                    // Share on Facebook
+                    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+                    window.open(fbUrl, '_blank', 'width=600,height=400');
+                }
+            }
+        }
     </script>
 </body>
 </html>
