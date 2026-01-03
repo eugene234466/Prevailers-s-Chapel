@@ -486,7 +486,7 @@
         function generateDevotional(verseText, reference, translation) {
             const title = "Reflection on " + reference;
             const content = `
-                <p>Today's verse: "\( {verseText}" ( \){translation})</p>
+                <p>Today's verse: "\( ${verseText}" ( \)${translation})</p>
                 <p>This scripture invites us to meditate on God's truth. Consider how it applies to your life and circumstances.</p>
                 <p>Let this Word speak to your heart and guide your actions today.</p>
             `;
@@ -498,7 +498,7 @@
             ];
 
             const prayer = `Heavenly Father,<br>
-                Thank You for this Word from \( {reference}: " \){verseText}"<br>
+                Thank You for this Word from \( ${reference}: " \)${verseText}"<br>
                 Help me to understand its meaning and apply it to my life.<br>
                 May it transform my thoughts and actions today.<br>
                 In Jesus' name, Amen.`;
