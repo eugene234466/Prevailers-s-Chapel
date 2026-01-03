@@ -434,7 +434,7 @@
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
 
-        // Fetch real daily Verse of the Day
+        // Fetch real daily Verse of the Day from OurManna API
         async function loadVerseOfDay() {
             const verseDiv = document.getElementById('verseOfDay');
             try {
@@ -451,10 +451,10 @@
                 const reference = data.verse.details.reference;
                 document.getElementById('keyVerseRef').textContent = reference;
 
-                // Fetch devotional for this verse (using bible-api for full verse context)
-                fetchDevotional(reference);
+                // Generate a natural reflection based on the verse
+                generateReflection(data.verse.details.text, reference);
             } catch (error) {
-                // Fallback
+                console.error('Error loading verse:', error);
                 verseDiv.innerHTML = `
                     <div class="verse-content">
                         <p class="verse-text">"The Lord is my shepherd; I shall not want."</p>
@@ -462,48 +462,34 @@
                     </div>
                 `;
                 document.getElementById('keyVerseRef').textContent = "Psalm 23:1";
-                fetchDevotional('Psalm 23:1');
+                generateReflection("The Lord is my shepherd; I shall not want.", "Psalm 23:1");
             }
         }
 
-        // Fetch full verse text from Bible API and generate correlated devotional
-        async function fetchDevotional(reference) {
-            try {
-                const response = await fetch(`https://bible-api.com/${encodeURIComponent(reference)}?translation=kjv`);
-                const data = await response.json();
-
-                if (data.text) {
-                    generateDevotional(data.text.trim(), reference, data.translation_name);
-                } else {
-                    generateDevotional("The Lord is my shepherd; I shall not want.", "Psalm 23:1", "KJV");
-                }
-            } catch (error) {
-                generateDevotional("The Lord is my shepherd; I shall not want.", "Psalm 23:1", "KJV");
-            }
-        }
-
-        // Generate devotional, reflections, prayer based on verse text
-        function generateDevotional(verseText, reference, translation) {
+        // Generate natural reflection, questions, and prayer centered on the verse
+        function generateReflection(verseText, reference) {
             const title = "Reflection on " + reference;
             const content = `
-                <p>Today's verse: "\( ${verseText}" ( \)${translation})</p>
-                <p>This scripture invites us to meditate on God's truth. Consider how it applies to your life and circumstances.</p>
-                <p>Let this Word speak to your heart and guide your actions today.</p>
+                <p>Today's verse: <strong>"\( {verseText}"</strong> ( \){reference})</p>
+                <p>This beautiful passage from God's Word invites us to pause and consider its meaning in our lives today.</p>
+                <p>Let it speak to your heart, bringing encouragement, conviction, or peace as needed.</p>
             `;
 
             const reflections = [
-                "What does this verse reveal about God's character?",
-                "How can this scripture change your perspective today?",
-                "What practical step can you take based on this verse?"
+                "What does this verse teach you about God?",
+                "How does this verse apply to your current circumstances?",
+                "What action or attitude change does this verse inspire in you?"
             ];
 
-            const prayer = `Heavenly Father,<br>
-                Thank You for this Word from \( ${reference}: " \)${verseText}"<br>
-                Help me to understand its meaning and apply it to my life.<br>
-                May it transform my thoughts and actions today.<br>
-                In Jesus' name, Amen.`;
+            const prayer = `
+                Heavenly Father,<br><br>
+                Thank You for speaking to me through Your Word today in ${reference}:<br>
+                "${verseText}"<br><br>
+                Open my heart to understand and receive this truth. Help me to live it out in my thoughts, words, and actions.<br>
+                Draw me closer to You through this Scripture.<br><br>
+                In Jesus' name, Amen.
+            `;
 
-            // Update elements
             document.getElementById('devotionalTitle').textContent = title;
             document.getElementById('devotionalContent').innerHTML = content;
 
@@ -515,11 +501,8 @@
                 reflectionsList.appendChild(li);
             });
 
-            document.getElementById('dailyPrayer').textContent = prayer;
+            document.getElementById('dailyPrayer').innerHTML = prayer;
         }
-
-        // Load on page load
-        window.addEventListener('load', loadVerseOfDay);
 
         // Bible Search
         async function searchBible(event) {
@@ -555,6 +538,9 @@
             document.getElementById('bibleSearch').value = verse;
             searchBible({ preventDefault: () => {} });
         }
+
+        // Load everything on page load
+        window.addEventListener('load', loadVerseOfDay);
     </script>
 </body>
 </html>
