@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Stream - Prevailed Chapel International</title>
-    <link rel="icon" href="3.JPG"> 
+    <link rel="icon" href="3.JPG">
+    <meta name="description" content="Watch Prevailed Chapel International's live worship services online. Join us for powerful worship and life-changing messages.">
     <style>
         * {
             margin: 0;
@@ -14,14 +15,15 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8fafc;
+            background: linear-gradient(to bottom, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
         }
 
-        /* Navigation */
+        /* Navigation - Enhanced */
         nav {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -42,13 +44,14 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
-            padding: 8px 16px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-size: 16px;
         }
 
         nav a:hover, nav a.active {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         .livestream-container {
@@ -57,29 +60,47 @@
             padding: 40px 20px;
         }
 
-        /* Hero Section */
+        /* Hero Section - Enhanced */
         .hero {
             text-align: center;
             margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
         }
 
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Live Badge - Show/Hide dynamically */
         .live-badge {
-            display: inline-flex;
+            display: none; /* Hidden by default */
             align-items: center;
             gap: 10px;
             background: #dc2626;
             color: white;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 30px;
             font-weight: 700;
             font-size: 18px;
             margin-bottom: 20px;
             animation: pulse 2s infinite;
+            box-shadow: 0 5px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .live-badge.show {
+            display: inline-flex;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.05); }
         }
 
         .live-dot {
@@ -95,21 +116,36 @@
             50% { opacity: 0.3; }
         }
 
+        /* Offline Badge */
+        .offline-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #64748b;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
         h1 {
             color: #1e3a8a;
-            font-size: 48px;
+            font-size: 52px;
             margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .subtitle {
-            color: #64748b;
+            color: #475569;
             font-size: 20px;
             max-width: 800px;
             margin: 0 auto 30px;
             line-height: 1.6;
         }
 
-        /* Main Content Grid */
+        /* Content Grid */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr 350px;
@@ -117,21 +153,34 @@
             margin-bottom: 50px;
         }
 
-        /* Video Section */
+        /* Video Section - Enhanced */
         .video-section {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .video-wrapper {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            background: #000;
-            border-radius: 10px;
+            padding-bottom: 56.25%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            border-radius: 15px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .video-wrapper iframe {
@@ -143,38 +192,67 @@
             border: none;
         }
 
+        /* Placeholder for no stream */
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .video-placeholder h3 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .video-placeholder p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
         .video-info {
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
         .video-info h2 {
             color: #1e3a8a;
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 32px;
+            margin-bottom: 20px;
         }
 
         .video-meta {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
             color: #64748b;
-            font-size: 16px;
-            margin-bottom: 20px;
+            font-size: 17px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
         }
 
         .video-meta span {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-weight: 600;
         }
 
         .video-description {
             color: #475569;
-            line-height: 1.8;
-            font-size: 16px;
+            line-height: 1.9;
+            font-size: 17px;
         }
 
-        /* Sidebar */
+        /* Sidebar - Enhanced */
         .sidebar {
             display: flex;
             flex-direction: column;
@@ -183,29 +261,39 @@
 
         .sidebar-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            border-top: 5px solid #1e3a8a;
         }
 
         .sidebar-card h3 {
             color: #1e3a8a;
-            font-size: 22px;
-            margin-bottom: 15px;
+            font-size: 24px;
+            margin-bottom: 18px;
         }
 
         .sidebar-card p {
             color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            line-height: 1.7;
+            margin-bottom: 18px;
+            font-size: 16px;
         }
 
-        /* Service Schedule */
+        /* Service Schedule - Enhanced */
         .schedule-item {
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 10px;
-            margin-bottom: 12px;
+            padding: 18px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1e3a8a;
+            transition: all 0.3s;
+        }
+
+        .schedule-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .schedule-item:last-child {
@@ -215,19 +303,20 @@
         .schedule-day {
             color: #1e3a8a;
             font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            margin-bottom: 8px;
         }
 
         .schedule-time {
             color: #475569;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 600;
         }
 
-        /* Social Share */
+        /* Share Buttons - Enhanced */
         .share-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -237,17 +326,19 @@
             background: #1e3a8a;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
+            font-size: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
         .share-btn:hover {
-            background: #1e40af;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .share-btn.facebook { background: #1877f2; }
@@ -258,41 +349,46 @@
         .share-btn.twitter:hover { background: #0d8bd9; }
         .share-btn.whatsapp:hover { background: #1fb855; }
 
-        /* Prayer Request */
+        /* Prayer Request - Enhanced */
         .prayer-input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 15px;
+            border: 3px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
             font-family: inherit;
+            transition: all 0.3s;
         }
 
         .prayer-input:focus {
             outline: none;
             border-color: #1e3a8a;
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
         }
 
         .submit-btn {
             width: 100%;
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 12px;
             transition: all 0.3s;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
         }
 
         .submit-btn:hover {
-            background: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
         }
 
-        /* Bottom Section */
+        /* Info Cards - Enhanced */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -302,26 +398,62 @@
 
         .info-card {
             background: white;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: all 0.3s;
+            border-top: 5px solid #0369a1;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
         .info-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 64px;
+            margin-bottom: 25px;
         }
 
         .info-card h3 {
             color: #1e3a8a;
-            font-size: 24px;
-            margin-bottom: 15px;
+            font-size: 26px;
+            margin-bottom: 18px;
         }
 
         .info-card p {
             color: #64748b;
-            line-height: 1.6;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: #059669;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 600;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive Design */
@@ -339,29 +471,35 @@
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 32px;
+                font-size: 36px;
             }
 
             nav ul {
-                gap: 15px;
+                gap: 12px;
             }
 
             nav a {
                 font-size: 14px;
-                padding: 6px 12px;
+                padding: 8px 14px;
             }
 
             .livestream-container {
                 padding: 30px 15px;
             }
 
-            .live-badge {
+            .live-badge, .offline-badge {
                 font-size: 16px;
-                padding: 8px 20px;
+                padding: 10px 20px;
             }
 
             .sidebar {
                 grid-template-columns: 1fr;
+            }
+
+            .video-section,
+            .sidebar-card,
+            .info-card {
+                padding: 25px 20px;
             }
         }
     </style>
@@ -382,9 +520,9 @@
     <div class="livestream-container">
         <!-- Hero Section -->
         <div class="hero">
-            <div class="live-badge">
-                <div class="live-dot"></div>
-                LIVE NOW
+            <!-- Dynamic badge - shows LIVE or OFFLINE -->
+            <div id="statusBadge" class="offline-badge">
+                ⏰ Next Service: Sunday 8:00 AM GMT
             </div>
             <h1>Watch Our Service Live</h1>
             <p class="subtitle">
@@ -397,9 +535,9 @@
             <!-- Video Section -->
             <div class="video-section">
                 <div class="video-wrapper">
-                    <!-- Replace with your actual Facebook Live embed code -->
+                    <!-- REPLACE THIS URL WITH YOUR ACTUAL FACEBOOK PAGE EMBED -->
                     <iframe 
-                        src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2FYOUR_PAGE%2Fvideos%2FYOUR_VIDEO_ID%2F&show_text=false&width=560&t=0" 
+                        src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61571067616532&show_text=false&width=560" 
                         width="560" 
                         height="314" 
                         style="border:none;overflow:hidden" 
@@ -408,14 +546,19 @@
                         allowfullscreen="true" 
                         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
                     </iframe>
+                    <!-- Placeholder when not live -->
+                    <!-- <div class="video-placeholder">
+                        <h3>📺 No Live Stream Currently</h3>
+                        <p>Check back during service times or watch our previous services below</p>
+                    </div> -->
                 </div>
 
                 <div class="video-info">
                     <h2>Sunday Worship Service</h2>
                     <div class="video-meta">
-                        <span>📅 December 31, 2025</span>
+                        <span>📅 Every Sunday</span>
                         <span>⏰ 8:00 AM GMT</span>
-                        <span>👥 500+ Watching</span>
+                        <span>🌍 Streaming Worldwide</span>
                     </div>
                     <p class="video-description">
                         Welcome to Prevailed Chapel International! We're so glad you've joined us today. 
@@ -465,6 +608,9 @@
                         placeholder="Share your prayer request here..."
                         id="prayerRequest"></textarea>
                     <button class="submit-btn" onclick="submitPrayer()">Submit Prayer Request</button>
+                    <div id="successMessage" class="success-message">
+                        ✅ Prayer request submitted! Our team will be praying for you.
+                    </div>
                 </div>
             </div>
         </div>
@@ -493,8 +639,8 @@
                 <div class="info-icon">❤️</div>
                 <h3>First Time Visiting?</h3>
                 <p>
-                    We're so glad you're here! Fill out our connect card and let us know 
-                    how we can serve you better.
+                    We're so glad you're here! Visit our contact page to connect with us and 
+                    learn more about our church family.
                 </p>
             </div>
         </div>
@@ -510,42 +656,74 @@
         function shareOnTwitter() {
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent('Join us for live worship at Prevailed Chapel International!');
-            window.open(`https://twitter.com/intent/tweet?url=\( {url}&text= \){text}`, '_blank', 'width=600,height=400');
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
         }
 
         function shareOnWhatsApp() {
             const url = encodeURIComponent(window.location.href);
             const text = encodeURIComponent('Join us for live worship at Prevailed Chapel International! ');
-            window.open(`https://wa.me/?text=\( {text} \){url}`, '_blank');
+            window.open(`https://wa.me/?text=${text}${url}`, '_blank');
         }
 
-        // Corrected Prayer submission: Fixed mailto construction and encoding
+        // Enhanced Prayer submission with better UX
         function submitPrayer() {
             const prayerText = document.getElementById('prayerRequest').value.trim();
+            const successMsg = document.getElementById('successMessage');
 
             if (prayerText === '') {
                 alert('Please enter your prayer request before submitting.');
                 return;
             }
 
-            // ==== CHANGE THIS TO YOUR CHURCH'S ACTUAL EMAIL ADDRESS ====
-            const churchEmail = 'dzesefrank108@gmail.com'; // <-- UPDATE THIS!
-
+            const churchEmail = 'dzesefrank108@gmail.com';
             const subject = 'Prayer Request from Live Stream Website';
             const body = `Prayer Request:\n\n${prayerText}\n\n---\nSent from: ${window.location.href}`;
 
-            // Build mailto link with proper encoding (no extra characters)
             const mailtoLink = 'mailto:' + encodeURIComponent(churchEmail) +
                                '?subject=' + encodeURIComponent(subject) +
                                '&body=' + encodeURIComponent(body);
 
-            // Open the user's default email client
             window.location.href = mailtoLink;
 
-            // Provide feedback and clear the form
-            alert('Thank you! Your email app has opened with your prayer request. Please add the recipient if needed, review, and press Send.');
+            // Show success message
+            successMsg.classList.add('show');
             document.getElementById('prayerRequest').value = '';
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
         }
+
+        // Check if currently during service time (optional feature)
+        function checkServiceTime() {
+            const now = new Date();
+            const day = now.getUTCDay(); // 0 = Sunday
+            const hours = now.getUTCHours();
+            
+            // Sunday 8:00 AM GMT = 8:00 UTC
+            const isSundayService = (day === 0 && hours >= 8 && hours < 10);
+            // Wednesday 6:30 PM GMT = 18:30 UTC
+            const isWednesdayService = (day === 3 && hours >= 18 && hours < 20);
+            // Friday 6:30 PM GMT = 18:30 UTC
+            const isFridayService = (day === 5 && hours >= 18 && hours < 20);
+            
+            const badge = document.getElementById('statusBadge');
+            
+            if (isSundayService || isWednesdayService || isFridayService) {
+                badge.className = 'live-badge show';
+                badge.innerHTML = '<div class="live-dot"></div> LIVE NOW';
+            } else {
+                badge.className = 'offline-badge';
+                badge.innerHTML = '⏰ Next Service: Sunday 8:00 AM GMT';
+            }
+        }
+
+        // Check service time on page load
+        checkServiceTime();
+        
+        // Recheck every minute
+        setInterval(checkServiceTime, 60000);
     </script>
 </body>
 </html>
