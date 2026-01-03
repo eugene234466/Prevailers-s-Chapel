@@ -601,178 +601,164 @@
         }
 
         // Generate natural reflection, questions, and prayer centered on the verse
-        function generateReflection(verseText, reference) {
+        async function generateReflection(verseText, reference) {
             const title = "Reflection on " + reference;
             
-            // Analyze verse content for themes
-            const lowerVerse = verseText.toLowerCase();
-            let theme = 'general';
-            let content = '';
-            let reflections = [];
-            let prayer = '';
+            // Show loading states
+            document.getElementById('devotionalTitle').textContent = title;
+            document.getElementById('devotionalContent').innerHTML = '<p style="text-align: center;">Generating reflection...</p>';
+            document.getElementById('reflectionQuestions').innerHTML = '<li>Loading questions...</li>';
+            document.getElementById('dailyPrayer').innerHTML = 'Generating personalized prayer...';
 
-            // Detect themes and generate contextual content
-            if (lowerVerse.includes('love') || lowerVerse.includes('beloved')) {
-                theme = 'love';
-                content = `
-                    <p><strong>"${verseText}"</strong> - ${reference}</p>
-                    <p>God's love is the foundation of our faith and the cornerstone of our relationship with Him. This verse reminds us that we are deeply loved by our Creator, not because of what we do, but because of who He is.</p>
-                    <p>His love is unconditional, unchanging, and unfailing. When we truly grasp the depth of God's love for us, it transforms how we see ourselves, how we love others, and how we live each day.</p>
-                    <p>Let this truth sink deep into your heart today: You are loved beyond measure by the God who created the universe.</p>
-                `;
-                reflections = [
-                    "How does understanding God's love for you change your perspective today?",
-                    "Who in your life needs to experience God's love through you?",
-                    "What barriers prevent you from fully receiving God's love?",
-                    "How can you demonstrate this love to someone today?"
-                ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for Your incredible love shown in ${reference}: "${verseText}"<br><br>
-                    Help me to truly understand and receive Your love today. Remove any doubts or insecurities that keep me from experiencing the fullness of Your affection.<br><br>
-                    Fill my heart with Your love so that it overflows to everyone I encounter. Let me be a vessel of Your love in this world.<br><br>
-                    In Jesus' name, Amen.
-                `;
-            } else if (lowerVerse.includes('fear') || lowerVerse.includes('afraid') || lowerVerse.includes('courage')) {
-                theme = 'courage';
-                content = `
-                    <p><strong>"${verseText}"</strong> - ${reference}</p>
-                    <p>Fear is a natural human emotion, but God repeatedly tells us not to be afraid because He is with us. This verse is a powerful reminder that we don't have to face life's challenges alone.</p>
-                    <p>When God says "fear not," He's not dismissing our concerns - He's reminding us of His presence, power, and protection. Perfect love casts out fear, and His love for us is perfect.</p>
-                    <p>Whatever you're facing today, remember that the God who spoke the universe into existence is standing beside you, fighting for you.</p>
-                `;
-                reflections = [
-                    "What fears are you carrying that you need to surrender to God today?",
-                    "How has God shown His faithfulness to you in past difficult situations?",
-                    "What would you do differently if you truly believed God was with you?",
-                    "How can you encourage someone else who is facing fear today?"
-                ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for Your promise in ${reference}: "${verseText}"<br><br>
-                    I confess that I sometimes let fear control my thoughts and actions. Today, I choose to trust in Your presence and power instead of my fears.<br><br>
-                    Replace my anxiety with Your peace, my worry with Your assurance, and my fear with Your courage. Remind me that You are always with me.<br><br>
-                    In Jesus' name, Amen.
-                `;
-            } else if (lowerVerse.includes('strength') || lowerVerse.includes('strong') || lowerVerse.includes('power')) {
-                theme = 'strength';
-                content = `
-                    <p><strong>"${verseText}"</strong> - ${reference}</p>
-                    <p>When we feel weak, exhausted, or overwhelmed, God offers us His strength. This verse reminds us that our power doesn't come from our own abilities, but from the limitless resources of our Heavenly Father.</p>
-                    <p>God's strength is made perfect in our weakness. When we acknowledge our limitations and lean on Him, we tap into a power that can accomplish far more than we could ever ask or imagine.</p>
-                    <p>Today, whatever challenges you face, remember that you have access to the same power that raised Christ from the dead.</p>
-                `;
-                reflections = [
-                    "In what areas of your life do you need God's strength today?",
-                    "How can you rely less on your own strength and more on God's power?",
-                    "What would it look like to trust God completely in your current situation?",
-                    "How has God's strength sustained you in the past?"
-                ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for Your promise in ${reference}: "${verseText}"<br><br>
-                    I acknowledge that in my own strength, I am weak and limited. But in Your strength, I can do all things. Fill me with Your power today.<br><br>
-                    Help me to rely on You rather than my own abilities. Let Your strength be evident in my life as I face each challenge with confidence in You.<br><br>
-                    In Jesus' name, Amen.
-                `;
-            } else if (lowerVerse.includes('peace') || lowerVerse.includes('rest') || lowerVerse.includes('anxious')) {
-                theme = 'peace';
-                content = `
-                    <p><strong>"${verseText}"</strong> - ${reference}</p>
-                    <p>In a world filled with chaos, uncertainty, and stress, God offers us a peace that surpasses all understanding. This verse is an invitation to exchange our anxiety for His tranquility.</p>
-                    <p>God's peace isn't dependent on our circumstances - it's a supernatural calm that comes from trusting in His sovereign control. When we bring our worries to Him, He exchanges them for His perfect peace.</p>
-                    <p>Today, whatever is troubling your heart, lay it at the feet of Jesus and receive the peace He freely offers.</p>
-                `;
-                reflections = [
-                    "What worries or anxieties do you need to surrender to God today?",
-                    "How does God's peace differ from the world's understanding of peace?",
-                    "What practical steps can you take to cultivate peace in your daily life?",
-                    "Who needs to experience God's peace through your presence today?"
-                ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for Your promise in ${reference}: "${verseText}"<br><br>
-                    My heart is troubled by many things, but You offer perfect peace. I lay down my worries, my fears, and my anxieties at Your feet.<br><br>
-                    Fill me with Your peace that transcends understanding. Guard my heart and mind in Christ Jesus. Help me to rest in Your sovereignty.<br><br>
-                    In Jesus' name, Amen.
-                `;
-            } else if (lowerVerse.includes('trust') || lowerVerse.includes('faith') || lowerVerse.includes('believe')) {
-                theme = 'faith';
-                content = `
-                    <p><strong>"${verseText}"</strong> - ${reference}</p>
-                    <p>Faith is the foundation of our relationship with God. This verse calls us to place our complete trust in Him, even when we can't see the full picture or understand His ways.</p>
-                    <p>Trusting God means surrendering our need for control and believing that His plans are better than our own. It's choosing to believe His promises over our circumstances.</p>
-                    <p>Today, let this verse strengthen your faith and remind you that God is absolutely trustworthy in every situation.</p>
-                `;
-                reflections = [
-                    "What area of your life requires you to trust God more fully?",
-                    "How can you demonstrate your faith through your actions today?",
-                    "What doubts do you need to surrender to God?",
-                    "How has God proven Himself faithful in your past experiences?"
-                ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for Your word in ${reference}: "${verseText}"<br><br>
-                    Increase my faith and help me to trust You completely. When I'm tempted to lean on my own understanding, remind me of Your faithfulness.<br><br>
-                    Give me the courage to step out in faith, believing that You are working all things together for my good. Strengthen my trust in You.<br><br>
-                    In Jesus' name, Amen.
-                `;
-            } else if (lowerVerse.includes('joy') || lowerVerse.includes('rejoice') || lowerVerse.includes('glad')) {
-                theme = 'joy';
-                content = `
-                    <p><strong>"${verseText}"</strong> - ${reference}</p>
-                    <p>Joy is more than temporary happiness - it's a deep-seated gladness that comes from knowing God and experiencing His presence. This verse reminds us that our joy is found in the Lord, not in our circumstances.</p>
-                    <p>Even in difficult seasons, we can have joy because our foundation is built on the unchanging character of God. His joy becomes our strength.</p>
-                    <p>Today, choose to rejoice in the Lord and let His joy fill your heart, regardless of what you're facing.</p>
-                `;
-                reflections = [
-                    "What reasons do you have to rejoice in the Lord today?",
-                    "How can you cultivate joy even in challenging circumstances?",
-                    "Who needs to experience God's joy through you today?",
-                    "What robs you of joy, and how can you protect against it?"
-                ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for Your word in ${reference}: "${verseText}"<br><br>
-                    Fill my heart with Your joy today. Help me to find my gladness in You rather than in my circumstances. Let Your joy be my strength.<br><br>
-                    When trials come, remind me of the joy set before me. May my life radiate the joy that comes from knowing You.<br><br>
-                    In Jesus' name, Amen.
-                `;
-            } else {
-                // Default general reflection
-                content = `
+            try {
+                // Generate reflection and questions using AI
+                const reflectionResponse = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'anthropic-version': '2023-06-01'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1500,
+                        messages: [{
+                            role: 'user',
+                            content: `Based on this Bible verse: "${verseText}" (${reference}), create a devotional reflection with the following format:
+
+REFLECTION:
+Write 3 paragraphs of thoughtful reflection on this verse. The first paragraph should quote the verse and introduce its context. The second should explore its deeper meaning and significance. The third should apply it to daily Christian life. Use <p> tags for each paragraph.
+
+QUESTIONS:
+Then provide 4 thought-provoking reflection questions that help the reader apply this verse to their life. Format as: Q1|Q2|Q3|Q4 (separated by | character)
+
+Make it heartfelt, biblically sound, and practical. Write only the content in this format, nothing else.`
+                        }]
+                    })
+                });
+
+                if (!reflectionResponse.ok) {
+                    throw new Error('Reflection API failed');
+                }
+
+                const reflectionData = await reflectionResponse.json();
+                const fullResponse = reflectionData.content[0].text.trim();
+                
+                // Parse the response
+                const parts = fullResponse.split('QUESTIONS:');
+                const reflectionHTML = parts[0].replace('REFLECTION:', '').trim();
+                const questionsText = parts[1] ? parts[1].trim() : '';
+                const questions = questionsText.split('|').map(q => q.trim()).filter(q => q);
+
+                // Display reflection
+                document.getElementById('devotionalContent').innerHTML = reflectionHTML;
+
+                // Display questions
+                const reflectionsList = document.getElementById('reflectionQuestions');
+                reflectionsList.innerHTML = '';
+                if (questions.length > 0) {
+                    questions.forEach(q => {
+                        const li = document.createElement('li');
+                        li.textContent = q;
+                        reflectionsList.appendChild(li);
+                    });
+                } else {
+                    // Fallback questions if parsing fails
+                    const fallbackQuestions = [
+                        "What is God specifically saying to you through this verse today?",
+                        "How does this Scripture challenge or encourage you?",
+                        "What practical step can you take to apply this truth?",
+                        "How might God want to use this verse in someone else's life through you?"
+                    ];
+                    fallbackQuestions.forEach(q => {
+                        const li = document.createElement('li');
+                        li.textContent = q;
+                        reflectionsList.appendChild(li);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error generating reflection:', error);
+                
+                // Fallback reflection if API fails
+                const fallbackContent = `
                     <p><strong>"${verseText}"</strong> - ${reference}</p>
                     <p>God's Word is living and active, speaking directly to our hearts and circumstances. This verse carries a specific message that God wants you to hear today.</p>
-                    <p>As you meditate on these words, ask the Holy Spirit to reveal their deeper meaning and application for your life. Scripture is not just ancient text - it's God's personal word to you in this moment.</p>
-                    <p>Let this truth sink deep into your heart and transform the way you think, speak, and act today.</p>
+                    <p>As you meditate on these words, ask the Holy Spirit to reveal their deeper meaning and application for your life. Let this truth sink deep into your heart and transform the way you think, speak, and act today.</p>
                 `;
-                reflections = [
+                
+                const fallbackQuestions = [
                     "What is God specifically saying to you through this verse today?",
                     "How does this Scripture challenge or encourage you?",
                     "What practical step can you take to apply this truth?",
                     "How might God want to use this verse in someone else's life through you?"
                 ];
-                prayer = `
-                    Heavenly Father,<br><br>
-                    Thank You for speaking to me through ${reference}: "${verseText}"<br><br>
-                    Open my eyes to see what You want me to understand through this Scripture. Help me not just to read these words, but to live them out.<br><br>
-                    Transform my heart and mind through Your Word. Make me a doer of the Word and not just a hearer.<br><br>
-                    In Jesus' name, Amen.
-                `;
+                
+                document.getElementById('devotionalContent').innerHTML = fallbackContent;
+                
+                const reflectionsList = document.getElementById('reflectionQuestions');
+                reflectionsList.innerHTML = '';
+                fallbackQuestions.forEach(q => {
+                    const li = document.createElement('li');
+                    li.textContent = q;
+                    reflectionsList.appendChild(li);
+                });
             }
 
-            document.getElementById('devotionalTitle').textContent = title;
-            document.getElementById('devotionalContent').innerHTML = content;
+            // Generate prayer separately
+            await generatePrayer(verseText, reference);
+        }
 
-            const reflectionsList = document.getElementById('reflectionQuestions');
-            reflectionsList.innerHTML = '';
-            reflections.forEach(q => {
-                const li = document.createElement('li');
-                li.textContent = q;
-                reflectionsList.appendChild(li);
-            });
+        // Generate personalized prayer using Claude AI
+        async function generatePrayer(verseText, reference) {
+            const prayerElement = document.getElementById('dailyPrayer');
+            
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'anthropic-version': '2023-06-01'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-20250514',
+                        max_tokens: 1000,
+                        messages: [{
+                            role: 'user',
+                            content: `Write a heartfelt, personal prayer for today based on this Bible verse: "${verseText}" (${reference}). The prayer should:
+- Be 3-4 short paragraphs
+- Directly reference and incorporate the verse
+- Be conversational and personal, as if praying from the heart
+- Address God as "Heavenly Father" at the start
+- End with "In Jesus' name, Amen."
+- Include thanksgiving, application of the verse to daily life, and a request for help living out this truth
+- Use <br><br> for paragraph breaks for HTML formatting
 
-            document.getElementById('dailyPrayer').innerHTML = prayer;
+Write only the prayer text, nothing else.`
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                const data = await response.json();
+                const prayerText = data.content[0].text.trim();
+                
+                prayerElement.innerHTML = prayerText;
+            } catch (error) {
+                console.error('Error generating prayer:', error);
+                
+                // Fallback prayer if API fails
+                const fallbackPrayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your Word in ${reference}: "${verseText}"<br><br>
+                    Help me to understand and apply this truth to my life today. Transform my heart through Your Scripture and guide my steps according to Your will.<br><br>
+                    May this verse be a lamp to my feet and a light to my path. Give me the strength and wisdom to live it out.<br><br>
+                    In Jesus' name, Amen.
+                `;
+                prayerElement.innerHTML = fallbackPrayer;
+            }
         }
 
         // Bible Search with better error handling
