@@ -13,14 +13,15 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8fafc;
+            background: linear-gradient(to bottom, #f8fafc 0%, #e0e7ff 100%);
+            min-height: 100vh;
         }
 
         /* Navigation */
         nav {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -41,115 +42,185 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
-            padding: 8px 16px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-size: 16px;
         }
 
         nav a:hover, nav a.active {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         .devotional-container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
             padding: 60px 20px;
         }
 
-        /* Header */
+        /* Header with Animation */
         .devotional-header {
             text-align: center;
             margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
             color: #1e3a8a;
-            font-size: 48px;
+            font-size: 52px;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .subtitle {
-            color: #64748b;
+            color: #475569;
             font-size: 20px;
             line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        /* Verse of the Day Section */
+        /* Verse of the Day Section - Enhanced */
         .verse-section {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
-            padding: 50px 40px;
-            border-radius: 15px;
+            padding: 60px 50px;
+            border-radius: 20px;
             margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .verse-section::before {
+            content: '✨';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            top: -50px;
+            right: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .verse-section h2 {
-            font-size: 28px;
-            margin-bottom: 25px;
+            font-size: 32px;
+            margin-bottom: 30px;
             text-align: center;
+            position: relative;
         }
 
         .verse-content {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 10px;
-            border-left: 4px solid white;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            border-left: 5px solid rgba(255, 255, 255, 0.8);
+            position: relative;
         }
 
         .verse-text {
-            font-size: 22px;
-            line-height: 1.8;
+            font-size: 24px;
+            line-height: 1.9;
             font-style: italic;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .verse-reference {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
             text-align: right;
+            opacity: 0.95;
         }
 
         .loading {
             text-align: center;
             padding: 30px;
             font-size: 18px;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        /* Daily Devotional Card */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Daily Devotional Card - Enhanced */
         .devotional-card {
             background: white;
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 60px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            border-top: 5px solid #1e3a8a;
         }
 
         .devotional-card h2 {
             color: #1e3a8a;
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 36px;
+            margin-bottom: 25px;
+            line-height: 1.3;
         }
 
         .devotional-meta {
             color: #64748b;
             font-size: 16px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #f1f5f9;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .devotional-meta strong {
+            color: #1e3a8a;
         }
 
         .devotional-card p {
             color: #475569;
-            font-size: 18px;
-            line-height: 1.8;
-            margin-bottom: 20px;
+            font-size: 19px;
+            line-height: 2;
+            margin-bottom: 25px;
+            text-align: justify;
         }
 
         .devotional-card h3 {
             color: #1e3a8a;
-            font-size: 24px;
-            margin: 30px 0 15px;
+            font-size: 26px;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .devotional-card ul {
@@ -158,43 +229,61 @@
         }
 
         .devotional-card li {
-            margin: 12px 0;
-            line-height: 1.6;
-            font-size: 17px;
+            margin: 15px 0;
+            line-height: 1.8;
+            font-size: 18px;
+            padding-left: 10px;
+        }
+
+        .devotional-card li::marker {
+            color: #1e3a8a;
+            font-weight: bold;
         }
 
         .prayer-box {
-            background: #f8fafc;
-            padding: 30px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border-left: 4px solid #1e3a8a;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border-left: 5px solid #f59e0b;
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.2);
         }
 
         .prayer-box h3 {
             margin-top: 0;
+            color: #92400e;
         }
 
         .prayer-text {
             font-style: italic;
-            color: #475569;
-            line-height: 1.8;
+            color: #78350f;
+            line-height: 1.9;
+            font-size: 18px;
         }
 
-        /* Bible Search Section */
+        /* Bible Search Section - Enhanced */
         .bible-search {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px 45px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+            border-top: 5px solid #0369a1;
         }
 
         .bible-search h2 {
             color: #1e3a8a;
-            font-size: 28px;
-            margin-bottom: 25px;
+            font-size: 32px;
+            margin-bottom: 15px;
             text-align: center;
+        }
+
+        .bible-search > p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 17px;
         }
 
         .search-form {
@@ -202,45 +291,67 @@
             gap: 15px;
             margin-bottom: 30px;
             flex-wrap: wrap;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .search-input {
             flex: 1;
-            min-width: 200px;
-            padding: 15px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
+            min-width: 250px;
+            padding: 18px 25px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 17px;
+            transition: all 0.3s;
         }
 
         .search-input:focus {
             outline: none;
             border-color: #1e3a8a;
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.1);
         }
 
         .search-btn {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
             border: none;
-            padding: 15px 35px;
-            border-radius: 10px;
-            font-weight: 600;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 16px;
+            font-size: 17px;
+            box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
         }
 
         .search-btn:hover {
-            background: #1e40af;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+        }
+
+        .search-btn:active {
+            transform: translateY(-1px);
         }
 
         .search-result {
-            background: #f8fafc;
-            padding: 25px;
-            border-radius: 10px;
-            border-left: 4px solid #1e3a8a;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 5px solid #0369a1;
             display: none;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .search-result.show {
@@ -248,69 +359,80 @@
         }
 
         .search-result h3 {
-            color: #1e3a8a;
-            margin-bottom: 15px;
-            font-size: 20px;
+            color: #0369a1;
+            margin-bottom: 20px;
+            font-size: 22px;
         }
 
         .search-result p {
-            color: #475569;
-            line-height: 1.8;
-            font-size: 17px;
+            color: #334155;
+            line-height: 1.9;
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
-        /* Quick Links */
+        /* Quick Links - Enhanced */
         .quick-links {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px 45px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+            border-top: 5px solid #0369a1;
         }
 
         .quick-links h2 {
             color: #1e3a8a;
-            font-size: 28px;
-            margin-bottom: 25px;
+            font-size: 32px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
         }
 
         .link-btn {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            padding: 15px 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            border: 3px solid #cbd5e1;
+            padding: 18px 25px;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 600;
+            font-weight: 700;
             color: #1e3a8a;
+            font-size: 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
 
         .link-btn:hover {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
             border-color: #1e3a8a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+        }
+
+        .link-btn:active {
+            transform: translateY(-1px);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             h1 {
-                font-size: 36px;
+                font-size: 38px;
             }
 
             nav ul {
-                gap: 15px;
+                gap: 12px;
             }
 
             nav a {
                 font-size: 14px;
-                padding: 6px 12px;
+                padding: 8px 14px;
             }
 
             .devotional-container {
@@ -321,15 +443,19 @@
             .devotional-card,
             .bible-search,
             .quick-links {
-                padding: 30px 20px;
+                padding: 35px 25px;
             }
 
             .verse-text {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .devotional-card h2 {
-                font-size: 26px;
+                font-size: 28px;
+            }
+
+            .devotional-card p {
+                font-size: 17px;
             }
 
             .search-form {
@@ -338,6 +464,11 @@
 
             .search-input {
                 min-width: 100%;
+            }
+
+            .devotional-meta {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -374,20 +505,21 @@
         <div class="devotional-card">
             <h2 id="devotionalTitle">Today's Reflection</h2>
             <div class="devotional-meta">
-                <strong>Date:</strong> <span id="currentDate"></span> | <strong>Key Verse:</strong> <span id="keyVerseRef"></span>
+                <span><strong>Date:</strong> <span id="currentDate"></span></span>
+                <span><strong>Key Verse:</strong> <span id="keyVerseRef"></span></span>
             </div>
 
             <div id="devotionalContent">
-                Loading reflection...
+                <p style="text-align: center;">Loading reflection...</p>
             </div>
 
-            <h3>💭 Reflection Questions:</h3>
+            <h3>💭 Reflection Questions</h3>
             <ul id="reflectionQuestions">
                 <li>Loading...</li>
             </ul>
 
             <div class="prayer-box">
-                <h3>🙏 Prayer for Today:</h3>
+                <h3>🙏 Prayer for Today</h3>
                 <p class="prayer-text" id="dailyPrayer">
                     Loading prayer...
                 </p>
@@ -397,7 +529,7 @@
         <!-- Bible Search -->
         <div class="bible-search">
             <h2>📚 Search Scripture</h2>
-            <p style="text-align: center; color: #64748b; margin-bottom: 20px;">
+            <p>
                 Look up any Bible verse by entering the reference (e.g., John 3:16 or Psalm 23:1-6)
             </p>
             <form class="search-form" onsubmit="searchBible(event)">
@@ -408,7 +540,7 @@
                     placeholder="Enter verse (e.g., John 3:16)"
                     required
                 >
-                <button type="submit" class="search-btn">Search</button>
+                <button type="submit" class="search-btn">🔍 Search</button>
             </form>
             <div id="searchResult" class="search-result"></div>
         </div>
@@ -417,20 +549,20 @@
         <div class="quick-links">
             <h2>⚡ Quick Scripture Access</h2>
             <div class="links-grid">
-                <button class="link-btn" onclick="quickSearch('Psalm 23')">Psalm 23</button>
-                <button class="link-btn" onclick="quickSearch('John 3:16')">John 3:16</button>
-                <button class="link-btn" onclick="quickSearch('Proverbs 3:5-6')">Proverbs 3:5-6</button>
-                <button class="link-btn" onclick="quickSearch('Philippians 4:13')">Philippians 4:13</button>
-                <button class="link-btn" onclick="quickSearch('Romans 8:28')">Romans 8:28</button>
-                <button class="link-btn" onclick="quickSearch('Jeremiah 29:11')">Jeremiah 29:11</button>
-                <button class="link-btn" onclick="quickSearch('Matthew 11:28-30')">Matthew 11:28-30</button>
-                <button class="link-btn" onclick="quickSearch('Isaiah 41:10')">Isaiah 41:10</button>
+                <button class="link-btn" onclick="quickSearch('Psalm 23')">📖 Psalm 23</button>
+                <button class="link-btn" onclick="quickSearch('John 3:16')">❤️ John 3:16</button>
+                <button class="link-btn" onclick="quickSearch('Proverbs 3:5-6')">🧭 Proverbs 3:5-6</button>
+                <button class="link-btn" onclick="quickSearch('Philippians 4:13')">💪 Philippians 4:13</button>
+                <button class="link-btn" onclick="quickSearch('Romans 8:28')">🙌 Romans 8:28</button>
+                <button class="link-btn" onclick="quickSearch('Jeremiah 29:11')">🌟 Jeremiah 29:11</button>
+                <button class="link-btn" onclick="quickSearch('Matthew 11:28-30')">😌 Matthew 11:28-30</button>
+                <button class="link-btn" onclick="quickSearch('Isaiah 41:10')">🛡️ Isaiah 41:10</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Current date (hardcoded as per request)
+        // Set current date
         document.getElementById('currentDate').textContent = "Saturday, January 03, 2026";
 
         // Fetch real daily Verse of the Day from OurManna API
@@ -454,40 +586,180 @@
                 generateReflection(data.verse.details.text, reference);
             } catch (error) {
                 console.error('Error loading verse:', error);
+                const fallbackVerse = "The Lord is my shepherd; I shall not want.";
+                const fallbackRef = "Psalm 23:1 (KJV)";
+                
                 verseDiv.innerHTML = `
                     <div class="verse-content">
-                        <p class="verse-text">"The Lord is my shepherd; I shall not want."</p>
-                        <p class="verse-reference">- Psalm 23:1</p>
+                        <p class="verse-text">"${fallbackVerse}"</p>
+                        <p class="verse-reference">- ${fallbackRef}</p>
                     </div>
                 `;
-                document.getElementById('keyVerseRef').textContent = "Psalm 23:1";
-                generateReflection("The Lord is my shepherd; I shall not want.", "Psalm 23:1");
+                document.getElementById('keyVerseRef').textContent = fallbackRef;
+                generateReflection(fallbackVerse, fallbackRef);
             }
         }
 
         // Generate natural reflection, questions, and prayer centered on the verse
         function generateReflection(verseText, reference) {
             const title = "Reflection on " + reference;
-            const content = `
-                <p>Today's verse: <strong>"\( ${verseText}"</strong> ( \)${reference})</p>
-                <p>This beautiful passage from God's Word invites us to pause and consider its meaning in our lives today.</p>
-                <p>Let it speak to your heart, bringing encouragement, conviction, or peace as needed.</p>
-            `;
+            
+            // Analyze verse content for themes
+            const lowerVerse = verseText.toLowerCase();
+            let theme = 'general';
+            let content = '';
+            let reflections = [];
+            let prayer = '';
 
-            const reflections = [
-                "What does this verse teach you about God?",
-                "How does this verse apply to your current circumstances?",
-                "What action or attitude change does this verse inspire in you?"
-            ];
-
-            const prayer = `
-                Heavenly Father,<br><br>
-                Thank You for speaking to me through Your Word today in ${reference}:<br>
-                "${verseText}"<br><br>
-                Open my heart to understand and receive this truth. Help me to live it out in my thoughts, words, and actions.<br>
-                Draw me closer to You through this Scripture.<br><br>
-                In Jesus' name, Amen.
-            `;
+            // Detect themes and generate contextual content
+            if (lowerVerse.includes('love') || lowerVerse.includes('beloved')) {
+                theme = 'love';
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>God's love is the foundation of our faith and the cornerstone of our relationship with Him. This verse reminds us that we are deeply loved by our Creator, not because of what we do, but because of who He is.</p>
+                    <p>His love is unconditional, unchanging, and unfailing. When we truly grasp the depth of God's love for us, it transforms how we see ourselves, how we love others, and how we live each day.</p>
+                    <p>Let this truth sink deep into your heart today: You are loved beyond measure by the God who created the universe.</p>
+                `;
+                reflections = [
+                    "How does understanding God's love for you change your perspective today?",
+                    "Who in your life needs to experience God's love through you?",
+                    "What barriers prevent you from fully receiving God's love?",
+                    "How can you demonstrate this love to someone today?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your incredible love shown in ${reference}: "${verseText}"<br><br>
+                    Help me to truly understand and receive Your love today. Remove any doubts or insecurities that keep me from experiencing the fullness of Your affection.<br><br>
+                    Fill my heart with Your love so that it overflows to everyone I encounter. Let me be a vessel of Your love in this world.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            } else if (lowerVerse.includes('fear') || lowerVerse.includes('afraid') || lowerVerse.includes('courage')) {
+                theme = 'courage';
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>Fear is a natural human emotion, but God repeatedly tells us not to be afraid because He is with us. This verse is a powerful reminder that we don't have to face life's challenges alone.</p>
+                    <p>When God says "fear not," He's not dismissing our concerns - He's reminding us of His presence, power, and protection. Perfect love casts out fear, and His love for us is perfect.</p>
+                    <p>Whatever you're facing today, remember that the God who spoke the universe into existence is standing beside you, fighting for you.</p>
+                `;
+                reflections = [
+                    "What fears are you carrying that you need to surrender to God today?",
+                    "How has God shown His faithfulness to you in past difficult situations?",
+                    "What would you do differently if you truly believed God was with you?",
+                    "How can you encourage someone else who is facing fear today?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your promise in ${reference}: "${verseText}"<br><br>
+                    I confess that I sometimes let fear control my thoughts and actions. Today, I choose to trust in Your presence and power instead of my fears.<br><br>
+                    Replace my anxiety with Your peace, my worry with Your assurance, and my fear with Your courage. Remind me that You are always with me.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            } else if (lowerVerse.includes('strength') || lowerVerse.includes('strong') || lowerVerse.includes('power')) {
+                theme = 'strength';
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>When we feel weak, exhausted, or overwhelmed, God offers us His strength. This verse reminds us that our power doesn't come from our own abilities, but from the limitless resources of our Heavenly Father.</p>
+                    <p>God's strength is made perfect in our weakness. When we acknowledge our limitations and lean on Him, we tap into a power that can accomplish far more than we could ever ask or imagine.</p>
+                    <p>Today, whatever challenges you face, remember that you have access to the same power that raised Christ from the dead.</p>
+                `;
+                reflections = [
+                    "In what areas of your life do you need God's strength today?",
+                    "How can you rely less on your own strength and more on God's power?",
+                    "What would it look like to trust God completely in your current situation?",
+                    "How has God's strength sustained you in the past?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your promise in ${reference}: "${verseText}"<br><br>
+                    I acknowledge that in my own strength, I am weak and limited. But in Your strength, I can do all things. Fill me with Your power today.<br><br>
+                    Help me to rely on You rather than my own abilities. Let Your strength be evident in my life as I face each challenge with confidence in You.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            } else if (lowerVerse.includes('peace') || lowerVerse.includes('rest') || lowerVerse.includes('anxious')) {
+                theme = 'peace';
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>In a world filled with chaos, uncertainty, and stress, God offers us a peace that surpasses all understanding. This verse is an invitation to exchange our anxiety for His tranquility.</p>
+                    <p>God's peace isn't dependent on our circumstances - it's a supernatural calm that comes from trusting in His sovereign control. When we bring our worries to Him, He exchanges them for His perfect peace.</p>
+                    <p>Today, whatever is troubling your heart, lay it at the feet of Jesus and receive the peace He freely offers.</p>
+                `;
+                reflections = [
+                    "What worries or anxieties do you need to surrender to God today?",
+                    "How does God's peace differ from the world's understanding of peace?",
+                    "What practical steps can you take to cultivate peace in your daily life?",
+                    "Who needs to experience God's peace through your presence today?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your promise in ${reference}: "${verseText}"<br><br>
+                    My heart is troubled by many things, but You offer perfect peace. I lay down my worries, my fears, and my anxieties at Your feet.<br><br>
+                    Fill me with Your peace that transcends understanding. Guard my heart and mind in Christ Jesus. Help me to rest in Your sovereignty.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            } else if (lowerVerse.includes('trust') || lowerVerse.includes('faith') || lowerVerse.includes('believe')) {
+                theme = 'faith';
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>Faith is the foundation of our relationship with God. This verse calls us to place our complete trust in Him, even when we can't see the full picture or understand His ways.</p>
+                    <p>Trusting God means surrendering our need for control and believing that His plans are better than our own. It's choosing to believe His promises over our circumstances.</p>
+                    <p>Today, let this verse strengthen your faith and remind you that God is absolutely trustworthy in every situation.</p>
+                `;
+                reflections = [
+                    "What area of your life requires you to trust God more fully?",
+                    "How can you demonstrate your faith through your actions today?",
+                    "What doubts do you need to surrender to God?",
+                    "How has God proven Himself faithful in your past experiences?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your word in ${reference}: "${verseText}"<br><br>
+                    Increase my faith and help me to trust You completely. When I'm tempted to lean on my own understanding, remind me of Your faithfulness.<br><br>
+                    Give me the courage to step out in faith, believing that You are working all things together for my good. Strengthen my trust in You.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            } else if (lowerVerse.includes('joy') || lowerVerse.includes('rejoice') || lowerVerse.includes('glad')) {
+                theme = 'joy';
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>Joy is more than temporary happiness - it's a deep-seated gladness that comes from knowing God and experiencing His presence. This verse reminds us that our joy is found in the Lord, not in our circumstances.</p>
+                    <p>Even in difficult seasons, we can have joy because our foundation is built on the unchanging character of God. His joy becomes our strength.</p>
+                    <p>Today, choose to rejoice in the Lord and let His joy fill your heart, regardless of what you're facing.</p>
+                `;
+                reflections = [
+                    "What reasons do you have to rejoice in the Lord today?",
+                    "How can you cultivate joy even in challenging circumstances?",
+                    "Who needs to experience God's joy through you today?",
+                    "What robs you of joy, and how can you protect against it?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for Your word in ${reference}: "${verseText}"<br><br>
+                    Fill my heart with Your joy today. Help me to find my gladness in You rather than in my circumstances. Let Your joy be my strength.<br><br>
+                    When trials come, remind me of the joy set before me. May my life radiate the joy that comes from knowing You.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            } else {
+                // Default general reflection
+                content = `
+                    <p><strong>"${verseText}"</strong> - ${reference}</p>
+                    <p>God's Word is living and active, speaking directly to our hearts and circumstances. This verse carries a specific message that God wants you to hear today.</p>
+                    <p>As you meditate on these words, ask the Holy Spirit to reveal their deeper meaning and application for your life. Scripture is not just ancient text - it's God's personal word to you in this moment.</p>
+                    <p>Let this truth sink deep into your heart and transform the way you think, speak, and act today.</p>
+                `;
+                reflections = [
+                    "What is God specifically saying to you through this verse today?",
+                    "How does this Scripture challenge or encourage you?",
+                    "What practical step can you take to apply this truth?",
+                    "How might God want to use this verse in someone else's life through you?"
+                ];
+                prayer = `
+                    Heavenly Father,<br><br>
+                    Thank You for speaking to me through ${reference}: "${verseText}"<br><br>
+                    Open my eyes to see what You want me to understand through this Scripture. Help me not just to read these words, but to live them out.<br><br>
+                    Transform my heart and mind through Your Word. Make me a doer of the Word and not just a hearer.<br><br>
+                    In Jesus' name, Amen.
+                `;
+            }
 
             document.getElementById('devotionalTitle').textContent = title;
             document.getElementById('devotionalContent').innerHTML = content;
@@ -503,13 +775,13 @@
             document.getElementById('dailyPrayer').innerHTML = prayer;
         }
 
-        // Bible Search
+        // Bible Search with better error handling
         async function searchBible(event) {
             event.preventDefault();
             const query = document.getElementById('bibleSearch').value.trim();
             const resultDiv = document.getElementById('searchResult');
             
-            resultDiv.innerHTML = '<p style="text-align: center;">Searching...</p>';
+            resultDiv.innerHTML = '<p style="text-align: center;"><strong>🔍 Searching...</strong></p>';
             resultDiv.classList.add('show');
 
             try {
@@ -522,20 +794,29 @@
 
                 resultDiv.innerHTML = `
                     <h3>📖 ${data.reference}</h3>
-                    <p>"${data.text.trim()}"</p>
-                    <p style="margin-top: 15px; font-style: italic; color: #64748b;">${data.translation_name} Translation</p>
+                    <p style="font-size: 19px; line-height: 1.9;">"${data.text.trim()}"</p>
+                    <p style="margin-top: 20px; font-style: italic; color: #64748b; font-size: 16px;">
+                        <strong>Translation:</strong> ${data.translation_name}
+                    </p>
                 `;
             } catch (error) {
+                console.error('Search error:', error);
                 resultDiv.innerHTML = `
-                    <h3>❌ Not Found</h3>
-                    <p>Please check the reference and try again (e.g., "John 3:16").</p>
+                    <h3>❌ Verse Not Found</h3>
+                    <p>Please check your reference and try again.</p>
+                    <p style="margin-top: 15px;"><strong>Examples:</strong> "John 3:16", "Psalm 23:1-6", "Romans 8:28"</p>
                 `;
             }
         }
 
+        // Quick search with smooth scroll
         function quickSearch(verse) {
             document.getElementById('bibleSearch').value = verse;
-            searchBible({ preventDefault: () => {} });
+            document.getElementById('bibleSearch').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            setTimeout(() => {
+                searchBible({ preventDefault: () => {} });
+            }, 600);
         }
 
         // Load everything on page load
