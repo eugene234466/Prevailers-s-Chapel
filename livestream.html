@@ -237,17 +237,17 @@
 </div>
 
 <script>
-    /* =================================================
-       🔁 ONLY CHANGE THIS LINE
-    ================================================= */
-    const FACEBOOK_PAGE_URL = "REPLACE_WITH_YOUR_FACEBOOK_PAGE_URL";
+    /* ===============================
+       🔁 REPLACE THIS WITH YOUR PAGE URL
+    =============================== */
+    const FACEBOOK_PAGE_URL = "https://www.facebook.com/PrevailersChapelInternational/";
 
-    /* ===== FACEBOOK EMBED ===== */
+    /* ===== EMBED FACEBOOK LIVE TAB ===== */
     const fbIframe = document.getElementById("fbStream");
     fbIframe.src =
-        "https://www.facebook.com/plugins/video.php?href=" +
+        "https://www.facebook.com/plugins/page.php?href=" +
         encodeURIComponent(FACEBOOK_PAGE_URL) +
-        "&show_text=false&autoplay=true";
+        "&tabs=live&width=500&height=280&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true";
 
     /* ===== STATUS LOGIC ===== */
     const badge = document.getElementById("statusBadge");
