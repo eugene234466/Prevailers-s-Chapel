@@ -1,142 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Live Stream | Prevailers Chapel International</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-/* ===== RESET ===== */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Segoe UI", Tahoma, sans-serif; background:linear-gradient(to bottom, #f8fafc, #e0e7ff); min-height:100vh; color:#1e293b; }
-nav { background:linear-gradient(135deg, #1e3a8a, #0369a1); padding:18px; }
-nav ul { list-style:none; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
-nav a { color:white; text-decoration:none; font-weight:600; padding:8px 16px; border-radius:8px; }
-nav a.active, nav a:hover { background: rgba(255,255,255,0.25); }
-.container { max-width:1200px; margin:auto; padding:40px 20px; }
-.hero { text-align:center; margin-bottom:40px; }
-.status-badge { display:inline-flex; align-items:center; gap:10px; padding:10px 24px; border-radius:25px; font-weight:700; margin-bottom:15px; }
-.live { background:#dc2626; color:white; }
-.offline { background:#64748b; color:white; }
-.live-dot { width:10px; height:10px; background:white; border-radius:50%; animation:blink 1s infinite; }
-@keyframes blink { 50% { opacity:0.3; } }
-h1 { font-size:40px; color:#1e3a8a; margin-bottom:10px; }
-.subtitle { max-width:700px; margin:auto; font-size:18px; color:#475569; }
-.video-card { background:white; padding:25px; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
-.video-wrapper { position:relative; width:100%; padding-bottom:56.25%; border-radius:14px; overflow:hidden; background:#1e3a8a; display:flex; align-items:center; justify-content:center; }
-.video-wrapper iframe { position:absolute; width:100%; height:100%; border:none; }
-#offlinePlaceholder { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; font-size:20px; text-align:center; gap:10px; padding:20px; }
-.video-info { margin-top:25px; }
-.video-info h2 { color:#1e3a8a; margin-bottom:10px; }
-.video-meta { display:flex; gap:20px; flex-wrap:wrap; font-weight:600; color:#64748b; margin-bottom:15px; }
-.video-desc { line-height:1.8; color:#475569; }
-.replay-btn { display:none; margin-top:20px; width:100%; padding:14px; background:linear-gradient(135deg, #1e3a8a, #3b82f6); color:white; border:none; border-radius:10px; font-size:16px; font-weight:700; cursor:pointer; }
-.replay-btn:hover { transform:translateY(-2px); }
-.additional-msg { margin-top:15px; font-size:16px; color:#1e293b; text-align:center; }
-.additional-msg a { color:#1e3a8a; font-weight:600; text-decoration:underline; }
-@media (max-width:768px){ h1{font-size:32px;} }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Stream - Prevailers Chapel International</title>
+    <style>
+        /* ===== RESET ===== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f8fafc; color:#1e293b; }
+        a { color:#1e3a8a; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+
+        /* ===== NAV ===== */
+        nav {
+            background: #1e3a8a;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul { list-style:none; display:flex; justify-content:center; gap:30px; flex-wrap:wrap; max-width:1200px; margin:0 auto; }
+        nav a { color:white; font-weight:600; padding:8px 16px; border-radius:5px; transition:0.3s; }
+        nav a.active, nav a:hover { background: rgba(255,255,255,0.2); }
+
+        /* ===== CONTAINER ===== */
+        .livestream-container { max-width:1400px; margin:0 auto; padding:40px 20px; }
+
+        /* ===== HERO ===== */
+        .hero { text-align:center; margin-bottom:50px; }
+        .live-badge { display:inline-flex; align-items:center; gap:10px; background:#dc2626; color:white; padding:10px 25px; border-radius:30px; font-weight:700; font-size:18px; margin-bottom:20px; animation:pulse 2s infinite; }
+        .live-dot { width:12px; height:12px; background:white; border-radius:50%; animation:blink 1s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
+        .subtitle { color:#64748b; font-size:20px; max-width:800px; margin:0 auto 30px; line-height:1.6; }
+
+        /* ===== GRID ===== */
+        .content-grid { display:grid; grid-template-columns:1fr 350px; gap:30px; margin-bottom:50px; }
+        @media(max-width:1024px){ .content-grid{grid-template-columns:1fr;} }
+
+        /* ===== VIDEO SECTION ===== */
+        .video-section { background:white; border-radius:15px; padding:20px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
+        .video-wrapper { position:relative; width:100%; padding-bottom:56.25%; border-radius:10px; overflow:hidden; background:#000; }
+        .video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+        .video-info { margin-top:25px; }
+        .video-info h2 { color:#1e3a8a; font-size:28px; margin-bottom:15px; }
+        .video-meta { display:flex; gap:20px; flex-wrap:wrap; color:#64748b; font-size:16px; margin-bottom:20px; }
+        .video-meta span { display:flex; align-items:center; gap:8px; }
+        .video-description { color:#475569; line-height:1.8; font-size:16px; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar { display:flex; flex-direction:column; gap:25px; }
+        .sidebar-card { background:white; border-radius:15px; padding:25px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
+        .sidebar-card h3 { color:#1e3a8a; font-size:22px; margin-bottom:15px; }
+        .sidebar-card p { color:#64748b; line-height:1.6; margin-bottom:15px; }
+
+        /* Schedule */
+        .schedule-item { padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:12px; }
+        .schedule-day { color:#1e3a8a; font-weight:700; font-size:16px; margin-bottom:5px; }
+        .schedule-time { color:#475569; font-size:14px; }
+
+        /* Share buttons */
+        .share-buttons { display:flex; gap:10px; flex-wrap:wrap; }
+        .share-btn { flex:1; min-width:120px; background:#1e3a8a; color:white; border:none; padding:12px 20px; border-radius:8px; font-weight:600; cursor:pointer; text-align:center; transition:0.3s; }
+        .share-btn:hover { background:#1e40af; transform:translateY(-2px); }
+        .share-btn.facebook { background:#1877f2; } .share-btn.facebook:hover { background:#0c5dbd; }
+        .share-btn.twitter { background:#1da1f2; } .share-btn.twitter:hover { background:#0d8bd9; }
+        .share-btn.whatsapp { background:#25d366; } .share-btn.whatsapp:hover { background:#1fb855; }
+
+        /* Prayer */
+        .prayer-input { width:100%; padding:12px; border:2px solid #e2e8f0; border-radius:8px; font-size:14px; resize:vertical; min-height:100px; font-family:inherit; }
+        .prayer-input:focus { outline:none; border-color:#1e3a8a; }
+        .submit-btn { width:100%; background:#1e3a8a; color:white; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer; margin-top:10px; transition:0.3s; }
+        .submit-btn:hover { background:#1e40af; }
+
+        /* INFO CARDS */
+        .info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; margin-top:50px; }
+        .info-card { background:white; padding:35px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.1); text-align:center; }
+        .info-icon { font-size:48px; margin-bottom:20px; }
+        .info-card h3 { color:#1e3a8a; font-size:24px; margin-bottom:15px; }
+        .info-card p { color:#64748b; line-height:1.6; }
+
+        @media(max-width:768px){
+            h1{font-size:32px;}
+            nav ul{gap:15px;}
+            nav a{font-size:14px; padding:6px 12px;}
+            .livestream-container{padding:30px 15px;}
+            .sidebar{grid-template-columns:1fr;}
+        }
+    </style>
 </head>
 <body>
+    <!-- NAV -->
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="livestream.html" class="active">Live Stream</a></li>
+            <li><a href="devotional.html">Devotional</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
 
-<!-- NAV -->
-<nav>
-<ul>
-<li><a href="home.html">Home</a></li>
-<li><a href="livestream.html" class="active">Live Stream</a></li>
-<li><a href="devotional.html">Devotional</a></li>
-<li><a href="events.html">Events</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a href="contact.html">Contact</a></li>
-</ul>
-</nav>
+    <div class="livestream-container">
+        <!-- HERO -->
+        <div class="hero">
+            <div class="live-badge">
+                <div class="live-dot"></div>
+                LIVE NOW
+            </div>
+            <h1>Watch Our Service Live</h1>
+            <p class="subtitle">
+                Join us from anywhere in the world as we worship together and experience God's presence
+            </p>
+        </div>
 
-<div class="container">
+        <!-- GRID -->
+        <div class="content-grid">
+            <!-- VIDEO -->
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <!-- Only Sunday 8AM Facebook Live -->
+                    <iframe 
+                        src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FYOUR_PAGE%2Fvideos%2FYOUR_VIDEO_ID%2F&show_text=false&width=560&t=0" 
+                        width="560" height="314" style="border:none;overflow:hidden" 
+                        scrolling="no" frameborder="0" allowfullscreen="true" 
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <h2>Sunday Worship Service</h2>
+                    <div class="video-meta">
+                        <span>📅 Sunday</span>
+                        <span>⏰ 8:00 AM GMT</span>
+                        <span>👥 500+ Watching</span>
+                    </div>
+                    <p class="video-description">
+                        Welcome to Prevailers Chapel International! Whether at home or around the world, 
+                        you are part of our family. Get ready for powerful worship and an encounter with God.
+                    </p>
+                </div>
+            </div>
 
-<!-- HERO -->
-<div class="hero">
-<div id="statusBadge" class="status-badge offline">
-⏰ Next Service: Sunday 8:00 AM GMT
-</div>
-<h1>Watch Our Service Live</h1>
-<p class="subtitle">Join us wherever you are and worship with Prevailers Chapel International.</p>
-</div>
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <!-- Share -->
+                <div class="sidebar-card">
+                    <h3>📢 Share This Stream</h3>
+                    <div class="share-buttons">
+                        <button class="share-btn facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href),'_blank','width=600,height=400')">Facebook</button>
+                        <button class="share-btn twitter" onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(window.location.href),'_blank','width=600,height=400')">Twitter</button>
+                        <button class="share-btn whatsapp" onclick="window.open('https://wa.me/?text='+encodeURIComponent('Join us for live worship at Prevailers Chapel International! '+window.location.href),'_blank')">WhatsApp</button>
+                    </div>
+                </div>
 
-<!-- VIDEO -->
-<div class="video-card">
-<div class="video-wrapper">
-<iframe id="fbStream" src="" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
-<div id="offlinePlaceholder">
-📺 No Live Stream Currently<br>⏰ Check back at Sunday 8:00 AM GMT
-</div>
-</div>
+                <!-- Schedule -->
+                <div class="sidebar-card">
+                    <h3>📅 Service Times</h3>
+                    <div class="schedule-item">
+                        <div class="schedule-day">Sunday Worship</div>
+                        <div class="schedule-time">8:00 AM GMT</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-day">Wednesday Bible Study</div>
+                        <div class="schedule-time">6:30 PM GMT</div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-day">Friday Prayer</div>
+                        <div class="schedule-time">6:30 PM GMT</div>
+                    </div>
+                </div>
 
-<div class="video-info">
-<h2>Sunday Worship Service</h2>
-<div class="video-meta">
-<span>📅 Sunday</span>
-<span>⏰ 8:00 AM GMT</span>
-<span>🌍 Worldwide</span>
-</div>
-<p class="video-desc">
-Welcome to Prevailers Chapel International — where nobodies are made somebody through the Word of God.
-</p>
+                <!-- Prayer -->
+                <div class="sidebar-card">
+                    <h3>🙏 Prayer Request</h3>
+                    <textarea class="prayer-input" id="prayerRequest" placeholder="Share your prayer request here..."></textarea>
+                    <button class="submit-btn" onclick="submitPrayer()">Submit Prayer</button>
+                </div>
+            </div>
+        </div>
 
-<!-- Additional messages -->
-<div class="additional-msg">
-<!-- Comment encouragement -->
-💬 Can't watch? <a id="fbPageLink" href="#" target="_blank">Visit our Facebook page</a> and join the conversation!<br>
-<!-- First-timer form -->
-🙌 First time here? <a href="https://yourchurchformlink.com" target="_blank">Fill our first-timer form</a> to stay connected.
-</div>
-</div>
+        <!-- INFO CARDS -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-icon">📱</div>
+                <h3>Can't Watch Live?</h3>
+                <p>No worries! All our services are saved and available for replay on our 
+                    <a href="https://www.facebook.com/YOUR_PAGE/" target="_blank">Facebook page</a>.
+                </p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">💬</div>
+                <h3>Join the Conversation</h3>
+                <p>Connect with other viewers in the live chat! Share testimonies, ask questions, and fellowship together on our 
+                    <a href="https://www.facebook.com/YOUR_PAGE/" target="_blank">Facebook page</a>.
+                </p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">❤️</div>
+                <h3>First Time Visiting?</h3>
+                <p>We're so glad you're here! <a href="https://yourchurchformlink.com" target="_blank">Fill our first-timer form</a> to stay connected and let us serve you better.</p>
+            </div>
+        </div>
+    </div>
 
-</div>
-</div>
-
-<script>
-// ===== CONFIG =====
-const FACEBOOK_PAGE_URL = "https://www.facebook.com/profile.php?id=6158508941603"; // Replace with your FB page URL
-const FIRST_TIMER_FORM = "https://yourchurchformlink.com"; // Replace with your actual first-timer form
-
-const fbIframe = document.getElementById("fbStream");
-const badge = document.getElementById("statusBadge");
-const offlinePlaceholder = document.getElementById("offlinePlaceholder");
-const fbPageLink = document.getElementById("fbPageLink");
-
-fbPageLink.href = FACEBOOK_PAGE_URL;
-
-function updateLiveStatus() {
-    const now = new Date();
-    const day = now.getUTCDay(); // Sunday = 0
-    const hour = now.getUTCHours();
-
-    // Live window: Sunday 8:00–8:59 AM GMT
-    const isLive = (day === 0 && hour === 8);
-
-    if (isLive) {
-        badge.className = "status-badge live";
-        badge.innerHTML = '<span class="live-dot"></span> LIVE NOW';
-        fbIframe.style.display = "block";
-        offlinePlaceholder.style.display = "none";
-
-        // Load/reload iframe if not loaded
-        if (!fbIframe.src || fbIframe.src.indexOf(FACEBOOK_PAGE_URL) === -1) {
-            fbIframe.src = "https://www.facebook.com/plugins/video.php?href=" +
-                            encodeURIComponent(FACEBOOK_PAGE_URL) +
-                            "&show_text=false&autoplay=true";
+    <script>
+        // Prayer submission
+        function submitPrayer(){
+            const prayer = document.getElementById('prayerRequest').value.trim();
+            if(!prayer){ alert('Please enter your prayer request.'); return; }
+            const churchEmail = 'prayer@prevailedchapel.org'; // <-- Change to your email
+            const subject = encodeURIComponent('Prayer Request from Website');
+            const body = encodeURIComponent('Prayer Request:\n\n'+prayer);
+            window.location.href = `mailto:${churchEmail}?subject=${subject}&body=${body}`;
+            alert('Thank you! Your default email client has opened to send the prayer request.');
+            document.getElementById('prayerRequest').value='';
         }
-    } else {
-        badge.className = "status-badge offline";
-        badge.textContent = "⏰ Next Service: Sunday 8:00 AM GMT";
-        fbIframe.style.display = "none";
-        offlinePlaceholder.style.display = "flex";
-    }
-}
-
-// Initial check + repeat every 30s
-updateLiveStatus();
-setInterval(updateLiveStatus, 30000);
-</script>
-
+    </script>
 </body>
 </html>
