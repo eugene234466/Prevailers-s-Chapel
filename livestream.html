@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        /* ---------- RESET ---------- */
+        /* ===== RESET ===== */
         * {
             margin: 0;
             padding: 0;
@@ -20,7 +20,7 @@
             color: #1e293b;
         }
 
-        /* ---------- NAV ---------- */
+        /* ===== NAV ===== */
         nav {
             background: linear-gradient(135deg, #1e3a8a, #0369a1);
             padding: 18px;
@@ -35,7 +35,7 @@
         }
 
         nav a {
-            color: #fff;
+            color: white;
             text-decoration: none;
             font-weight: 600;
             padding: 8px 16px;
@@ -47,14 +47,14 @@
             background: rgba(255,255,255,0.25);
         }
 
-        /* ---------- CONTAINER ---------- */
+        /* ===== LAYOUT ===== */
         .container {
             max-width: 1200px;
             margin: auto;
             padding: 40px 20px;
         }
 
-        /* ---------- HERO ---------- */
+        /* ===== HERO ===== */
         .hero {
             text-align: center;
             margin-bottom: 40px;
@@ -105,7 +105,7 @@
             color: #475569;
         }
 
-        /* ---------- VIDEO ---------- */
+        /* ===== VIDEO ===== */
         .video-card {
             background: white;
             padding: 25px;
@@ -152,7 +152,7 @@
             color: #475569;
         }
 
-        /* ---------- REPLAY BUTTON ---------- */
+        /* ===== REPLAY ===== */
         .replay-btn {
             display: none;
             margin-top: 20px;
@@ -171,7 +171,6 @@
             transform: translateY(-2px);
         }
 
-        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 768px) {
             h1 { font-size: 32px; }
         }
@@ -226,11 +225,11 @@
             </div>
 
             <p class="video-desc">
-                Welcome to Prevailers Chapel International — a place where nobodies
+                Welcome to Prevailers Chapel International — where nobodies
                 are made somebody through the Word of God.
             </p>
 
-            <button id="replayBtn" class="replay-btn" onclick="playLastService()">
+            <button id="replayBtn" class="replay-btn" onclick="reloadStream()">
                 ▶ Watch Last Service
             </button>
         </div>
@@ -238,35 +237,31 @@
 </div>
 
 <script>
-    /* ===============================
-       CONFIG (ONLY CHANGE THIS)
-    =============================== */
-    const FACEBOOK_PAGE_ID = "949944515870857";
+    /* =================================================
+       🔁 ONLY CHANGE THIS LINE
+    ================================================= */
+    const FACEBOOK_PAGE_URL = "REPLACE_WITH_YOUR_FACEBOOK_PAGE_URL";
 
-    /* ===============================
-       FACEBOOK EMBED
-    =============================== */
+    /* ===== FACEBOOK EMBED ===== */
     const fbIframe = document.getElementById("fbStream");
     fbIframe.src =
         "https://www.facebook.com/plugins/video.php?href=" +
-        encodeURIComponent("https://www.facebook.com/pages/" + FACEBOOK_PAGE_ID) +
-        "&show_text=false";
+        encodeURIComponent(FACEBOOK_PAGE_URL) +
+        "&show_text=false&autoplay=true";
 
-    /* ===============================
-       STATUS LOGIC
-    =============================== */
+    /* ===== STATUS LOGIC ===== */
     const badge = document.getElementById("statusBadge");
     const replayBtn = document.getElementById("replayBtn");
 
     function checkServiceTime() {
         const now = new Date();
-        const day = now.getUTCDay();   // 0 = Sunday
+        const day = now.getUTCDay();
         const hour = now.getUTCHours();
 
         const isLive =
-            (day === 0 && hour >= 8 && hour < 10) ||   // Sunday
-            (day === 3 && hour >= 18 && hour < 20) ||  // Wednesday
-            (day === 5 && hour >= 18 && hour < 20);    // Friday
+            (day === 0 && hour >= 8 && hour < 10) ||
+            (day === 3 && hour >= 18 && hour < 20) ||
+            (day === 5 && hour >= 18 && hour < 20);
 
         if (isLive) {
             badge.className = "status-badge live";
@@ -279,8 +274,8 @@
         }
     }
 
-    function playLastService() {
-        fbIframe.src = fbIframe.src; // reload
+    function reloadStream() {
+        fbIframe.src = fbIframe.src;
         fbIframe.scrollIntoView({ behavior: "smooth" });
     }
 
