@@ -6,142 +6,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        /* RESET */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Verdana, Geneva, sans-serif; background: #f8fafc; }
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* NAV */
+        body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* ===== NAV ===== */
         nav {
             background: #1e3a8a;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding: 18px;
         }
+
         nav ul {
             list-style: none;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
         }
+
         nav a {
             color: white;
             text-decoration: none;
             font-weight: 600;
             padding: 8px 16px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        nav a:hover, nav a.active {
-            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
         }
 
-        /* CONTAINER */
-        .livestream-container {
-            max-width: 1400px;
+        nav a.active,
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 1600px;
             margin: auto;
             padding: 40px 20px;
         }
 
-        /* HERO */
+        /* ===== HERO ===== */
         .hero {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
+
         .live-badge {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             background: #dc2626;
             color: white;
-            padding: 10px 25px;
+            padding: 10px 26px;
             border-radius: 30px;
             font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
+            margin-bottom: 15px;
         }
-        @keyframes pulse { 0%, 100% { opacity:1; } 50% { opacity:0.7; } }
+
         .live-dot {
-            width:12px; height:12px; background:white; border-radius:50%; animation:blink 1s infinite;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
         }
-        @keyframes blink { 0%,100%{opacity:1;}50%{opacity:0.3;} }
 
-        h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
-        .subtitle { color:#64748b; font-size:20px; max-width:800px; margin:auto 0 30px; }
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
 
-        /* GRID */
+        h1 {
+            font-size: 38px;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #475569;
+            max-width: 750px;
+            margin: auto;
+            font-size: 18px;
+        }
+
+        /* ===== GRID ===== */
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 350px;
-            gap:30px;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
         }
-        @media(max-width:1024px){ .content-grid { grid-template-columns:1fr; } }
 
-        /* VIDEO */
-        .video-section {
-            background:white; border-radius:15px; padding:20px; box-shadow:0 5px 20px rgba(0,0,0,0.1);
+        /* ===== VIDEO ===== */
+        .video-card {
+            background: white;
+            padding: 20px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
+
         .video-wrapper {
-            position:relative; width:100%; padding-bottom:56.25%; overflow:hidden; border-radius:10px; background:#000;
+            position: relative;
+            width: 100%;
+            padding-bottom: 62%;
+            background: black;
+            border-radius: 14px;
+            overflow: hidden;
         }
-        iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
 
-        .video-info { margin-top:25px; }
-        .video-info h2 { color:#1e3a8a; font-size:28px; margin-bottom:15px; }
-        .video-meta { display:flex; gap:20px; flex-wrap:wrap; color:#64748b; font-size:16px; margin-bottom:20px; }
-        .video-meta span { display:flex; align-items:center; gap:8px; }
-        .video-description { line-height:1.8; color:#475569; font-size:16px; }
-
-        /* SIDEBAR */
-        .sidebar { display:flex; flex-direction:column; gap:25px; }
-        .sidebar-card { background:white; border-radius:15px; padding:25px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
-        .sidebar-card h3 { color:#1e3a8a; font-size:22px; margin-bottom:15px; }
-        .sidebar-card p { color:#64748b; line-height:1.6; }
-
-        .btn {
-            display:block; text-align:center; padding:12px; background:#1e3a8a; color:white; border-radius:8px;
-            font-weight:600; text-decoration:none; margin-top:10px;
+        .video-wrapper iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-        .btn:hover { background:#1e40af; }
 
-        /* SERVICE SCHEDULE */
-        .schedule-item { padding:15px; background:#f8fafc; border-radius:10px; margin-bottom:12px; }
-        .schedule-day { color:#1e3a8a; font-weight:700; font-size:16px; }
-        .schedule-time { color:#475569; font-size:14px; }
-
-        /* SHARE BUTTONS */
-        .share-buttons { display:flex; gap:10px; flex-wrap:wrap; }
-        .share-btn {
-            flex:1; min-width:120px; background:#1e3a8a; color:white; border:none;
-            padding:12px 20px; border-radius:8px; font-weight:600; cursor:pointer;
-            text-align:center; transition:0.3s;
+        .fullscreen-btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 14px;
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
         }
-        .share-btn:hover { background:#1e40af; }
-        .share-btn.facebook { background:#1877f2; }
-        .share-btn.twitter { background:#1da1f2; }
-        .share-btn.whatsapp { background:#25d366; }
 
-        .share-btn.facebook:hover { background:#0c5dbd; }
-        .share-btn.twitter:hover { background:#0d8bd9; }
-        .share-btn.whatsapp:hover { background:#1fb855; }
+        .fullscreen-btn:hover {
+            background: #1e40af;
+        }
 
-        /* INFO CARDS */
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-card p {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .fb-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #1877f2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* ===== INFO CARDS ===== */
         .info-grid {
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-            gap:25px;
-            margin-top:50px;
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
+
         .info-card {
-            background:white; padding:30px;
-            border-radius:15px; text-align:center;
-            box-shadow:0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-        .info-card h3 { color:#1e3a8a; font-size:24px; margin-bottom:15px; }
-        .info-card p { color:#475569; line-height:1.6; }
+
+        .info-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .info-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -157,112 +233,100 @@
     </ul>
 </nav>
 
-<div class="livestream-container">
+<div class="container">
 
-    <!-- HERO -->
     <div class="hero">
         <div class="live-badge">
-            <div class="live-dot"></div> LIVE NOW
+            <span class="live-dot"></span> LIVE STREAM
         </div>
         <h1>Watch Our Service Live</h1>
-        <p class="subtitle">Join us from anywhere and experience God’s presence.</p>
+        <p class="subtitle">
+            Join us wherever you are and worship with Prevailers Chapel International.
+        </p>
     </div>
 
     <div class="content-grid">
 
         <!-- VIDEO -->
-        <div class="video-section">
-            <div class="video-wrapper">
-                <!-- EMBED YOUR FACEBOOK VIDEO HERE -->
+        <div class="video-card">
+            <div class="video-wrapper" id="videoBox">
                 <iframe
-                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fdebby.kutu1%2Fvideos%2F33389165857363383%2F&show_text=false&width=560"
-                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fdebby.kutu1%2Fvideos%2F33389165857363383%2F&show_text=false"
+                    allow="autoplay; encrypted-media; picture-in-picture"
                     allowfullscreen>
                 </iframe>
             </div>
-            <div class="video-info">
-                <h2>Special Message</h2>
-                <div class="video-meta">
-                    <span>📅 Recorded Video</span>
-                    <span>⏰ Available Anytime</span>
-                </div>
-                <p class="video-description">
-                    This video is embedded from Facebook for now. When you go live regularly,
-                    we can update this to your live embed code automatically.
-                </p>
-            </div>
+
+            <button class="fullscreen-btn" onclick="openFullscreen()">
+                ⛶ Full Screen
+            </button>
         </div>
 
         <!-- SIDEBAR -->
         <div class="sidebar">
-
-            <!-- Share Section -->
             <div class="sidebar-card">
-                <h3>📢 Share This Stream</h3>
-                <p>Invite friends and family to join us!</p>
-                <div class="share-buttons">
-                    <button class="share-btn facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href),'_blank','width=600,height=400')">Facebook</button>
-                    <button class="share-btn twitter" onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(window.location.href),'_blank','width=600,height=400')">Twitter</button>
-                    <button class="share-btn whatsapp" onclick="window.open('https://wa.me/?text='+encodeURIComponent('Watch this video! '+window.location.href),'_blank')">WhatsApp</button>
-                </div>
+                <h3>💬 Can’t Comment?</h3>
+                <p>
+                    Comments are available directly on Facebook.
+                    Click below to join the conversation live.
+                </p>
+                <a class="fb-link" href="https://www.facebook.com/debby.kutu1" target="_blank">
+                    Open on Facebook →
+                </a>
             </div>
 
-            <!-- Service Schedule -->
             <div class="sidebar-card">
-                <h3>📅 Service Times</h3>
-                <div class="schedule-item">
-                    <div class="schedule-day">Sunday Worship</div>
-                    <div class="schedule-time">8:00 AM GMT</div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-day">Wednesday Bible Study</div>
-                    <div class="schedule-time">6:30 PM GMT</div>
-                </div>
-                <div class="schedule-item">
-                    <div class="schedule-day">Friday Prayer</div>
-                    <div class="schedule-time">6:30 PM GMT</div>
-                </div>
+                <h3>❤️ First Time Worshipping With Us?</h3>
+                <p>
+                    We’re glad you’re here! Please fill our church connect form
+                    so we can stay in touch with you.
+                </p>
             </div>
-
-            <!-- Prayer Request -->
-            <div class="sidebar-card">
-                <h3>🙏 Prayer Request</h3>
-                <textarea class="prayer-input" id="prayerRequest" placeholder="Share your prayer request here..."></textarea>
-                <button class="submit-btn" onclick="submitPrayer()">Submit Prayer</button>
-            </div>
-
         </div>
     </div>
 
-    <!-- INFO CARDS -->
+    <!-- INFO -->
     <div class="info-grid">
         <div class="info-card">
-            <h3>📱 Can't Watch Live?</h3>
-            <p>All our services are saved on our Facebook page for replay.</p>
+            <div class="info-icon">📱</div>
+            <h3>Missed the Live Service?</h3>
+            <p>
+                All services are automatically saved on our Facebook page
+                and can be watched anytime.
+            </p>
         </div>
 
         <div class="info-card">
-            <h3>💬 Join the Conversation</h3>
-            <p>Visit our Facebook page to comment, share testimonies, and connect with others.</p>
+            <div class="info-icon">🙏</div>
+            <h3>Prayer Requests</h3>
+            <p>
+                Send us your prayer requests and our prayer team will
+                intercede with you.
+            </p>
         </div>
 
         <div class="info-card">
-            <h3>❤️ First Time Visiting?</h3>
-            <p>We're glad you're here! <a href="https://yourchurchformlink.com" target="_blank">Fill our first-timer form</a> to stay connected.</p>
+            <div class="info-icon">⏰</div>
+            <h3>Service Time</h3>
+            <p>
+                Sunday Worship Service<br>
+                8:00 AM (GMT)
+            </p>
         </div>
     </div>
-
 </div>
 
 <script>
-function submitPrayer(){
-    const text = document.getElementById('prayerRequest').value.trim();
-    if(!text){ alert('Please enter something to submit.'); return; }
-    const email = 'prayer@prevailedchapel.org';
-    const subject = encodeURIComponent('Prayer Request');
-    const body = encodeURIComponent(text);
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-}
+    function openFullscreen() {
+        const video = document.getElementById("videoBox");
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+            video.msRequestFullscreen();
+        }
+    }
 </script>
 
 </body>
