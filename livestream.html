@@ -1,83 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Live Stream | Prevailers Chapel International</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Live Stream | Prevailers Chapel International</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            font-family: "Segoe UI", Tahoma, sans-serif;
-            background: linear-gradient(to bottom, #f8fafc, #e0e7ff);
-            color: #1e293b;
-            min-height: 100vh;
-        }
-        nav {
-            background: linear-gradient(135deg, #1e3a8a, #0369a1);
-            padding:18px;
-        }
-        nav ul { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; list-style:none; }
-        nav a {
-            color:white; text-decoration:none; font-weight:600; padding:8px 16px; border-radius:8px;
-        }
-        nav a.active, nav a:hover { background:rgba(255,255,255,0.25); }
+<style>
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(to bottom, #f8fafc, #e0e7ff);
+        min-height: 100vh;
+        color: #1e293b;
+    }
 
-        .container { max-width:1200px; margin:auto; padding:40px 20px; }
-        .hero { text-align:center; margin-bottom:40px; }
+    /* ===== NAV ===== */
+    nav {
+        background: linear-gradient(135deg, #1e3a8a, #0369a1);
+        padding: 18px;
+    }
+    nav ul { list-style: none; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    nav a { color: white; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 8px; }
+    nav a.active, nav a:hover { background: rgba(255,255,255,0.25); }
 
-        .status-badge {
-            display:inline-flex; align-items:center; gap:10px;
-            padding:10px 24px; border-radius:25px; font-weight:700; margin-bottom:15px;
-        }
-        .live { background:#dc2626; color:white; }
-        .offline { background:#64748b; color:white; }
+    /* ===== LAYOUT ===== */
+    .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
 
-        .live-dot {
-            width:10px; height:10px; background:white; border-radius:50%;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink { 50%{ opacity:0.3; } }
+    /* ===== HERO ===== */
+    .hero { text-align: center; margin-bottom: 40px; }
+    .status-badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 24px; border-radius: 25px; font-weight: 700; margin-bottom: 15px; }
+    .live { background: #dc2626; color: white; }
+    .offline { background: #64748b; color: white; }
+    .live-dot { width: 10px; height: 10px; background: white; border-radius: 50%; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.3; } }
+    h1 { font-size: 40px; color: #1e3a8a; margin-bottom: 10px; }
+    .subtitle { max-width: 700px; margin: auto; font-size: 18px; color: #475569; }
 
-        h1 { font-size:40px; color:#1e3a8a; margin-bottom:10px; }
-        .subtitle { max-width:700px; margin:auto; font-size:18px; color:#475569; }
+    /* ===== VIDEO ===== */
+    .video-card { background: white; padding: 25px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: 14px; overflow: hidden; background: #1e3a8a; }
+    .video-wrapper iframe { position: absolute; width: 100%; height: 100%; border: none; }
+    .video-info { margin-top: 25px; }
+    .video-info h2 { color: #1e3a8a; margin-bottom: 10px; }
+    .video-meta { display: flex; gap: 20px; flex-wrap: wrap; font-weight: 600; color: #64748b; margin-bottom: 15px; }
+    .video-desc { line-height: 1.8; color: #475569; }
 
-        .video-card {
-            background:white; padding:25px; border-radius:18px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.1);
-        }
+    /* ===== REPLAY ===== */
+    .replay-btn { display: none; margin-top: 20px; width: 100%; padding: 14px; background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; }
+    .replay-btn:hover { transform: translateY(-2px); }
 
-        .video-wrapper {
-            position:relative; width:100%; padding-bottom:56.25%;
-            border-radius:14px; overflow:hidden; background:#1e3a8a;
-        }
-        .video-wrapper iframe {
-            position:absolute; width:100%; height:100%; border:none;
-        }
-
-        .video-info { margin-top:25px; }
-        .video-info h2 { color:#1e3a8a; margin-bottom:10px; }
-        .video-meta {
-            display:flex; gap:20px; flex-wrap:wrap;
-            font-weight:600; color:#64748b; margin-bottom:15px;
-        }
-        .video-desc { line-height:1.8; color:#475569; }
-
-        .replay-btn {
-            display:none; margin-top:20px; width:100%;
-            padding:14px; background:linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color:white; border:none; border-radius:10px;
-            font-size:16px; font-weight:700; cursor:pointer;
-        }
-        .replay-btn:hover { transform:translateY(-2px); }
-
-        @media(max-width:768px) {
-            h1 { font-size:32px; }
-        }
-    </style>
+    @media (max-width: 768px) { h1 { font-size: 32px; } }
+</style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
     <ul>
         <li><a href="home.html">Home</a></li>
@@ -90,89 +68,82 @@
 </nav>
 
 <div class="container">
+    <!-- HERO -->
     <div class="hero">
-        <div id="statusBadge" class="status-badge offline">
-            ⏰ Next Service: Sunday 8:00 AM GMT
-        </div>
-
+        <div id="statusBadge" class="status-badge offline">⏰ Next Service: Sunday 8:00 AM GMT</div>
         <h1>Watch Our Service Live</h1>
-        <p class="subtitle">
-            Join us wherever you are and worship with Prevailers Chapel International.
-        </p>
+        <p class="subtitle">Join us wherever you are and worship with Prevailers Chapel International.</p>
     </div>
 
+    <!-- VIDEO -->
     <div class="video-card">
         <div class="video-wrapper">
-            <iframe
-                id="fbStream"
-                src=""
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
+            <iframe id="fbStream" src="" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
 
         <div class="video-info">
             <h2>Sunday Worship Service</h2>
-
             <div class="video-meta">
                 <span>📅 Sunday</span>
                 <span>⏰ 8:00 AM GMT</span>
                 <span>🌍 Worldwide</span>
             </div>
-
             <p class="video-desc">
-                Welcome to Prevailers Chapel International — where nobodies
-                are made somebody through the Word of God.
+                Welcome to Prevailers Chapel International — where nobodies are made somebody through the Word of God.
             </p>
-
-            <button id="replayBtn" class="replay-btn" onclick="reloadStream()">
-                ▶ Watch Last Service
-            </button>
+            <button id="replayBtn" class="replay-btn" onclick="playLastService()">▶ Watch Last Service</button>
         </div>
     </div>
 </div>
 
 <script>
-    /* -------- REPLACE THIS WITH YOUR PAGE LINK (JUST ONCE) -------- */
+    /* ===============================
+       🔹 CONFIG
+    =============================== */
     const FACEBOOK_PAGE_URL = "https://www.facebook.com/profile.php?id=6158508941603";
+    const LAST_VIDEO_URL = "https://www.facebook.com/share/p/1CLoeTCfLt/";
 
     const fbIframe = document.getElementById("fbStream");
-    fbIframe.src =
-        "https://www.facebook.com/plugins/page.php?href=" +
-        encodeURIComponent(FACEBOOK_PAGE_URL) +
-        "&tabs=live&width=560&height=315&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true";
-
     const badge = document.getElementById("statusBadge");
     const replayBtn = document.getElementById("replayBtn");
 
+    /* ===== LIVE PAGE EMBED ===== */
+    function loadLive() {
+        fbIframe.src = "https://www.facebook.com/plugins/page.php?href=" + encodeURIComponent(FACEBOOK_PAGE_URL) + "&tabs=videos&show_text=false&autoplay=true";
+    }
+
+    /* ===== LAST VIDEO EMBED ===== */
+    function playLastService() {
+        fbIframe.src = "https://www.facebook.com/plugins/video.php?href=" + encodeURIComponent(LAST_VIDEO_URL) + "&show_text=false&autoplay=true";
+        fbIframe.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /* ===== STATUS LOGIC ===== */
     function checkServiceTime() {
         const now = new Date();
         const day = now.getUTCDay();
         const hour = now.getUTCHours();
 
         const isLive =
-            (day === 0 && hour >=8 && hour <10) ||
-            (day === 3 && hour >=18 && hour <20) ||
-            (day === 5 && hour >=18 && hour <20);
+            (day === 0 && hour >= 8 && hour < 10) ||
+            (day === 3 && hour >= 18 && hour < 20) ||
+            (day === 5 && hour >= 18 && hour < 20);
 
         if (isLive) {
             badge.className = "status-badge live";
             badge.innerHTML = '<span class="live-dot"></span> LIVE NOW';
             replayBtn.style.display = "none";
+            loadLive();
         } else {
             badge.className = "status-badge offline";
             badge.textContent = "⏰ Next Service: Sunday 8:00 AM GMT";
             replayBtn.style.display = "block";
+            loadLive(); // optional: still show the page with videos tab
         }
     }
 
-    function reloadStream() {
-        fbIframe.src = fbIframe.src;
-        fbIframe.scrollIntoView({behavior:"smooth"});
-    }
-
     checkServiceTime();
-    setInterval(checkServiceTime,60000);
+    setInterval(checkServiceTime, 60000);
 </script>
 
 </body>
