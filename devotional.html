@@ -1,364 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Devotional - Prevailed Chapel International</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devotional - Prevailed Chapel International</title>
+  <style>
+    /* ----------------- ORIGINAL CSS RESTORED ----------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
-/* === START: Your Original CSS (Restored) === */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom, #f8fafc 0%, #e0e7ff 100%);
-    min-height: 100vh;
-}
-nav {
-    background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-}
-nav a:hover, nav a.active {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-}
-.devotional-container {
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 60px 20px;
-}
-.devotional-header {
-    text-align: center;
-    margin-bottom: 50px;
-    animation: fadeInDown 0.8s ease-out;
-}
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-h1 {
-    color: #1e3a8a;
-    font-size: 52px;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-.subtitle {
-    color: #475569;
-    font-size: 20px;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
-}
-.verse-section {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-    color: white;
-    padding: 60px 50px;
-    border-radius: 20px;
-    margin-bottom: 40px;
-    box-shadow: 0 15px 40px rgba(30, 58, 138, 0.3);
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-.verse-section::before {
-    content: '✨';
-    position: absolute;
-    font-size: 200px;
-    opacity: 0.1;
-    top: -50px;
-    right: -50px;
-    animation: float 6s ease-in-out infinite;
-}
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.verse-section h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-}
-.verse-content {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 15px;
-    border-left: 5px solid rgba(255, 255, 255, 0.8);
-    position: relative;
-}
-.verse-text {
-    font-size: 24px;
-    line-height: 1.9;
-    font-style: italic;
-    margin-bottom: 25px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-.verse-reference {
-    font-size: 19px;
-    font-weight: 700;
-    text-align: right;
-    opacity: 0.95;
-}
-.devotional-card {
-    background: white;
-    padding: 60px 50px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-    border-top: 5px solid #1e3a8a;
-}
-.devotional-card h2 {
-    color: #1e3a8a;
-    font-size: 36px;
-    margin-bottom: 25px;
-    line-height: 1.3;
-}
-.devotional-meta {
-    color: #64748b;
-    font-size: 16px;
-    margin-bottom: 35px;
-    padding-bottom: 25px;
-    border-bottom: 3px solid #f1f5f9;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-.devotional-meta strong {
-    color: #1e3a8a;
-}
-.devotional-card p {
-    color: #475569;
-    font-size: 19px;
-    line-height: 2;
-    margin-bottom: 25px;
-    text-align: justify;
-}
-.devotional-card h3 {
-    color: #1e3a8a;
-    font-size: 26px;
-    margin: 40px 0 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.devotional-card ul {
-    margin-left: 30px;
-    color: #475569;
-}
-.devotional-card li {
-    margin: 15px 0;
-    line-height: 1.8;
-    font-size: 18px;
-    padding-left: 10px;
-}
-.devotional-card li::marker {
-    color: #1e3a8a;
-    font-weight: bold;
-}
-.prayer-box {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    padding: 40px;
-    border-radius: 15px;
-    margin-top: 40px;
-    border-left: 5px solid #f59e0b;
-    box-shadow: 0 5px 15px rgba(245, 158, 11, 0.2);
-}
-.prayer-box h3 {
-    margin-top: 0;
-    color: #92400e;
-}
-.prayer-text {
-    font-style: italic;
-    color: #78350f;
-    line-height: 1.9;
-    font-size: 18px;
-}
-.share-section {
-    text-align: center;
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 3px solid #f1f5f9;
-}
-.share-btn-main {
-    background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
-    color: white;
-    border: none;
-    padding: 16px 40px;
-    border-radius: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 18px;
-    box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-.share-btn-main:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
-}
-.share-btn-main:active {
-    transform: translateY(-1px);
-}
-@media (max-width: 768px) {
-    h1 { font-size: 38px; }
-    nav ul { gap: 12px; }
-    nav a { font-size: 14px; padding: 8px 14px; }
-    .devotional-container { padding: 40px 15px; }
-    .verse-section, .devotional-card { padding: 35px 25px; }
-    .verse-text { font-size: 20px; }
-    .devotional-card h2 { font-size: 28px; }
-    .devotional-card p { font-size: 17px; }
-    .devotional-meta { flex-direction: column; gap: 10px; }
-}
-/* === END: Original CSS === */
-</style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #f8fafc 0%, #e0e7ff 100%);
+      min-height: 100vh;
+    }
 
+    /* Navigation */
+    nav {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    nav a:hover, nav a.active {
+      background: rgba(255,255,255,0.25);
+      transform: translateY(-2px);
+    }
+
+    /* Container */
+    .devotional-container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    /* Header */
+    .devotional-header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: #1e3a8a;
+      font-size: 52px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .subtitle {
+      color: #475569;
+      font-size: 20px;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Verse of the Day */
+    .verse-section {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      padding: 60px 50px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 15px 40px rgba(30,58,138,0.3);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .verse-section::before {
+      content:'✨';
+      position: absolute;
+      font-size: 200px;
+      opacity: 0.1;
+      top: -50px;
+      right: -50px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .verse-section h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    .verse-content {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 15px;
+      border-left: 5px solid rgba(255,255,255,0.8);
+      position: relative;
+    }
+
+    .verse-text {
+      font-size: 24px;
+      line-height: 1.9;
+      font-style: italic;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .verse-reference {
+      font-size: 19px;
+      font-weight: 700;
+      text-align: right;
+      opacity: 0.95;
+    }
+
+    /* Daily Devotional Card */
+    .devotional-card {
+      background: white;
+      padding: 60px 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+      border-top: 5px solid #1e3a8a;
+    }
+
+    .devotional-card h2 {
+      color: #1e3a8a;
+      font-size: 36px;
+      margin-bottom: 25px;
+      line-height: 1.3;
+    }
+
+    .devotional-meta {
+      color: #64748b;
+      font-size: 16px;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 3px solid #f1f5f9;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .devotional-meta strong { color: #1e3a8a; }
+
+    .devotional-card p {
+      color: #475569;
+      font-size: 19px;
+      line-height: 2;
+      margin-bottom: 25px;
+      text-align: justify;
+    }
+
+    .devotional-card h3 {
+      color: #1e3a8a;
+      font-size: 26px;
+      margin: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .devotional-card ul {
+      margin-left: 30px;
+      color: #475569;
+    }
+
+    .devotional-card li {
+      margin: 15px 0;
+      line-height: 1.8;
+      font-size: 18px;
+      padding-left: 10px;
+    }
+
+    .devotional-card li::marker {
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+
+    /* Prayer Box */
+    .prayer-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      padding: 40px;
+      border-radius: 15px;
+      margin-top: 40px;
+      border-left: 5px solid #f59e0b;
+      box-shadow: 0 5px 15px rgba(245,158,11,0.2);
+    }
+
+    .prayer-box h3 { margin-top: 0; color: #92400e; }
+
+    .prayer-text {
+      font-style: italic;
+      color: #78350f;
+      line-height: 1.9;
+      font-size: 18px;
+    }
+
+    /* Share Button */
+    .share-section {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 3px solid #f1f5f9;
+    }
+
+    .share-btn-main {
+      background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 18px;
+      box-shadow: 0 5px 15px rgba(30,58,138,0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .share-btn-main:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(30,58,138,0.4); }
+    .share-btn-main:active { transform: translateY(-1px); }
+
+    /* Responsive */
+    @media (max-width:768px){
+      h1{font-size:38px;}
+      nav ul{gap:12px;}
+      nav a{font-size:14px;padding:8px 14px;}
+      .devotional-container{padding:40px 15px;}
+      .verse-section,.devotional-card{padding:35px 25px;}
+      .verse-text{font-size:20px;}
+      .devotional-card h2{font-size:28px;}
+      .devotional-card p{font-size:17px;}
+      .devotional-meta{flex-direction:column;gap:10px;}
+    }
+  </style>
 </head>
 <body>
-<nav>
-<ul>
-<li><a href="home.html">Home</a></li>
-<li><a href="livestream.html">Live Stream</a></li>
-<li><a href="devotional.html" class="active">Devotional</a></li>
-<li><a href="events.html">Events</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a href="contact.html">Contact</a></li>
-</ul>
-</nav>
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="livestream.html">Live Stream</a></li>
+      <li><a href="devotional.html" class="active">Devotional</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-<div class="devotional-container">
-<div class="devotional-header">
-<h1>📖 Daily Devotional</h1>
-<p class="subtitle">Start your day with God's Word. Let Scripture guide, encourage, and strengthen you.</p>
-</div>
+  <!-- Devotional Container -->
+  <div class="devotional-container">
 
-<!-- Verse -->
-<div class="verse-section" id="verseBox">
-<div class="verse-content">
-<p class="verse-text">Loading verse...</p>
-<p class="verse-reference"></p>
-</div>
-</div>
+    <!-- Header -->
+    <div class="devotional-header">
+      <h1>📖 Daily Devotional</h1>
+      <p class="subtitle">
+        Start your day with God's Word. Let Scripture guide, encourage, and strengthen you.
+      </p>
+    </div>
 
-<!-- Devotional Card -->
-<div class="devotional-card">
-<h2 id="devotionalTitle">Loading devotional...</h2>
-<div class="devotional-meta">
-<span><strong>Date:</strong> <span id="currentDate"></span></span>
-<span><strong>Key Verse:</strong> <span id="keyVerseRef"></span></span>
-</div>
-<div id="devotionalContent">
-<p style="text-align:center;">Loading content...</p>
-</div>
+    <!-- Verse Section -->
+    <div class="verse-section" id="verseBox">
+      <h2>✨ Verse of the Day</h2>
+      <div class="verse-content">
+        <p class="verse-text">Loading...</p>
+        <p class="verse-reference"></p>
+      </div>
+    </div>
 
-<h3>💭 Reflection Questions</h3>
-<ul id="reflectionQuestions"><li>Loading...</li></ul>
+    <!-- Devotional Card -->
+    <div class="devotional-card">
+      <h2 id="devotionalTitle">Loading...</h2>
+      <div class="devotional-meta">
+        <span><strong>Date:</strong> <span id="currentDate"></span></span>
+        <span><strong>Key Verse:</strong> <span id="keyVerseRef"></span></span>
+      </div>
 
-<div class="prayer-box">
-<h3>🙏 Prayer for Today</h3>
-<p class="prayer-text" id="dailyPrayer">Loading prayer...</p>
-</div>
+      <div id="devotionalContent">
+        <p style="text-align:center;">Loading devotional content...</p>
+      </div>
 
-<div class="share-section">
-<button class="share-btn-main" onclick="shareDevotional()">📤 Share Today's Devotional</button>
-</div>
-</div>
-</div>
+      <h3>💭 Reflection Questions</h3>
+      <ul id="reflectionQuestions">
+        <li>Loading questions...</li>
+      </ul>
 
-<script>
-// Shortcut
-const $ = id => document.getElementById(id);
+      <div class="prayer-box">
+        <h3>🙏 Prayer for Today</h3>
+        <p class="prayer-text" id="dailyPrayer">Loading prayer...</p>
+      </div>
 
-// Date
-const today = new Date();
-$('currentDate').textContent = today.toDateString();
+      <div class="share-section">
+        <button class="share-btn-main" onclick="shareDevotional()">
+          <span>📤</span> Share Today's Devotional
+        </button>
+      </div>
+    </div>
+  </div>
 
-// Load Open Heavens
-async function loadOpenHeavens() {
-    try {
+  <script>
+    // Utility
+    function $(id){ return document.getElementById(id); }
+    function decodeHTML(html){
+      const txt = document.createElement('textarea');
+      txt.innerHTML = html;
+      return txt.value;
+    }
+
+    // Set Date
+    const date = new Date();
+    $('currentDate').textContent = date.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+    // Load Open Heavens Devotional
+    async function loadDevotional(){
+      try {
         const res = await fetch('https://openheavens.com/wp-json/wp/v2/posts?per_page=1');
         const data = await res.json();
         const post = data[0];
-        const verse = post.title.rendered;
-        const content = post.content.rendered;
-        const prayer = post.excerpt.rendered;
+        const verse = decodeHTML(post.title.rendered);
+        const content = decodeHTML(post.content.rendered);
+        const prayer = decodeHTML(post.excerpt.rendered);
 
         $('devotionalTitle').textContent = verse;
         $('keyVerseRef').textContent = verse;
         $('verseBox').querySelector('.verse-text').textContent = verse;
         $('verseBox').querySelector('.verse-reference').textContent = verse;
         $('devotionalContent').innerHTML = content;
-        $('dailyPrayer').innerHTML = prayer;
+        $('dailyPrayer').textContent = prayer;
 
-        // Reflection questions (simple split into sentences)
-        const questions = content.split(/\.|\?|!/).filter(q => q.trim()!=="");
-        const ul = $('reflectionQuestions');
-        ul.innerHTML = "";
-        questions.slice(0,4).forEach(q=>{
-            const li = document.createElement('li');
-            li.textContent = q.trim()+"?";
-            ul.appendChild(li);
+        // Reflection Questions (take first 4 sentences)
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        const textContent = tempDiv.textContent || tempDiv.innerText || "";
+        const sentences = textContent.split(/[\.\?\!]/).filter(s => s.trim() !== "");
+        $('reflectionQuestions').innerHTML = "";
+        sentences.slice(0,4).forEach(s=>{
+          const li = document.createElement('li');
+          li.textContent = s.trim() + "?";
+          $('reflectionQuestions').appendChild(li);
         });
 
-    } catch(e){
-        console.error(e);
-        $('devotionalTitle').textContent="Devotional unavailable";
-        $('devotionalContent').innerHTML="<p>Please try again later.</p>";
-        $('dailyPrayer').textContent="Please try again later.";
-        $('reflectionQuestions').innerHTML="<li>Unable to load reflection questions</li>";
+      } catch(err){
+        console.error(err);
+        $('devotionalTitle').textContent = "Unable to load devotional";
+        $('devotionalContent').innerHTML = "<p>Please try again later.</p>";
+        $('dailyPrayer').textContent = "Please try again later.";
+        $('reflectionQuestions').innerHTML = "<li>Unable to load reflection questions</li>";
+      }
     }
-}
 
-// Share
-function shareDevotional() {
-    const verse = $('verseBox').querySelector('.verse-text').textContent;
-    const url = window.location.href;
-    const text = `Today's Devotional - ${verse}\n\nRead the full devotional at Prevailed Chapel International`;
+    // Share Button
+    function shareDevotional(){
+      const verse = $('.verse-text') ? $('.verse-text').textContent : '';
+      const shareText = `Today's Devotional\n\n${verse}\n\nRead more at Prevailed Chapel International`;
+      const shareUrl = window.location.href;
 
-    if(navigator.share){
-        navigator.share({title:'Daily Devotional', text, url});
-    } else {
-        navigator.clipboard.writeText(text+"\n"+url);
-        alert("✅ Devotional copied to clipboard! You can now share it anywhere.");
+      if(navigator.share){
+        navigator.share({title:'Daily Devotional', text:shareText, url:shareUrl});
+      } else {
+        navigator.clipboard.writeText(shareText + "\n" + shareUrl).then(()=>{
+          alert("✅ Devotional copied to clipboard!");
+        }).catch(()=>{
+          alert("❌ Unable to copy. Please try manually.");
+        });
+      }
     }
-}
 
-// Load page
-window.onload = loadOpenHeavens;
-</script>
-
+    window.addEventListener('load', loadDevotional);
+  </script>
 </body>
 </html>
