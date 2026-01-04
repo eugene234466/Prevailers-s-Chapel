@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Live Stream | Prevailers Chapel International</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream - Prevailed Chapel International</title>
-    <link rel="icon" href="3.JPG">
-    <meta name="description" content="Watch Prevailed Chapel International's live worship services online. Join us for powerful worship and life-changing messages.">
+
     <style>
-        /* Reset */
+        /* ---------- RESET ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -15,318 +14,279 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #f8fafc 0%, #e0e7ff 100%);
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            background: linear-gradient(to bottom, #f8fafc, #e0e7ff);
             min-height: 100vh;
+            color: #1e293b;
         }
 
-        /* Navigation */
+        /* ---------- NAV ---------- */
         nav {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: linear-gradient(135deg, #1e3a8a, #0369a1);
+            padding: 18px;
         }
 
         nav ul {
             list-style: none;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         nav a {
-            color: white;
+            color: #fff;
             text-decoration: none;
             font-weight: 600;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
         }
 
-        nav a:hover, nav a.active {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+        nav a.active,
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
         }
 
-        /* Container */
-        .livestream-container {
-            max-width: 1400px;
-            margin: 0 auto;
+        /* ---------- CONTAINER ---------- */
+        .container {
+            max-width: 1200px;
+            margin: auto;
             padding: 40px 20px;
         }
 
-        /* Hero Section */
+        /* ---------- HERO ---------- */
         .hero {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
-        .live-badge, .offline-badge {
+        .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 30px;
-            border-radius: 30px;
+            padding: 10px 24px;
+            border-radius: 25px;
             font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
         }
 
-        .live-badge {
+        .live {
             background: #dc2626;
             color: white;
-            animation: pulse 2s infinite;
         }
 
-        .live-badge .live-dot {
-            width: 12px;
-            height: 12px;
+        .offline {
+            background: #64748b;
+            color: white;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
             background: white;
             border-radius: 50%;
             animation: blink 1s infinite;
         }
 
-        .offline-badge {
-            background: #64748b;
-            color: white;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
         @keyframes blink {
-            0%,100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
 
         h1 {
+            font-size: 40px;
             color: #1e3a8a;
-            font-size: 52px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .subtitle {
+            max-width: 700px;
+            margin: auto;
+            font-size: 18px;
             color: #475569;
-            font-size: 20px;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
         }
 
-        /* Grid Layout */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
-        }
-
-        /* Video Section */
-        .video-section {
+        /* ---------- VIDEO ---------- */
+        .video-card {
             background: white;
-            border-radius: 20px;
             padding: 25px;
+            border-radius: 18px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .video-wrapper {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 */
-            border-radius: 15px;
+            padding-bottom: 56.25%;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background: #1e3a8a;
         }
 
         .video-wrapper iframe {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        /* Sidebar */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+        .video-info {
+            margin-top: 25px;
         }
 
-        .sidebar-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-top: 5px solid #1e3a8a;
-        }
-
-        .sidebar-card h3 {
+        .video-info h2 {
             color: #1e3a8a;
-            font-size: 24px;
-            margin-bottom: 18px;
+            margin-bottom: 10px;
         }
 
-        .sidebar-card p {
-            color: #64748b;
-            line-height: 1.7;
-            font-size: 16px;
-        }
-
-        /* Share Buttons */
-        .share-buttons {
+        .video-meta {
             display: flex;
-            gap: 12px;
+            gap: 20px;
             flex-wrap: wrap;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 15px;
         }
 
-        .share-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
+        .video-desc {
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        /* ---------- REPLAY BUTTON ---------- */
+        .replay-btn {
+            display: none;
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
             border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
         }
 
-        .share-btn.facebook { background: #1877f2; }
-        .share-btn.twitter { background: #1da1f2; }
-        .share-btn.whatsapp { background: #25d366; }
-
-        .share-btn.facebook:hover { background: #0c5dbd; }
-        .share-btn.twitter:hover { background: #0d8bd9; }
-        .share-btn.whatsapp:hover { background: #1fb855; }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .content-grid { grid-template-columns: 1fr; }
+        .replay-btn:hover {
+            transform: translateY(-2px);
         }
 
+        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 768px) {
-            h1 { font-size: 36px; }
-            nav ul { gap: 12px; }
-            nav a { font-size: 14px; padding: 8px 14px; }
-            .content-grid { gap: 20px; }
+            h1 { font-size: 32px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="livestream.html" class="active">Live Stream</a></li>
-            <li><a href="devotional.html">Devotional</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
 
-    <div class="livestream-container">
-        <!-- Hero -->
-        <div class="hero">
-            <div id="statusBadge" class="offline-badge">
-                ⏰ Next Service: Sunday 8:00 AM GMT
-            </div>
-            <h1>Watch Our Service Live</h1>
-            <p class="subtitle">Join us from anywhere in the world as we worship together and experience God's presence</p>
+<!-- NAV -->
+<nav>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="livestream.html" class="active">Live Stream</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div id="statusBadge" class="status-badge offline">
+            ⏰ Next Service: Sunday 8:00 AM GMT
         </div>
 
-        <!-- Main Grid -->
-        <div class="content-grid">
-            <!-- Video Section -->
-            <div class="video-section">
-                <div class="video-wrapper">
-                    <iframe 
-                        src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/YOUR_PAGE_NAME&show_text=false&width=560" 
-                        allowfullscreen="true" 
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Share -->
-                <div class="sidebar-card">
-                    <h3>📢 Share This Stream</h3>
-                    <p>Invite friends and family to join us!</p>
-                    <div class="share-buttons">
-                        <button class="share-btn facebook" onclick="shareOnFacebook()">Facebook</button>
-                        <button class="share-btn twitter" onclick="shareOnTwitter()">Twitter</button>
-                        <button class="share-btn whatsapp" onclick="shareOnWhatsApp()">WhatsApp</button>
-                    </div>
-                </div>
-
-                <!-- Service Schedule -->
-                <div class="sidebar-card">
-                    <h3>📅 Service Times</h3>
-                    <p>Sunday Worship: 8:00 AM GMT</p>
-                    <p>Wednesday Bible Study: 6:30 PM GMT</p>
-                    <p>Friday Prayer: 6:30 PM GMT</p>
-                </div>
-            </div>
-        </div>
+        <h1>Watch Our Service Live</h1>
+        <p class="subtitle">
+            Join us wherever you are and worship with Prevailers Chapel International.
+        </p>
     </div>
 
-    <script>
-        // Share functions
-        function shareOnFacebook() {
-            const url = encodeURIComponent(window.location.href);
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank','width=600,height=400');
+    <!-- VIDEO -->
+    <div class="video-card">
+        <div class="video-wrapper">
+            <iframe
+                id="fbStream"
+                src=""
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="video-info">
+            <h2>Sunday Worship Service</h2>
+
+            <div class="video-meta">
+                <span>📅 Sunday</span>
+                <span>⏰ 8:00 AM GMT</span>
+                <span>🌍 Worldwide</span>
+            </div>
+
+            <p class="video-desc">
+                Welcome to Prevailers Chapel International — a place where nobodies
+                are made somebody through the Word of God.
+            </p>
+
+            <button id="replayBtn" class="replay-btn" onclick="playLastService()">
+                ▶ Watch Last Service
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ===============================
+       CONFIG (ONLY CHANGE THIS)
+    =============================== */
+    const FACEBOOK_PAGE_ID = "949944515870857";
+
+    /* ===============================
+       FACEBOOK EMBED
+    =============================== */
+    const fbIframe = document.getElementById("fbStream");
+    fbIframe.src =
+        "https://www.facebook.com/plugins/video.php?href=" +
+        encodeURIComponent("https://www.facebook.com/pages/" + FACEBOOK_PAGE_ID) +
+        "&show_text=false";
+
+    /* ===============================
+       STATUS LOGIC
+    =============================== */
+    const badge = document.getElementById("statusBadge");
+    const replayBtn = document.getElementById("replayBtn");
+
+    function checkServiceTime() {
+        const now = new Date();
+        const day = now.getUTCDay();   // 0 = Sunday
+        const hour = now.getUTCHours();
+
+        const isLive =
+            (day === 0 && hour >= 8 && hour < 10) ||   // Sunday
+            (day === 3 && hour >= 18 && hour < 20) ||  // Wednesday
+            (day === 5 && hour >= 18 && hour < 20);    // Friday
+
+        if (isLive) {
+            badge.className = "status-badge live";
+            badge.innerHTML = '<span class="live-dot"></span> LIVE NOW';
+            replayBtn.style.display = "none";
+        } else {
+            badge.className = "status-badge offline";
+            badge.textContent = "⏰ Next Service: Sunday 8:00 AM GMT";
+            replayBtn.style.display = "block";
         }
+    }
 
-        function shareOnTwitter() {
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent('Join us for live worship at Prevailed Chapel International!');
-            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank','width=600,height=400');
-        }
+    function playLastService() {
+        fbIframe.src = fbIframe.src; // reload
+        fbIframe.scrollIntoView({ behavior: "smooth" });
+    }
 
-        function shareOnWhatsApp() {
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent('Join us for live worship at Prevailed Chapel International! ');
-            window.open(`https://wa.me/?text=${text}${url}`, '_blank');
-        }
+    checkServiceTime();
+    setInterval(checkServiceTime, 60000);
+</script>
 
-        // Service time badge
-        function checkServiceTime() {
-            const now = new Date();
-            const day = now.getUTCDay();
-            const hours = now.getUTCHours();
-
-            const isSundayService = (day === 0 && hours >= 8 && hours < 10);
-            const isWednesdayService = (day === 3 && hours >= 18 && hours < 20);
-            const isFridayService = (day === 5 && hours >= 18 && hours < 20);
-
-            const badge = document.getElementById('statusBadge');
-
-            if (isSundayService || isWednesdayService || isFridayService) {
-                badge.className = 'live-badge';
-                badge.innerHTML = '<div class="live-dot"></div> LIVE NOW';
-            } else {
-                badge.className = 'offline-badge';
-                badge.innerHTML = '⏰ Next Service: Sunday 8:00 AM GMT';
-            }
-        }
-
-        checkServiceTime();
-        setInterval(checkServiceTime, 60000);
-    </script>
 </body>
 </html>
