@@ -2,27 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Live Stream | Prevailed Chapel International</title>
-
+    <title>Live Stream | Prevailers Chapel International</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        /* ===== RESET ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f9;
-            color: #333;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
         }
 
-        /* NAVIGATION */
+        /* ===== NAV ===== */
         nav {
             background: #1e3a8a;
-            padding: 15px 20px;
+            padding: 18px;
         }
 
         nav ul {
@@ -34,68 +33,185 @@
         }
 
         nav a {
-            color: #fff;
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-            padding: 6px 12px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: 0.3s;
         }
 
-        nav a.active {
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
+        nav a.active,
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
         }
 
-        /* MAIN CONTAINER */
+        /* ===== LAYOUT ===== */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: auto;
-            padding: 30px 15px;
+            padding: 40px 20px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #dc2626;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0.3; }
         }
 
         h1 {
-            text-align: center;
+            font-size: 38px;
             color: #1e3a8a;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            text-align: center;
+            color: #475569;
+            font-size: 18px;
+            max-width: 780px;
+            margin: auto;
             margin-bottom: 30px;
-            color: #555;
         }
 
-        /* VIDEO */
+        /* ===== GRID ===== */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 1024px) {
+            .content-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== VIDEO ===== */
+        .video-card {
+            background: white;
+            padding: 20px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
         .video-wrapper {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 62%;
             background: #000;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
         .video-wrapper iframe {
             position: absolute;
-            inset: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        /* INFO BOXES */
+        .video-info {
+            margin-top: 22px;
+        }
+
+        .video-info h2 {
+            color: #1e3a8a;
+            font-size: 26px;
+            margin-bottom: 14px;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        .video-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .video-description {
+            color: #475569;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .fb-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #1877f2;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .fb-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== INFO CARDS ===== */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+            gap: 25px;
+            margin-top: 50px;
         }
 
         .info-card {
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
         .info-card h3 {
@@ -104,99 +220,117 @@
         }
 
         .info-card p {
+            color: #475569;
             line-height: 1.6;
-        }
-
-        .info-card a {
-            color: #1877f2;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: #777;
-            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- NAV -->
-    <nav>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="livestream.html" class="active">Live Stream</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
+<nav>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="livestream.html" class="active">Live Stream</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
 
-    <!-- CONTENT -->
-    <div class="container">
+<div class="container">
 
-        <h1>Sunday Worship Service</h1>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="live-badge">
+            <span class="live-dot"></span> Featured Video
+        </div>
+        <h1>Special Message</h1>
         <p class="subtitle">
-            Join us live every Sunday at <strong>8:00 AM GMT</strong>
+            Here is your Facebook video embedded directly — watch below.
         </p>
-
-        <!-- FACEBOOK VIDEO EMBED -->
-        <div class="video-wrapper">
-            <iframe
-                src="https://www.facebook.com/plugins/video.php?
-                href=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fv%2F1C9jXvP46M%2F
-                &show_text=false"
-                allowfullscreen="true"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-            </iframe>
-        </div>
-
-        <!-- INFO SECTION -->
-        <div class="info-grid">
-
-            <div class="info-card">
-                <h3>💬 Want to Comment or React?</h3>
-                <p>
-                    Facebook requires you to be logged in to interact.
-                    If you can’t comment here, please visit our Facebook page directly.
-                </p>
-                <p>
-                    👉 <a href="https://www.facebook.com/profile.php?id=6158508941603" target="_blank">
-                        Open Facebook Page
-                    </a>
-                </p>
-            </div>
-
-            <div class="info-card">
-                <h3>📺 Can’t Watch Right Now?</h3>
-                <p>
-                    No problem! This service will be available for replay
-                    on our Facebook page after the live stream ends.
-                </p>
-            </div>
-
-            <div class="info-card">
-                <h3>❤️ First Time Worshipping With Us?</h3>
-                <p>
-                    You are welcome! We’d love to connect with you.
-                    Please fill our church form so we can reach out.
-                </p>
-                <p>
-                    👉 <a href="contact.html" target="_blank">
-                        Fill Visitor Form
-                    </a>
-                </p>
-            </div>
-
-        </div>
-
-        <footer>
-            © Prevailed Chapel International • Built with ❤️ and passion
-        </footer>
-
     </div>
+
+    <!-- MAIN GRID -->
+    <div class="content-grid">
+
+        <!-- VIDEO -->
+        <div class="video-card">
+            <div class="video-wrapper">
+                <iframe
+                    src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/debby.kutu1/videos/33389165857363383/&show_text=false"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="video-info">
+                <h2>Recorded Facebook Video</h2>
+                <div class="video-meta">
+                    <span>📅 Shared Video</span>
+                    <span>💻 Facebook Embed</span>
+                </div>
+                <p class="video-description">
+                    This video is embedded directly from Facebook using the correct video URL.
+                    If this video is public, it will play here. Otherwise, open it on Facebook.
+                </p>
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+
+            <div class="sidebar-card">
+                <h3>💬 Can’t Comment?</h3>
+                <p>
+                    Facebook requires interaction on their platform.
+                    If you want to comment or react, you can visit the source on Facebook.
+                </p>
+                <a class="fb-link"
+                   href="https://www.facebook.com/debby.kutu1/videos/33389165857363383/"
+                   target="_blank">
+                    Open Video on Facebook
+                </a>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>❤️ First Time Visiting?</h3>
+                <p>
+                    We’re glad you’re here! Let us know how we can connect with you.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- INFO CARDS -->
+    <div class="info-grid">
+        <div class="info-card">
+            <h3>📱 Missed the Live Stream?</h3>
+            <p>
+                All services are automatically saved on our Facebook page for you to watch anytime.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>🙏 Prayer Requests</h3>
+            <p>
+                Got a request? You can send it to our team — we’re praying with you.
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h3>⏰ Service Times</h3>
+            <p>
+                Sunday Worship – 8:00 AM GMT<br>
+                Wednesday Study – 6:30 PM GMT<br>
+                Friday Prayer – 6:30 PM GMT
+            </p>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
