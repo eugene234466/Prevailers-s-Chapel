@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Devotional - Prevailed Chapel International</title>
+
 <style>
 /* ------------------------ */
 /* Base & Body Styling      */
@@ -70,19 +71,12 @@ nav a.active {
 .devotional-header {
     text-align: center;
     margin-bottom: 50px;
-    animation: fadeInDown 0.8s ease-out;
-}
-
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to   { opacity: 1; transform: translateY(0); }
 }
 
 h1 {
     color: #1e3a8a;
     font-size: 52px;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
 .subtitle {
@@ -103,29 +97,6 @@ h1 {
     border-radius: 20px;
     margin-bottom: 40px;
     box-shadow: 0 15px 40px rgba(30,58,138,0.3);
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.verse-section::before {
-    content: '✨';
-    position: absolute;
-    font-size: 200px;
-    opacity: 0.1;
-    top: -50px;
-    right: -50px;
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%,100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes fadeInUp {
-    from { opacity:0; transform: translateY(30px);}
-    to { opacity:1; transform: translateY(0);}
 }
 
 .verse-section h2 {
@@ -136,7 +107,6 @@ h1 {
 
 .verse-content {
     background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 15px;
     border-left: 5px solid rgba(255,255,255,0.8);
@@ -147,14 +117,12 @@ h1 {
     line-height: 1.9;
     font-style: italic;
     margin-bottom: 25px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .verse-reference {
     font-size: 19px;
     font-weight: 700;
     text-align: right;
-    opacity: 0.95;
 }
 
 /* ------------------------ */
@@ -166,7 +134,6 @@ h1 {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     margin-bottom: 40px;
-    animation: fadeInUp 0.8s ease-out 0.4s both;
     border-top: 5px solid #1e3a8a;
 }
 
@@ -174,7 +141,6 @@ h1 {
     color: #1e3a8a;
     font-size: 36px;
     margin-bottom: 25px;
-    line-height: 1.3;
 }
 
 .devotional-meta {
@@ -188,22 +154,11 @@ h1 {
     flex-wrap: wrap;
 }
 
-.devotional-meta strong {
-    color: #1e3a8a;
-}
-
 .devotional-card p {
     color: #475569;
     font-size: 19px;
     line-height: 2;
     margin-bottom: 25px;
-    text-align: justify;
-}
-
-.devotional-card h3 {
-    color: #1e3a8a;
-    font-size: 26px;
-    margin: 40px 0 20px;
 }
 
 .devotional-card ul {
@@ -215,12 +170,6 @@ h1 {
     margin: 15px 0;
     line-height: 1.8;
     font-size: 18px;
-    padding-left: 10px;
-}
-
-.devotional-card li::marker {
-    color: #1e3a8a;
-    font-weight: bold;
 }
 
 /* ------------------------ */
@@ -232,12 +181,6 @@ h1 {
     border-radius: 15px;
     margin-top: 40px;
     border-left: 5px solid #f59e0b;
-    box-shadow: 0 5px 15px rgba(245,158,11,0.2);
-}
-
-.prayer-box h3 {
-    margin-top: 0;
-    color: #92400e;
 }
 
 .prayer-text {
@@ -265,33 +208,11 @@ h1 {
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s;
     font-size: 18px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 5px 15px rgba(30,58,138,0.3);
-}
-
-.share-btn-main:hover { transform: translateY(-3px); }
-.share-btn-main:active { transform: translateY(-1px); }
-
-/* ------------------------ */
-/* Responsive               */
-/* ------------------------ */
-@media (max-width:768px){
-    h1 { font-size:38px; }
-    nav ul { gap:12px; }
-    nav a { font-size:14px; padding:8px 14px; }
-    .devotional-container { padding:40px 15px; }
-    .verse-section, .devotional-card { padding:35px 25px; }
-    .verse-text { font-size:20px; }
-    .devotional-card h2 { font-size:28px; }
-    .devotional-card p { font-size:17px; }
-    .devotional-meta { flex-direction:column; gap:10px; }
 }
 </style>
 </head>
+
 <body>
 
 <!-- Navigation Bar -->
@@ -307,6 +228,7 @@ h1 {
 </nav>
 
 <div class="devotional-container">
+
   <!-- Header -->
   <div class="devotional-header">
     <h1>📖 Daily Devotional</h1>
@@ -316,11 +238,12 @@ h1 {
   <!-- Verse of the Day -->
   <div class="verse-section">
     <h2>✨ Verse of the Day</h2>
-    <div id="verseOfDay" class="loading">Loading today's verse...</div>
+    <div id="verseOfDay">Loading today's verse...</div>
   </div>
 
   <!-- Daily Devotional Card -->
   <div class="devotional-card">
+
     <h2 id="devotionalTitle">Loading...</h2>
 
     <div class="devotional-meta">
@@ -343,63 +266,75 @@ h1 {
     </div>
 
     <div class="share-section">
-      <button class="share-btn-main" onclick="shareDevotional()">
-        <span>📤</span> Share Today's Devotional
-      </button>
+      <button class="share-btn-main" onclick="shareDevotional()">📤 Share Today's Devotional</button>
     </div>
+
   </div>
 </div>
 
 <script>
 // Set current date
-document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+document.getElementById('currentDate').textContent = new Date().toLocaleDateString(
+  'en-US',
+  { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }
+);
 
-// Open Heavens Verse
-const verseText = "The Lord will open the heavens for you and bless your work.";
-const verseRef  = "Open Heavens - Daily Devotional";
+// Fetch verse from OurManna API
+fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
+  .then(res => res.json())
+  .then(data => {
+    const verseText = data.verse.details.text;
+    const verseRef  = data.verse.details.reference;
 
-document.getElementById('verseOfDay').innerHTML = `
-  <div class="verse-content">
-    <p class="verse-text">"${verseText}"</p>
-    <p class="verse-reference">- ${verseRef}</p>
-  </div>
-`;
-document.getElementById('keyVerseRef').textContent = verseRef;
+    document.getElementById('verseOfDay').innerHTML = `
+      <div class="verse-content">
+        <p class="verse-text">"${verseText}"</p>
+        <p class="verse-reference">- ${verseRef}</p>
+      </div>
+    `;
 
-// Devotional Content
-document.getElementById('devotionalTitle').textContent = "Reflection on Open Heavens";
+    document.getElementById('keyVerseRef').textContent = verseRef;
+    document.getElementById('devotionalTitle').textContent = "Reflection on Our Manna";
 
-document.getElementById('devotionalContent').innerHTML = `
-  <p>${verseText} reminds us that God is ready to pour blessings into our lives. As we trust Him, doors of favor and prosperity are opened.</p>
-  <p>In daily life, this verse encourages patience and faith. God honors diligence and obedience, and His blessings follow.</p>
-  <p>Apply this today by working faithfully, seeking God's guidance, and trusting that He is opening the right doors for you.</p>
-`;
+    document.getElementById('devotionalContent').innerHTML = `
+      <p>Today's Our Manna reminds us that God's Word is our daily strength and direction.</p>
+      <p>"${verseText}" teaches us to trust in God's promises and walk in faith.</p>
+      <p>As you go through your day, meditate on this verse and let it guide your actions.</p>
+    `;
 
-document.getElementById('reflectionQuestions').innerHTML = `
-  <li>How can I trust God more in my work today?</li>
-  <li>What steps can I take to stay diligent and faithful?</li>
-  <li>Where do I need to wait on God to open doors?</li>
-  <li>How can I use God's blessings to help others?</li>
-`;
+    document.getElementById('reflectionQuestions').innerHTML = `
+      <li>What is God teaching me through this verse today?</li>
+      <li>How can I apply this scripture in my daily life?</li>
+      <li>What step of faith is God calling me to take?</li>
+      <li>How can I share this Word with someone today?</li>
+    `;
 
-document.getElementById('dailyPrayer').innerHTML = `
-  Heavenly Father,<br><br>
-  Thank You for the promise that You will open the heavens for me. Help me to trust Your guidance and work diligently.<br><br>
-  Give me wisdom and patience to walk in Your blessings and use them to glorify You.<br><br>
-  In Jesus' name, Amen.
-`;
+    document.getElementById('dailyPrayer').innerHTML = `
+      Heavenly Father,<br><br>
+      Thank You for today's Our Manna from Your Word.<br><br>
+      Let this scripture guide my thoughts and actions today.<br><br>
+      In Jesus' name, Amen.
+    `;
 
-// Share Devotional
-function shareDevotional(){
-  const shareText = `${verseRef}\n\n${verseText}\n\nRead the full devotional at Prevailed Chapel International`;
-  const shareUrl = window.location.href;
+    window.shareDevotional = function(){
+      const shareText = `${verseRef}\n\n${verseText}\n\nRead today's Our Manna at Prevailed Chapel International`;
+      const shareUrl = window.location.href;
 
-  if(navigator.share){
-    navigator.share({title: "Daily Devotional", text: shareText, url: shareUrl});
-  } else {
-    navigator.clipboard.writeText(shareText + "\n" + shareUrl).then(()=>alert("✅ Devotional copied to clipboard!"));
-  }
-}
+      if(navigator.share){
+        navigator.share({ title: "Our Manna", text: shareText, url: shareUrl });
+      } else {
+        navigator.clipboard.writeText(shareText + "\n" + shareUrl)
+          .then(() => alert("✅ Our Manna copied to clipboard!"));
+      }
+    };
+  })
+  .catch(err => {
+    document.getElementById('verseOfDay').innerHTML = `
+      <div class="verse-content">
+        <p class="verse-text">Unable to load today's verse. Please check your internet.</p>
+      </div>
+    `;
+  });
 </script>
 
 </body>
