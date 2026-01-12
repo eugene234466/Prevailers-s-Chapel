@@ -210,12 +210,92 @@ h1 {
     cursor: pointer;
     font-size: 18px;
 }
+
+/* ========================= */
+/* MOBILE RESPONSIVE FIXES  */
+/* ========================= */
+@media (max-width: 768px) {
+
+  nav ul { gap: 10px; }
+
+  nav a {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  h1 { font-size: 30px; }
+
+  .subtitle {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  .devotional-container {
+    padding: 40px 15px;
+  }
+
+  .verse-section {
+    padding: 30px 20px;
+  }
+
+  .verse-section h2 {
+    font-size: 22px;
+  }
+
+  .verse-content {
+    padding: 20px;
+  }
+
+  .verse-text {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .verse-reference {
+    font-size: 15px;
+  }
+
+  .devotional-card {
+    padding: 30px 20px;
+  }
+
+  .devotional-card h2 {
+    font-size: 24px;
+  }
+
+  .devotional-meta {
+    font-size: 14px;
+    gap: 10px;
+  }
+
+  .devotional-card p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .devotional-card li {
+    font-size: 16px;
+  }
+
+  .prayer-box {
+    padding: 25px;
+  }
+
+  .prayer-text {
+    font-size: 15px;
+  }
+
+  .share-btn-main {
+    width: 100%;
+    font-size: 16px;
+    padding: 14px;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- Navigation Bar -->
 <nav>
   <ul>
     <li><a href="home.html">Home</a></li>
@@ -229,19 +309,16 @@ h1 {
 
 <div class="devotional-container">
 
-  <!-- Header -->
   <div class="devotional-header">
     <h1>📖 Daily Devotional</h1>
     <p class="subtitle">Start your day with God's Word. Let Scripture guide, encourage, and strengthen you.</p>
   </div>
 
-  <!-- Verse of the Day -->
   <div class="verse-section">
     <h2>✨ Verse of the Day</h2>
     <div id="verseOfDay">Loading today's verse...</div>
   </div>
 
-  <!-- Daily Devotional Card -->
   <div class="devotional-card">
 
     <h2 id="devotionalTitle">Loading...</h2>
@@ -273,13 +350,11 @@ h1 {
 </div>
 
 <script>
-// Set current date
 document.getElementById('currentDate').textContent = new Date().toLocaleDateString(
   'en-US',
   { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }
 );
 
-// Fetch verse from OurManna API
 fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
   .then(res => res.json())
   .then(data => {
@@ -328,7 +403,7 @@ fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
       }
     };
   })
-  .catch(err => {
+  .catch(() => {
     document.getElementById('verseOfDay').innerHTML = `
       <div class="verse-content">
         <p class="verse-text">Unable to load today's verse. Please check your internet.</p>
