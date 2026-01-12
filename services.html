@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services - Prevailed Chapel International</title>
-        <link rel="icon" href="3.JPG"> 
+    <link rel="icon" href="3.JPG"> 
+
     <style>
         * {
             margin: 0;
@@ -148,97 +149,135 @@
             margin-top: 15px;
         }
 
-        /* Responsive Design */
+        /* ========================= */
+        /* MOBILE RESPONSIVE FIXES  */
+        /* ========================= */
         @media (max-width: 768px) {
+
+            nav ul { gap: 10px; }
+
+            nav a {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+
             h1 {
-                font-size: 32px;
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                margin-bottom: 30px;
+                padding: 0 10px;
+            }
+
+            .services-container {
+                padding: 30px 15px;
             }
 
             .service-card {
-                padding: 30px 20px;
+                padding: 25px 18px;
+            }
+
+            .service-card h3 {
+                font-size: 22px;
             }
 
             .service-time {
-                font-size: 28px;
+                font-size: 26px;
+            }
+
+            .service-day {
+                font-size: 16px;
+            }
+
+            .service-card p {
+                font-size: 15px;
+            }
+
+            .service-details p {
+                font-size: 14px;
+            }
+
+            .location-badge {
+                font-size: 13px;
+                padding: 6px 12px;
             }
         }
     </style>
 </head>
+
 <body>
-    <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="home.html">Home</a></li>.
-            <li><a href="livestream.html">Live Stream</a></li>
-            <li><a href="devotional.html">Devotional</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="services.html" class="active">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
 
-    <div class="services-container">
-        <h1>Our Service Times</h1>
-        <p class="subtitle">
-            Join us for worship, teaching, and fellowship as we gather together to honor God and grow in faith.
-        </p>
+<nav>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="livestream.html">Live Stream</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="services.html" class="active">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
 
-        <div class="service-times">
-            <!-- Sunday Service -->
-            <div class="service-card">
-                <div class="service-icon">⛪</div>
-                <h3>Sunday Worship Service</h3>
-                <p class="service-day">Every Sunday</p>
-                <div class="service-time">8:00 AM</div>
-                <p>
-                    Join us for powerful worship, inspiring biblical teaching, and heartfelt fellowship. 
-                    Experience God's presence as we celebrate together.
-                </p>
-                <div class="service-details">
-                    <p><strong>Duration:</strong> 2 hours</p>
-                    <p><strong>Dress Code:</strong> Come as you are</p>
-                </div>
-                <span class="location-badge">📍 Main Auditorium</span>
+<div class="services-container">
+    <h1>Our Service Times</h1>
+    <p class="subtitle">
+        Join us for worship, teaching, and fellowship as we gather together to honor God and grow in faith.
+    </p>
+
+    <div class="service-times">
+
+        <div class="service-card">
+            <div class="service-icon">⛪</div>
+            <h3>Sunday Worship Service</h3>
+            <p class="service-day">Every Sunday</p>
+            <div class="service-time">8:00 AM</div>
+            <p>
+                Join us for powerful worship, inspiring biblical teaching, and heartfelt fellowship.
+                Experience God's presence as we celebrate together.
+            </p>
+            <div class="service-details">
+                <p><strong>Duration:</strong> 2 hours</p>
+                <p><strong>Dress Code:</strong> Come as you are</p>
             </div>
-
-            <!-- Bible Study -->
-            <div class="service-card">
-                <div class="service-icon">📖</div>
-                <h3>Mid-Week Bible Study</h3>
-                <p class="service-day">Every Wednesday</p>
-                <div class="service-time">6:30 PM</div>
-                <p>
-                    Dive deep into God's Word with verse-by-verse teaching. 
-                    Grow in knowledge and understanding through interactive study and discussion.
-                </p>
-                <div class="service-details">
-                    <p><strong>Duration:</strong> 2 hours</p>
-                    <p><strong>Format:</strong> Interactive Teaching</p>
-                </div>
-                <span class="location-badge">📍 Main Auditorium</span>
-            </div>
-
-            <!-- Prayer Meeting -->
-            <div class="service-card">
-                <div class="service-icon">🙏</div>
-                <h3>Prayer Meeting</h3>
-                <p class="service-day">Every Friday</p>
-                <div class="service-time">6:30 PM</div>
-                <p>
-                    Start your day with prayer and intercession. 
-                    Join fellow believers as we seek God's face and pray for our families, church, and community.
-                </p>
-                <div class="service-details">
-                    <p><strong>Duration:</strong> 1 hour</p>
-                    <p><strong>Focus:</strong> Corporate Prayer</p>
-                </div>
-                <span class="location-badge">📍 Main Auditorium</span>
-            </div>
-
-            
-            </div>
+            <span class="location-badge">📍 Main Auditorium</span>
         </div>
-    </div>
-</body>
 
+        <div class="service-card">
+            <div class="service-icon">📖</div>
+            <h3>Mid-Week Bible Study</h3>
+            <p class="service-day">Every Wednesday</p>
+            <div class="service-time">6:30 PM</div>
+            <p>
+                Dive deep into God's Word with verse-by-verse teaching.
+                Grow in knowledge and understanding through interactive study.
+            </p>
+            <div class="service-details">
+                <p><strong>Duration:</strong> 2 hours</p>
+                <p><strong>Format:</strong> Interactive Teaching</p>
+            </div>
+            <span class="location-badge">📍 Main Auditorium</span>
+        </div>
+
+        <div class="service-card">
+            <div class="service-icon">🙏</div>
+            <h3>Prayer Meeting</h3>
+            <p class="service-day">Every Friday</p>
+            <div class="service-time">6:30 PM</div>
+            <p>
+                Start your day with prayer and intercession.
+                Join fellow believers as we seek God's face.
+            </p>
+            <div class="service-details">
+                <p><strong>Duration:</strong> 1 hour</p>
+                <p><strong>Focus:</strong> Corporate Prayer</p>
+            </div>
+            <span class="location-badge">📍 Main Auditorium</span>
+        </div>
+
+    </div>
+</div>
+
+</body>
 </html>
