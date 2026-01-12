@@ -6,50 +6,284 @@
 <title>Live Stream - Prevailed Chapel International</title>
 
 <style>
-/* YOUR ORIGINAL STYLES – UNCHANGED */
+/* ========================= */
+/* ORIGINAL STYLES          */
+/* ========================= */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8fafc; }
 
-nav { background: #1e3a8a; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-nav ul { list-style: none; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-nav a { color: white; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 5px; transition: all 0.3s; }
-nav a:hover, nav a.active { background: rgba(255,255,255,0.2); }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8fafc;
+}
 
-.livestream-container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+nav {
+  background: #1e3a8a;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-.hero { text-align: center; margin-bottom: 50px; }
-.live-badge { display: inline-flex; align-items: center; gap: 10px; background: #dc2626; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 700; font-size: 18px; margin-bottom: 20px; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
-.live-dot { width: 12px; height: 12px; background: white; border-radius: 50%; animation: blink 1s infinite; }
-@keyframes blink {0%,100%{opacity:1;}50%{opacity:0.3;}}
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
 
-h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
-.subtitle { color:#64748b; font-size:20px; max-width:800px; margin:0 auto 30px; line-height:1.6; }
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
 
-.content-grid { display:grid; grid-template-columns:1fr 350px; gap:30px; margin-bottom:50px; }
+nav a:hover,
+nav a.active {
+  background: rgba(255,255,255,0.2);
+}
 
-.video-section { background:white; border-radius:15px; padding:20px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
-.video-wrapper { position:relative; width:100%; padding-bottom:56.25%; border-radius:10px; overflow:hidden; background:#000; }
-.video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+.livestream-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
 
-.video-info { margin-top:25px; }
-.video-info h2 { color:#1e3a8a; font-size:28px; margin-bottom:15px; }
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
 
-.video-meta { display:flex; gap:20px; flex-wrap:wrap; color:#64748b; font-size:16px; margin-bottom:20px; }
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #dc2626;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
 
-.video-description { color:#475569; line-height:1.8; font-size:16px; }
+@keyframes pulse {
+  0%,100%{opacity:1;}
+  50%{opacity:0.7;}
+}
 
-.sidebar { display:flex; flex-direction:column; gap:25px; }
-.sidebar-card { background:white; border-radius:15px; padding:25px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
+.live-dot {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+}
 
-.share-buttons { display:flex; gap:10px; flex-wrap:wrap; }
-.share-btn { flex:1; min-width:120px; background:#1e3a8a; color:white; border:none; padding:12px 20px; border-radius:8px; font-weight:600; cursor:pointer; }
+@keyframes blink {
+  0%,100%{opacity:1;}
+  50%{opacity:0.3;}
+}
 
-.prayer-input { width:100%; padding:12px; border:2px solid #e2e8f0; border-radius:8px; font-size:14px; resize:vertical; min-height:100px; }
-.submit-btn { width:100%; background:#1e3a8a; color:white; border:none; padding:12px; border-radius:8px; font-weight:600; cursor:pointer; }
+h1 {
+  color:#1e3a8a;
+  font-size:48px;
+  margin-bottom:15px;
+}
 
-.info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:30px; margin-top:50px; }
-.info-card { background:white; padding:35px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.1); text-align:center; }
+.subtitle {
+  color:#64748b;
+  font-size:20px;
+  max-width:800px;
+  margin:0 auto 30px;
+  line-height:1.6;
+}
+
+.content-grid {
+  display:grid;
+  grid-template-columns:1fr 350px;
+  gap:30px;
+  margin-bottom:50px;
+}
+
+.video-section {
+  background:white;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.video-wrapper {
+  position:relative;
+  width:100%;
+  padding-bottom:56.25%;
+  border-radius:10px;
+  overflow:hidden;
+  background:#000;
+}
+
+.video-wrapper iframe {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:none;
+}
+
+.video-info {
+  margin-top:25px;
+}
+
+.video-info h2 {
+  color:#1e3a8a;
+  font-size:28px;
+  margin-bottom:15px;
+}
+
+.video-meta {
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  color:#64748b;
+  font-size:16px;
+  margin-bottom:20px;
+}
+
+.video-description {
+  color:#475569;
+  line-height:1.8;
+  font-size:16px;
+}
+
+.sidebar {
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+}
+
+.sidebar-card {
+  background:white;
+  border-radius:15px;
+  padding:25px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.share-buttons {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.share-btn {
+  flex:1;
+  min-width:120px;
+  background:#1e3a8a;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.prayer-input {
+  width:100%;
+  padding:12px;
+  border:2px solid #e2e8f0;
+  border-radius:8px;
+  font-size:14px;
+  resize:vertical;
+  min-height:100px;
+}
+
+.submit-btn {
+  width:100%;
+  background:#1e3a8a;
+  color:white;
+  border:none;
+  padding:12px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.info-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:30px;
+  margin-top:50px;
+}
+
+.info-card {
+  background:white;
+  padding:35px;
+  border-radius:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE FIXES  */
+/* ========================= */
+@media (max-width: 768px) {
+
+  nav ul { gap: 10px; }
+
+  nav a {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  h1 { font-size: 28px; }
+
+  .subtitle {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-section,
+  .sidebar-card {
+    padding: 15px;
+  }
+
+  .video-info h2 { font-size: 22px; }
+
+  .video-meta {
+    font-size: 14px;
+    gap: 10px;
+  }
+
+  .video-description { font-size: 15px; }
+
+  .share-buttons { flex-direction: column; }
+
+  .share-btn { width: 100%; }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .info-card {
+    padding: 20px;
+    font-size: 15px;
+  }
+
+  .live-badge {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
 </style>
 </head>
 
@@ -80,20 +314,11 @@ h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
 
     <div class="video-section">
       <div class="video-wrapper">
-
-        <!-- ✅ FIXED FACEBOOK EMBED -->
         <iframe
-            src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/debby.kutul/videos/1411514357294833&show_text=false&width=560"
-            width="560"
-            height="315"
-            style="border:none;overflow:hidden"
-            scrolling="no"
-            frameborder="0"
-            allowfullscreen="true"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+          src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/debby.kutul/videos/1411514357294833&show_text=false&width=560"
+          allowfullscreen
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
         </iframe>
-
-
       </div>
 
       <div class="video-info">
@@ -103,7 +328,8 @@ h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
           <span>👥 Watch Live on Facebook</span>
         </div>
         <p class="video-description">
-          Welcome to Prevailed Chapel International! First time here? Fill out <a href = "contact.html">contact card</a>.
+          Welcome to Prevailed Chapel International! First time here?
+          Fill out <a href="contact.html">contact card</a>.
         </p>
       </div>
     </div>
@@ -113,7 +339,7 @@ h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
       <div class="sidebar-card">
         <h3>📢 Share This Stream</h3>
         <div class="share-buttons">
-          <button class="share-btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href),'_blank')">Facebook</button>
+          <button class="share-btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href))">Facebook</button>
           <button class="share-btn" onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(window.location.href))">Twitter</button>
           <button class="share-btn" onclick="window.open('https://wa.me/?text='+encodeURIComponent(window.location.href))">WhatsApp</button>
         </div>
@@ -131,7 +357,7 @@ h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
   <div class="info-grid">
     <div class="info-card">📱 Can't Watch Live? Replays are on Facebook.</div>
     <div class="info-card">💬 Join the Conversation in the comments.</div>
-    <div class="info-card">❤️ First time? Fill out the <a href = "contact.html"> contact form.</a></div>
+    <div class="info-card">❤️ First time? Fill out the <a href="contact.html">contact form</a>.</div>
   </div>
 
 </div>
@@ -139,8 +365,12 @@ h1 { color:#1e3a8a; font-size:48px; margin-bottom:15px; }
 <script>
 function submitPrayer() {
   const prayer = document.getElementById('prayerRequest').value.trim();
-  if(!prayer){ alert('Please enter your prayer request.'); return; }
-  window.location.href = `mailto:dzesefrank108@gmail.com?subject=Prayer Request&body=${encodeURIComponent(prayer)}`;
+  if(!prayer){
+    alert('Please enter your prayer request.');
+    return;
+  }
+  window.location.href =
+    `mailto:dzesefrank108@gmail.com?subject=Prayer Request&body=${encodeURIComponent(prayer)}`;
 }
 </script>
 
