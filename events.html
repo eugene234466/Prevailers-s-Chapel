@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prevailers Chapel International</title>
-    <link rel="icon" href="3.JPG">
+    <title>Events - Prevailers Chapel International</title>
+    <link rel="icon" href="3.JPG"> 
 
     <style>
         * {
@@ -95,59 +95,183 @@
             }
         }
 
-        /* ============ PAGE CONTENT ============ */
-        .page-container {
+        /* ================= EVENTS ================= */
+        .events-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px;
+        }
+
+        .events-header {
             text-align: center;
+            margin-bottom: 60px;
         }
 
         h1 {
             color: #1e3a8a;
-            font-size: 42px;
+            font-size: 48px;
             margin-bottom: 20px;
         }
 
-        p {
+        .events-subtitle {
             color: #64748b;
-            font-size: 18px;
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .event-featured {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #dc2626;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .event-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 6px 15px;
+            background: #1e3a8a;
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .event-category.special { background: #dc2626; }
+
+        .event-card h3 {
+            color: #1e3a8a;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .event-details {
+            margin: 15px 0;
+            flex-grow: 1;
+        }
+
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #64748b;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .event-description {
+            color: #475569;
+            line-height: 1.7;
+            margin: 15px 0;
+            font-size: 15px;
         }
     </style>
 </head>
-
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">Prevailers Chapel</div>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">Prevailers Chapel</div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="livestream.html">Live Stream</a></li>
+            <li><a href="devotional.html">Devotional</a></li>
+            <li><a href="events.html" class="active">Events</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+</nav>
 
-            <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<!-- EVENTS CONTENT -->
+<div class="events-container">
 
-            <ul class="nav-links" id="navLinks">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="livestream.html">Live Stream</a></li>
-                <li><a href="devotional.html">Devotional</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- PAGE CONTENT -->
-    <div class="page-container">
-        <h1>Welcome to Prevailers Chapel</h1>
-        <p>Your page content goes here.</p>
+    <div class="events-header">
+        <h1>Upcoming Events</h1>
+        <p class="events-subtitle">
+            Join us for these exciting activities, fellowship opportunities, and life-changing experiences.
+        </p>
     </div>
 
-    <!-- SCRIPT -->
-    <script>
-        function toggleMenu() {
-            document.getElementById("navLinks").classList.toggle("show");
-        }
-    </script>
+    <div class="events-grid">
+
+        <!-- YOUR ORIGINAL EVENT -->
+        <div class="event-card">
+            <div class="event-image" style="background-image: url('4.jpeg');">
+                <span class="event-featured">FEATURED</span>
+            </div>
+
+            <div class="event-content">
+                <span class="event-category special">Special</span>
+                <h3>21 Days of Fasting and Prayer</h3>
+
+                <div class="event-details">
+                    <div class="event-detail-item">📅 January 5–25, 2025</div>
+                    <div class="event-detail-item">🕙 6:00 PM daily, 8:00 AM Sundays</div>
+                    <div class="event-detail-item">📍 Main Auditorium</div>
+                </div>
+
+                <p class="event-description">
+                    Join us as we draw closer to the Lord with teaching, prayer, and fasting.
+                    Your life will never be the same!
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("show");
+}
+</script>
 
 </body>
 </html>
