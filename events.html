@@ -1,277 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events - Prevailers Chapel International</title>
-    <link rel="icon" href="3.JPG"> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events - Prevailers Chapel International</title>
+<link rel="icon" href="3.JPG"> 
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8fafc;
-        }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8fafc;
+    }
 
-        /* ================= NAVBAR ================= */
-        .navbar {
-            background: #1e3a8a;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* ---------------- NAVBAR ---------------- */
+    nav {
+        background: #1e3a8a;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-        .logo {
-            color: white;
-            font-weight: 700;
-            font-size: 18px;
-        }
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
+    nav a:hover, nav a.active {
+        background: rgba(255, 255, 255, 0.2);
+    }
 
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 5px;
-            transition: 0.3s;
-            font-size: 15px;
-        }
+    /* ---------------- CONTAINER ---------------- */
+    .events-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+    }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            background: rgba(255,255,255,0.2);
-        }
+    h1 {
+        color: #1e3a8a;
+        font-size: 48px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-        .menu-toggle {
-            display: none;
-            color: white;
-            font-size: 26px;
-            cursor: pointer;
-        }
+    .events-subtitle {
+        text-align: center;
+        color: #64748b;
+        font-size: 20px;
+        margin-bottom: 50px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
 
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
+    .events-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
 
-            .nav-links {
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                background: #1e3a8a;
-                flex-direction: column;
-                align-items: center;
-                display: none;
-                padding: 20px 0;
-            }
+    .event-card {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-            .nav-links.show {
-                display: flex;
-            }
+    .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
 
-            .nav-links li {
-                margin: 10px 0;
-            }
-        }
+    .event-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
 
-        /* ================= EVENTS ================= */
-        .events-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
+    .event-card h3 {
+        color: #1e3a8a;
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
 
-        .events-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+    .event-time {
+        font-size: 36px;
+        font-weight: bold;
+        color: #1e3a8a;
+        margin: 20px 0;
+        word-wrap: break-word;
+    }
 
+    .event-day {
+        color: #475569;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .event-card p {
+        color: #64748b;
+        font-size: 16px;
+        line-height: 1.6;
+        word-wrap: break-word;
+    }
+
+    .event-details {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid #f1f5f9;
+    }
+
+    .event-details p {
+        margin: 8px 0;
+        color: #475569;
+    }
+
+    .location-badge {
+        display: inline-block;
+        background: #f1f5f9;
+        color: #1e3a8a;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-top: 15px;
+        word-wrap: break-word;
+    }
+
+    /* ---------------- RESPONSIVE ---------------- */
+    @media (max-width: 768px) {
         h1 {
-            color: #1e3a8a;
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 36px;
         }
 
         .events-subtitle {
-            color: #64748b;
-            font-size: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            font-size: 16px;
+            padding: 0 10px;
         }
 
         .event-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
+            padding: 30px 20px;
         }
-
-        .event-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .event-image {
-            width: 100%;
-            height: 250px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .event-featured {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #dc2626;
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .event-content {
-            padding: 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .event-category {
-            display: inline-block;
-            padding: 6px 15px;
-            background: #1e3a8a;
-            color: white;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            align-self: flex-start;
-        }
-
-        .event-category.special { background: #dc2626; }
 
         .event-card h3 {
-            color: #1e3a8a;
             font-size: 24px;
-            margin-bottom: 15px;
         }
 
-        .event-details {
-            margin: 15px 0;
-            flex-grow: 1;
+        .event-time {
+            font-size: 28px;
         }
 
-        .event-detail-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #64748b;
-            margin-bottom: 10px;
+        .event-day {
+            font-size: 18px;
+        }
+
+        .event-card p, .event-details p, .location-badge {
             font-size: 15px;
         }
-
-        .event-description {
-            color: #475569;
-            line-height: 1.7;
-            margin: 15px 0;
-            font-size: 15px;
-        }
-    </style>
+    }
+</style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">Prevailers Chapel</div>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="home.html">Home</a></li>
-            <li><a href="livestream.html">Live Stream</a></li>
-            <li><a href="devotional.html">Devotional</a></li>
-            <li><a href="events.html" class="active">Events</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </div>
+<!-- Navigation Bar -->
+<nav>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="livestream.html">Live Stream</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
+        <li><a href="events.html" class="active">Events</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
 </nav>
 
-<!-- EVENTS CONTENT -->
 <div class="events-container">
-
-    <div class="events-header">
-        <h1>Upcoming Events</h1>
-        <p class="events-subtitle">
-            Join us for these exciting activities, fellowship opportunities, and life-changing experiences.
-        </p>
-    </div>
+    <h1>Our Events</h1>
+    <p class="events-subtitle">
+        Join us for exciting fellowship and life-changing experiences. Mark your calendar and be part of what God is doing!
+    </p>
 
     <div class="events-grid">
-
-        <!-- YOUR ORIGINAL EVENT -->
+        <!-- Current Event -->
         <div class="event-card">
-            <div class="event-image" style="background-image: url('4.jpeg');">
-                <span class="event-featured">FEATURED</span>
+            <div class="event-icon">📖</div>
+            <h3>21 Days of Fasting and Prayer</h3>
+            <p class="event-day">January 5–25, 2025</p>
+            <div class="event-time">6:00 PM daily, 8:00 AM Sundays</div>
+            <p>
+                Join us as we draw closer to the Lord with a wonderful time of teaching, prayer, and fasting. 
+                Your life will never be the same!
+            </p>
+            <div class="event-details">
+                <p><strong>Location:</strong> Main Auditorium</p>
             </div>
-
-            <div class="event-content">
-                <span class="event-category special">Special</span>
-                <h3>21 Days of Fasting and Prayer</h3>
-
-                <div class="event-details">
-                    <div class="event-detail-item">📅 January 5–25, 2025</div>
-                    <div class="event-detail-item">🕙 6:00 PM daily, 8:00 AM Sundays</div>
-                    <div class="event-detail-item">📍 Main Auditorium</div>
-                </div>
-
-                <p class="event-description">
-                    Join us as we draw closer to the Lord with teaching, prayer, and fasting.
-                    Your life will never be the same!
-                </p>
-            </div>
+            <span class="location-badge">📍 Main Auditorium</span>
         </div>
-
     </div>
 </div>
-
-<script>
-function toggleMenu() {
-    document.getElementById("navLinks").classList.toggle("show");
-}
-</script>
 
 </body>
 </html>
