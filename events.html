@@ -202,9 +202,9 @@ nav a.active {
 <!-- EVENTS -->
 <div class="events-container">
 
-    <!-- Event Card -->
+    <!-- Event Card 1 -->
     <div class="event-card">
-        <img src="4.jpeg" class="event-banner" onclick="openGallery(0)">
+        <img src="4.jpeg" class="event-banner" onclick="openGallery('4.jpeg')">
 
         <div class="event-info">
             <h3>21 Days of Fasting & Prayer</h3>
@@ -220,50 +220,41 @@ nav a.active {
         </div>
     </div>
 
+    <!-- Event Card 2 -->
+    <div class="event-card">
+        <img src="5.jpeg" class="event-banner" onclick="openGallery('5.jpeg')">
+
+        <div class="event-info">
+            <h3>Sunday Praise & Worship</h3>
+            <p class="event-date">Every Sunday</p>
+            <p class="event-time">9:00 AM – 12:00 PM</p>
+
+            <p class="event-desc">
+                Join us for uplifting praise, worship, and a message of hope.
+                Come celebrate the Lord with us!
+            </p>
+
+            <span class="event-location">📍 Main Auditorium</span>
+        </div>
+    </div>
+
 </div>
 
 <!-- GALLERY -->
 <div class="gallery" id="gallery" onclick="closeGallery(event)">
     <img id="galleryImage">
-    <div class="gallery-controls">
-        <span class="gallery-btn" onclick="prevImage(event)">❮</span>
-        <span class="gallery-counter" id="galleryCounter"></span>
-        <span class="gallery-btn" onclick="nextImage(event)">❯</span>
-    </div>
 </div>
 
 <script>
-const images = ["4.jpeg"]; // Only one image now
-let currentIndex = 0;
-
-function openGallery(index) {
-    currentIndex = index;
-    updateGallery();
-    document.getElementById("gallery").style.display = "flex";
+function openGallery(src) {
+    document.getElementById('galleryImage').src = src;
+    document.getElementById('gallery').style.display = 'flex';
 }
 
 function closeGallery(e) {
-    if (e.target.id === "gallery") {
-        document.getElementById("gallery").style.display = "none";
+    if (e.target.id === 'gallery') {
+        document.getElementById('gallery').style.display = 'none';
     }
-}
-
-function updateGallery() {
-    document.getElementById("galleryImage").src = images[currentIndex];
-    document.getElementById("galleryCounter").textContent =
-        (currentIndex + 1) + " / " + images.length;
-}
-
-function nextImage(e) {
-    e.stopPropagation();
-    currentIndex = (currentIndex + 1) % images.length;
-    updateGallery();
-}
-
-function prevImage(e) {
-    e.stopPropagation();
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateGallery();
 }
 </script>
 
