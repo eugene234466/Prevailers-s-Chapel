@@ -186,9 +186,9 @@ nav a.active {
 <!-- EVENTS -->
 <div class="events-container">
 
-    <!-- Single Event Card -->
+    <!-- Example Event Card 1 -->
     <div class="event-card">
-        <img src="4.jpeg" class="event-banner" onclick="openGallery('4.jpeg')">
+        <img src="4.jpeg" class="event-banner" onclick="openGallery(this.src)">
 
         <div class="event-info">
             <h3>21 Days of Fasting & Prayer</h3>
@@ -204,6 +204,25 @@ nav a.active {
         </div>
     </div>
 
+    <!-- Example Event Card 2 (optional, just copy this block for future events) -->
+    <!--
+    <div class="event-card">
+        <img src="5.jpeg" class="event-banner" onclick="openGallery(this.src)">
+
+        <div class="event-info">
+            <h3>Sunday Praise & Worship</h3>
+            <p class="event-date">Every Sunday</p>
+            <p class="event-time">9:00 AM – 12:00 PM</p>
+
+            <p class="event-desc">
+                Join us for uplifting praise, worship, and a message of hope.
+            </p>
+
+            <span class="event-location">📍 Main Auditorium</span>
+        </div>
+    </div>
+    -->
+
 </div>
 
 <!-- GALLERY MODAL -->
@@ -212,6 +231,7 @@ nav a.active {
 </div>
 
 <script>
+// Simple modal gallery for any event card
 function openGallery(src) {
     document.getElementById('galleryImage').src = src;
     document.getElementById('gallery').style.display = 'flex';
