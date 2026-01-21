@@ -71,6 +71,9 @@ nav a.active {
     max-width: 1000px;
     margin: auto;
     padding: 20px 15px 60px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
 }
 
 /* SIMPLE EVENT CARD */
@@ -78,7 +81,6 @@ nav a.active {
     background: #ffffff;
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 30px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
@@ -144,24 +146,6 @@ nav a.active {
     border-radius: 10px;
 }
 
-.gallery-controls {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    color: white;
-}
-
-.gallery-btn {
-    font-size: 32px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.gallery-counter {
-    font-size: 16px;
-}
-
 /* MOBILE */
 @media (max-width: 768px) {
     .event-banner {
@@ -202,7 +186,7 @@ nav a.active {
 <!-- EVENTS -->
 <div class="events-container">
 
-    <!-- Event Card 1 -->
+    <!-- Single Event Card -->
     <div class="event-card">
         <img src="4.jpeg" class="event-banner" onclick="openGallery('4.jpeg')">
 
@@ -220,27 +204,9 @@ nav a.active {
         </div>
     </div>
 
-    <!-- Event Card 2 -->
-    <div class="event-card">
-        <img src="5.jpeg" class="event-banner" onclick="openGallery('5.jpeg')">
-
-        <div class="event-info">
-            <h3>Sunday Praise & Worship</h3>
-            <p class="event-date">Every Sunday</p>
-            <p class="event-time">9:00 AM – 12:00 PM</p>
-
-            <p class="event-desc">
-                Join us for uplifting praise, worship, and a message of hope.
-                Come celebrate the Lord with us!
-            </p>
-
-            <span class="event-location">📍 Main Auditorium</span>
-        </div>
-    </div>
-
 </div>
 
-<!-- GALLERY -->
+<!-- GALLERY MODAL -->
 <div class="gallery" id="gallery" onclick="closeGallery(event)">
     <img id="galleryImage">
 </div>
