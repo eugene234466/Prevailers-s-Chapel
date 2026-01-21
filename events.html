@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Events - Prevailers Chapel International</title>
-<link rel="icon" href="3.JPG"> 
+<link rel="icon" href="3.JPG">
 
 <style>
 * {
@@ -15,7 +15,7 @@
 }
 
 body {
-    background: #f4f6fb;
+    background: #f5f7fb;
 }
 
 /* NAVBAR */
@@ -66,55 +66,37 @@ nav a.active {
     font-size: 18px;
 }
 
-/* EVENTS GRID */
+/* EVENTS SECTION */
 .events-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: auto;
     padding: 20px 15px 60px;
 }
 
-.events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
-}
-
-/* EVENT CARD */
+/* SIMPLE EVENT CARD */
 .event-card {
-    background: white;
-    border-radius: 15px;
+    background: #ffffff;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    transition: transform 0.3s;
-    border-left: 6px solid #1e3a8a;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.event-card:hover {
-    transform: translateY(-5px);
-}
-
-/* IMAGE GRID */
-.event-images {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.event-images img {
+.event-banner {
     width: 100%;
-    height: 200px;
+    height: 320px;
     object-fit: cover;
     cursor: pointer;
 }
 
-/* EVENT CONTENT */
-.event-content {
+.event-info {
     padding: 20px;
     text-align: center;
 }
 
-.event-content h3 {
+.event-info h3 {
     color: #1e3a8a;
-    font-size: 26px;
+    font-size: 28px;
     margin-bottom: 8px;
 }
 
@@ -124,27 +106,27 @@ nav a.active {
 }
 
 .event-time {
-    font-size: 20px;
     margin: 8px 0;
+    font-size: 18px;
 }
 
 .event-desc {
     color: #555;
-    font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.6;
+    margin: 10px 0;
 }
 
 .event-location {
     display: inline-block;
-    margin-top: 12px;
     background: #eef2ff;
     color: #1e3a8a;
     padding: 8px 14px;
     border-radius: 20px;
     font-weight: 600;
+    margin-top: 10px;
 }
 
-/* GALLERY */
+/* GALLERY MODAL */
 .gallery {
     display: none;
     position: fixed;
@@ -181,13 +163,13 @@ nav a.active {
 }
 
 /* MOBILE */
-@media (max-width: 600px) {
-    .event-images {
-        grid-template-columns: 1fr;
+@media (max-width: 768px) {
+    .event-banner {
+        height: 220px;
     }
 
-    .event-images img {
-        height: 220px;
+    .event-info h3 {
+        font-size: 24px;
     }
 
     .page-header h1 {
@@ -211,7 +193,7 @@ nav a.active {
     </ul>
 </nav>
 
-<!-- HEADER -->
+<!-- PAGE HEADER -->
 <div class="page-header">
     <h1>Our Events</h1>
     <p>Join us for powerful moments of worship, prayer, and fellowship.</p>
@@ -219,30 +201,24 @@ nav a.active {
 
 <!-- EVENTS -->
 <div class="events-container">
-    <div class="events-grid">
 
-        <!-- EVENT 1 -->
-        <div class="event-card">
-            <div class="event-images">
-                <img src="4.jpeg" onclick="openGallery(0)">
-                <img src="5.jpeg" onclick="openGallery(1)">
-                <img src="6.jpeg" onclick="openGallery(2)">
-                <img src="7.jpeg" onclick="openGallery(3)">
-            </div>
+    <div class="event-card">
+        <img src="4.jpeg" class="event-banner" onclick="openGallery(0)">
 
-            <div class="event-content">
-                <h3>21 Days of Fasting & Prayer</h3>
-                <p class="event-date">January 5 – 25, 2025</p>
-                <p class="event-time">6:00 PM Daily | 8:00 AM Sundays</p>
-                <p class="event-desc">
-                    A powerful season of prayer, fasting, and spiritual growth.  
-                    Come expecting a divine encounter.
-                </p>
-                <span class="event-location">📍 Main Auditorium</span>
-            </div>
+        <div class="event-info">
+            <h3>21 Days of Fasting & Prayer</h3>
+            <p class="event-date">January 5 – 25, 2025</p>
+            <p class="event-time">6:00 PM Daily | 8:00 AM Sundays</p>
+
+            <p class="event-desc">
+                A powerful season of prayer, fasting, and spiritual growth.
+                Join us as we seek the Lord together.
+            </p>
+
+            <span class="event-location">📍 Main Auditorium</span>
         </div>
-
     </div>
+
 </div>
 
 <!-- GALLERY -->
