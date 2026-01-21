@@ -7,17 +7,21 @@
 <link rel="icon" href="3.JPG"> 
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f8fafc;
+    background: #f4f6fb;
 }
 
 /* NAVBAR */
 nav {
     background: #1e3a8a;
-    padding: 20px;
+    padding: 18px;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -27,7 +31,7 @@ nav ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 25px;
     flex-wrap: wrap;
 }
 
@@ -39,44 +43,54 @@ nav a {
     border-radius: 5px;
 }
 
-nav a.active,
-nav a:hover {
+nav a:hover,
+nav a.active {
     background: rgba(255,255,255,0.2);
 }
 
-/* CONTAINER */
-.events-container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 60px 20px;
+/* PAGE HEADER */
+.page-header {
+    text-align: center;
+    padding: 40px 15px 20px;
 }
 
-h1 {
-    text-align: center;
+.page-header h1 {
     color: #1e3a8a;
-    font-size: 48px;
+    font-size: 42px;
 }
 
-.events-subtitle {
-    text-align: center;
-    color: #64748b;
-    margin: 20px auto 50px;
-    max-width: 800px;
+.page-header p {
+    color: #555;
+    max-width: 700px;
+    margin: 10px auto;
+    font-size: 18px;
 }
 
 /* EVENTS GRID */
+.events-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 15px 60px;
+}
+
 .events-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    gap: 25px;
 }
 
+/* EVENT CARD */
 .event-card {
     background: white;
     border-radius: 15px;
     overflow: hidden;
-    text-align: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+    border-left: 6px solid #1e3a8a;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
 }
 
 /* IMAGE GRID */
@@ -92,24 +106,51 @@ h1 {
     cursor: pointer;
 }
 
-.event-card h3 {
-    color: #1e3a8a;
-    margin: 15px 0;
+/* EVENT CONTENT */
+.event-content {
+    padding: 20px;
+    text-align: center;
 }
 
-.event-day { font-weight: 600; }
-.event-time { font-size: 22px; color: #1e3a8a; }
+.event-content h3 {
+    color: #1e3a8a;
+    font-size: 26px;
+    margin-bottom: 8px;
+}
 
-/* GALLERY MODAL */
+.event-date {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.event-time {
+    font-size: 20px;
+    margin: 8px 0;
+}
+
+.event-desc {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.event-location {
+    display: inline-block;
+    margin-top: 12px;
+    background: #eef2ff;
+    color: #1e3a8a;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* GALLERY */
 .gallery {
     display: none;
     position: fixed;
-    z-index: 3000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0,0,0,0.9);
+    z-index: 3000;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -122,15 +163,15 @@ h1 {
 }
 
 .gallery-controls {
-    color: white;
     margin-top: 20px;
     display: flex;
-    gap: 30px;
     align-items: center;
+    gap: 30px;
+    color: white;
 }
 
 .gallery-btn {
-    font-size: 30px;
+    font-size: 32px;
     cursor: pointer;
     user-select: none;
 }
@@ -140,15 +181,25 @@ h1 {
 }
 
 /* MOBILE */
-@media (max-width: 768px) {
-    h1 { font-size: 36px; }
-    .event-images img { height: 160px; }
+@media (max-width: 600px) {
+    .event-images {
+        grid-template-columns: 1fr;
+    }
+
+    .event-images img {
+        height: 220px;
+    }
+
+    .page-header h1 {
+        font-size: 34px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav>
     <ul>
         <li><a href="home.html">Home</a></li>
@@ -160,13 +211,17 @@ h1 {
     </ul>
 </nav>
 
-<div class="events-container">
+<!-- HEADER -->
+<div class="page-header">
     <h1>Our Events</h1>
-    <p class="events-subtitle">Join us for exciting fellowship and life-changing experiences.</p>
+    <p>Join us for powerful moments of worship, prayer, and fellowship.</p>
+</div>
 
+<!-- EVENTS -->
+<div class="events-container">
     <div class="events-grid">
 
-        <!-- EVENT -->
+        <!-- EVENT 1 -->
         <div class="event-card">
             <div class="event-images">
                 <img src="4.jpeg" onclick="openGallery(0)">
@@ -175,10 +230,16 @@ h1 {
                 <img src="7.jpeg" onclick="openGallery(3)">
             </div>
 
-            <h3>21 Days of Fasting and Prayer</h3>
-            <p class="event-day">January 5–25, 2025</p>
-            <div class="event-time">6:00 PM daily, 8:00 AM Sundays</div>
-            <p>Main Auditorium</p>
+            <div class="event-content">
+                <h3>21 Days of Fasting & Prayer</h3>
+                <p class="event-date">January 5 – 25, 2025</p>
+                <p class="event-time">6:00 PM Daily | 8:00 AM Sundays</p>
+                <p class="event-desc">
+                    A powerful season of prayer, fasting, and spiritual growth.  
+                    Come expecting a divine encounter.
+                </p>
+                <span class="event-location">📍 Main Auditorium</span>
+            </div>
         </div>
 
     </div>
