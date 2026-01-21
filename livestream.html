@@ -3,374 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Stream - Prevailed Chapel International</title>
+<title>Events - Prevailers Chapel International</title>
+<link rel="icon" href="3.JPG">
 
 <style>
-/* ========================= */
-/* ORIGINAL STYLES          */
-/* ========================= */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f8fafc;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
+body {
+    background: #f5f7fb;
+}
+
+/* NAVBAR */
 nav {
-  background: #1e3a8a;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background: #1e3a8a;
+    padding: 18px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
 }
 
 nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 5px;
-  transition: all 0.3s;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 5px;
 }
 
 nav a:hover,
 nav a.active {
-  background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.2);
 }
 
-.livestream-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 40px 20px;
+/* PAGE HEADER */
+.page-header {
+    text-align: center;
+    padding: 40px 15px 20px;
 }
 
-.hero {
-  text-align: center;
-  margin-bottom: 50px;
+.page-header h1 {
+    color: #1e3a8a;
+    font-size: 42px;
 }
 
-.live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #dc2626;
-  color: white;
-  padding: 10px 25px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 20px;
-  animation: pulse 2s infinite;
+.page-header p {
+    color: #555;
+    max-width: 700px;
+    margin: 10px auto;
+    font-size: 18px;
 }
 
-@keyframes pulse {
-  0%,100%{opacity:1;}
-  50%{opacity:0.7;}
+/* EVENTS SECTION */
+.events-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px 15px 60px;
 }
 
-.live-dot {
-  width: 12px;
-  height: 12px;
-  background: white;
-  border-radius: 50%;
-  animation: blink 1s infinite;
+/* SIMPLE EVENT CARD */
+.event-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-@keyframes blink {
-  0%,100%{opacity:1;}
-  50%{opacity:0.3;}
+.event-banner {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    cursor: pointer;
 }
 
-h1 {
-  color:#1e3a8a;
-  font-size:48px;
-  margin-bottom:15px;
-}
-
-.subtitle {
-  color:#64748b;
-  font-size:20px;
-  max-width:800px;
-  margin:0 auto 30px;
-  line-height:1.6;
-}
-
-.content-grid {
-  display:grid;
-  grid-template-columns:1fr 350px;
-  gap:30px;
-  margin-bottom:50px;
-}
-
-.video-section {
-  background:white;
-  border-radius:15px;
-  padding:20px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-
-.video-wrapper {
-  position:relative;
-  width:100%;
-  padding-bottom:56.25%;
-  border-radius:10px;
-  overflow:hidden;
-  background:#000;
-}
-
-.video-wrapper iframe {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  border:none;
-}
-
-.video-info {
-  margin-top:25px;
-}
-
-.video-info h2 {
-  color:#1e3a8a;
-  font-size:28px;
-  margin-bottom:15px;
-}
-
-.video-meta {
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  color:#64748b;
-  font-size:16px;
-  margin-bottom:20px;
-}
-
-.video-description {
-  color:#475569;
-  line-height:1.8;
-  font-size:16px;
-}
-
-.sidebar {
-  display:flex;
-  flex-direction:column;
-  gap:25px;
-}
-
-.sidebar-card {
-  background:white;
-  border-radius:15px;
-  padding:25px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-
-.share-buttons {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.share-btn {
-  flex:1;
-  min-width:120px;
-  background:#1e3a8a;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  border-radius:8px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.prayer-input {
-  width:100%;
-  padding:12px;
-  border:2px solid #e2e8f0;
-  border-radius:8px;
-  font-size:14px;
-  resize:vertical;
-  min-height:100px;
-}
-
-.submit-btn {
-  width:100%;
-  background:#1e3a8a;
-  color:white;
-  border:none;
-  padding:12px;
-  border-radius:8px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.info-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:30px;
-  margin-top:50px;
-}
-
-.info-card {
-  background:white;
-  padding:35px;
-  border-radius:15px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.1);
-  text-align:center;
-}
-
-/* ========================= */
-/* MOBILE RESPONSIVE FIXES  */
-/* ========================= */
-@media (max-width: 768px) {
-
-  nav ul { gap: 10px; }
-
-  nav a {
-    padding: 6px 10px;
-    font-size: 14px;
-  }
-
-  h1 { font-size: 28px; }
-
-  .subtitle {
-    font-size: 16px;
-    padding: 0 10px;
-  }
-
-  .content-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .video-section,
-  .sidebar-card {
-    padding: 15px;
-  }
-
-  .video-info h2 { font-size: 22px; }
-
-  .video-meta {
-    font-size: 14px;
-    gap: 10px;
-  }
-
-  .video-description { font-size: 15px; }
-
-  .share-buttons { flex-direction: column; }
-
-  .share-btn { width: 100%; }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .info-card {
+.event-info {
     padding: 20px;
-    font-size: 15px;
-  }
+    text-align: center;
+}
 
-  .live-badge {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
+.event-info h3 {
+    color: #1e3a8a;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.event-date {
+    font-weight: bold;
+    color: #1e3a8a;
+}
+
+.event-time {
+    margin: 8px 0;
+    font-size: 18px;
+}
+
+.event-desc {
+    color: #555;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.event-location {
+    display: inline-block;
+    background: #eef2ff;
+    color: #1e3a8a;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* GALLERY MODAL */
+.gallery {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.gallery img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+.gallery-controls {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    color: white;
+}
+
+.gallery-btn {
+    font-size: 32px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.gallery-counter {
+    font-size: 16px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .event-banner {
+        height: 220px;
+    }
+
+    .event-info h3 {
+        font-size: 24px;
+    }
+
+    .page-header h1 {
+        font-size: 34px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav>
-  <ul>
-    <li><a href="home.html">Home</a></li>
-    <li><a href="livestream.html" class="active">Live Stream</a></li>
-    <li><a href="devotional.html">Devotional</a></li>
-    <li><a href="events.html">Events</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="livestream.html">Live Stream</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
+        <li><a href="events.html" class="active">Events</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
 </nav>
 
-<div class="livestream-container">
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <h1>Our Events</h1>
+    <p>Join us for powerful moments of worship, prayer, and fellowship.</p>
+</div>
 
-  <div class="hero">
-    <div class="live-badge">
-      <div class="live-dot"></div> LIVE NOW
-    </div>
-    <h1>Watch Our Service Live</h1>
-    <p class="subtitle">Join us from anywhere in the world as we worship together</p>
-  </div>
+<!-- EVENTS -->
+<div class="events-container">
 
-  <div class="content-grid">
+    <div class="event-card">
+        <img src="4.jpeg" class="event-banner" onclick="openGallery(0)">
 
-    <div class="video-section">
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/debby.kutu1/videos/1583059449299683/&show_text=false&width=560"
-          allowfullscreen
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-        </iframe>
-      </div>
+        <div class="event-info">
+            <h3>21 Days of Fasting & Prayer</h3>
+            <p class="event-date">January 5 – 25, 2025</p>
+            <p class="event-time">6:00 PM Daily | 8:00 AM Sundays</p>
 
-      <div class="video-info">
-        <div class="video-meta">
-          <span>📅 Tuesday 6:30 PM GMT</span>
-          <span>👥 Watch Live on <a href="https://www.facebook.com/debby.kutu1">Facebook</a></span>
+            <p class="event-desc">
+                A powerful season of prayer, fasting, and spiritual growth.
+                Join us as we seek the Lord together.
+            </p>
+
+            <span class="event-location">📍 Main Auditorium</span>
         </div>
-
-        <p class="video-description">
-          Welcome to Prevailed Chapel International! First time here?
-          Fill out <a href="contact.html">contact card</a>.
-        </p>
-      </div>
     </div>
-
-    <div class="sidebar">
-
-      <div class="sidebar-card">
-        <h3>📢 Share This Stream</h3>
-        <div class="share-buttons">
-          <button class="share-btn" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.href))">Facebook</button>
-          <button class="share-btn" onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(window.location.href))">Twitter</button>
-          <button class="share-btn" onclick="window.open('https://wa.me/?text='+encodeURIComponent(window.location.href))">WhatsApp</button>
-        </div>
-      </div>
-
-      <div class="sidebar-card">
-        <h3>🙏 Prayer Request</h3>
-        <textarea class="prayer-input" id="prayerRequest" placeholder="Share your prayer..."></textarea>
-        <button class="submit-btn" onclick="submitPrayer()">Submit Prayer</button>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="info-grid">
-    <div class="info-card">📱 Can't Watch Live? Replays are on <a href="https://www.facebook.com/debby.kutu1">Facebook</a>.</div>
-    <div class="info-card">💬 Join the Conversation in the comments.</div>
-    <div class="info-card">❤️ First time? Fill out the <a href="contact.html">contact form</a>.</div>
-  </div>
 
 </div>
 
+<!-- GALLERY -->
+<div class="gallery" id="gallery" onclick="closeGallery(event)">
+    <img id="galleryImage">
+    <div class="gallery-controls">
+        <span class="gallery-btn" onclick="prevImage(event)">❮</span>
+        <span class="gallery-counter" id="galleryCounter"></span>
+        <span class="gallery-btn" onclick="nextImage(event)">❯</span>
+    </div>
+</div>
+
 <script>
-function submitPrayer() {
-  const prayer = document.getElementById('prayerRequest').value.trim();
-  if(!prayer){
-    alert('Please enter your prayer request.');
-    return;
-  }
-  window.location.href =
-    `mailto:dzesefrank108@gmail.com?subject=Prayer Request&body=${encodeURIComponent(prayer)}`;
+const images = ["4.jpeg", "5.jpeg", "6.jpeg", "7.jpeg"];
+let currentIndex = 0;
+
+function openGallery(index) {
+    currentIndex = index;
+    updateGallery();
+    document.getElementById("gallery").style.display = "flex";
+}
+
+function closeGallery(e) {
+    if (e.target.id === "gallery") {
+        document.getElementById("gallery").style.display = "none";
+    }
+}
+
+function updateGallery() {
+    document.getElementById("galleryImage").src = images[currentIndex];
+    document.getElementById("galleryCounter").textContent =
+        (currentIndex + 1) + " / " + images.length;
+}
+
+function nextImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % images.length;
+    updateGallery();
+}
+
+function prevImage(e) {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateGallery();
 }
 </script>
 
