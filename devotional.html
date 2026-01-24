@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Devotional - Prevailed Chapel International</title>
 
+<!-- DO NOT TOUCH CSS -->
 <style>
 /* ------------------------ */
 /* Base & Body Styling      */
@@ -39,24 +40,18 @@ nav ul {
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 nav a {
     color: white;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s;
     padding: 10px 20px;
     border-radius: 8px;
-    font-size: 16px;
 }
 
-nav a:hover,
 nav a.active {
     background: rgba(255,255,255,0.25);
-    transform: translateY(-2px);
 }
 
 /* ------------------------ */
@@ -82,9 +77,6 @@ h1 {
 .subtitle {
     color: #475569;
     font-size: 20px;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
 }
 
 /* ------------------------ */
@@ -96,33 +88,28 @@ h1 {
     padding: 60px 50px;
     border-radius: 20px;
     margin-bottom: 40px;
-    box-shadow: 0 15px 40px rgba(30,58,138,0.3);
 }
 
 .verse-section h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
     text-align: center;
+    margin-bottom: 30px;
 }
 
 .verse-content {
     background: rgba(255,255,255,0.15);
     padding: 40px;
     border-radius: 15px;
-    border-left: 5px solid rgba(255,255,255,0.8);
 }
 
 .verse-text {
     font-size: 24px;
-    line-height: 1.9;
     font-style: italic;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .verse-reference {
-    font-size: 19px;
-    font-weight: 700;
     text-align: right;
+    font-weight: 700;
 }
 
 /* ------------------------ */
@@ -132,83 +119,35 @@ h1 {
     background: white;
     padding: 60px 50px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-bottom: 40px;
     border-top: 5px solid #1e3a8a;
 }
 
-.devotional-card h2 {
-    color: #1e3a8a;
-    font-size: 36px;
-    margin-bottom: 25px;
-}
-
 .devotional-meta {
+    margin-bottom: 25px;
     color: #64748b;
-    font-size: 16px;
-    margin-bottom: 35px;
-    padding-bottom: 25px;
-    border-bottom: 3px solid #f1f5f9;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
 }
 
 .devotional-card p {
-    color: #475569;
     font-size: 19px;
     line-height: 2;
-    margin-bottom: 25px;
-}
-
-.devotional-card ul {
-    margin-left: 30px;
-    color: #475569;
-}
-
-.devotional-card li {
-    margin: 15px 0;
-    line-height: 1.8;
-    font-size: 18px;
 }
 
 /* ------------------------ */
-/* Prayer Box               */
-/* ------------------------ */
-.prayer-box {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    padding: 40px;
-    border-radius: 15px;
-    margin-top: 40px;
-    border-left: 5px solid #f59e0b;
-}
-
-.prayer-text {
-    font-style: italic;
-    color: #78350f;
-    line-height: 1.9;
-    font-size: 18px;
-}
-
-/* ------------------------ */
-/* Share Button             */
+/* Share Buttons            */
 /* ------------------------ */
 .share-section {
     text-align: center;
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 3px solid #f1f5f9;
+    margin-top: 30px;
 }
 
 .share-btn-main {
     background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
     color: white;
     border: none;
-    padding: 16px 40px;
-    border-radius: 12px;
+    padding: 14px 30px;
+    border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 18px;
     margin: 5px;
 }
 </style>
@@ -234,86 +173,83 @@ h1 {
     <p class="subtitle">Start your day with God's Word.</p>
   </div>
 
-  <div class="verse-section">
+  <!-- SCRIPTURE -->
+  <div class="verse-section" id="scriptureCard">
     <h2>✨ Verse of the Day</h2>
     <div id="verseOfDay">Loading...</div>
   </div>
 
-  <!-- DEVOTIONAL CARD (TARGET) -->
-  <div class="devotional-card" id="devotionalCard">
+  <!-- SHARE OPTIONS -->
+  <div class="share-section">
+    <button class="share-btn-main" onclick="shareLink()">🔗 Share Link</button>
+    <button class="share-btn-main" onclick="shareImage()">🖼 Share Scripture Image</button>
+  </div>
 
-    <h2 id="devotionalTitle">Loading...</h2>
-
+  <!-- DEVOTIONAL -->
+  <div class="devotional-card">
     <div class="devotional-meta">
-      <span><strong>Date:</strong> <span id="currentDate"></span></span>
-      <span><strong>Key Verse:</strong> <span id="keyVerseRef"></span></span>
+      <strong>Date:</strong> <span id="currentDate"></span><br>
+      <strong>Key Verse:</strong> <span id="keyVerseRef"></span>
     </div>
 
     <div id="devotionalContent"></div>
-
-    <h3>💭 Reflection Questions</h3>
-    <ul id="reflectionQuestions"></ul>
-
-    <div class="prayer-box">
-      <h3>🙏 Prayer for Today</h3>
-      <p class="prayer-text" id="dailyPrayer"></p>
-    </div>
-
-    <div class="share-section">
-      <button class="share-btn-main" onclick="shareDevotionalImage()">🖼 Share as Image</button>
-    </div>
-
   </div>
+
 </div>
 
-<!-- IMAGE EXPORT LIBRARY -->
+<!-- REQUIRED SCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
-document.getElementById('currentDate').textContent =
-  new Date().toDateString();
+// Date
+document.getElementById("currentDate").textContent =
+  new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
 
+// OurManna API
 fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
 .then(res => res.json())
 .then(data => {
-  const verse = data.verse.details.text;
-  const ref = data.verse.details.reference;
+  const text = data.verse.details.text;
+  const ref  = data.verse.details.reference;
 
   document.getElementById("verseOfDay").innerHTML = `
     <div class="verse-content">
-      <p class="verse-text">"${verse}"</p>
-      <p class="verse-reference">— ${ref}</p>
-    </div>`;
+      <p class="verse-text">"${text}"</p>
+      <p class="verse-reference">- ${ref}</p>
+    </div>
+  `;
 
   document.getElementById("keyVerseRef").textContent = ref;
-  document.getElementById("devotionalTitle").textContent = "Reflection on God's Word";
-
   document.getElementById("devotionalContent").innerHTML = `
-    <p>God’s Word today reminds us to trust Him fully.</p>
-    <p>Meditate on this scripture and let it shape your actions.</p>`;
-
-  document.getElementById("reflectionQuestions").innerHTML = `
-    <li>What is God saying to me today?</li>
-    <li>How can I live out this Word?</li>
-    <li>Who can I encourage with this scripture?</li>`;
-
-  document.getElementById("dailyPrayer").innerHTML = `
-    Father, thank You for Your Word today.
-    Help me to walk in obedience and faith.
-    Amen.`;
+    <p>This scripture invites us to trust God daily and walk in obedience.</p>
+    <p>Let His Word guide your thoughts, decisions, and actions today.</p>
+  `;
 });
 
-function shareDevotionalImage(){
-  const card = document.getElementById("devotionalCard");
-  html2canvas(card, { scale: 2, backgroundColor: "#ffffff" })
-    .then(canvas => {
-      const link = document.createElement("a");
-      link.download = "daily-devotional.png";
-      link.href = canvas.toDataURL();
-      link.click();
-    });
+// Share link
+function shareLink(){
+  const url = window.location.href;
+  if(navigator.share){
+    navigator.share({ title:"Daily Devotional", url });
+  } else {
+    navigator.clipboard.writeText(url);
+    alert("🔗 Link copied");
+  }
+}
+
+// Share scripture image ONLY
+function shareImage(){
+  const card = document.getElementById("scriptureCard");
+  html2canvas(card,{scale:2,backgroundColor:"#ffffff"}).then(canvas=>{
+    const link = document.createElement("a");
+    link.download = "verse-of-the-day.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
 }
 </script>
 
 </body>
 </html>
+
+
