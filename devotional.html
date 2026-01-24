@@ -3,94 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Devotional</title>
-
-<!-- html2canvas ONLY for image sharing -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<title>Devotional - Prevailed Chapel International</title>
 
 <style>
-/* ===== ORIGINAL CSS (UNCHANGED) ===== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f8fafc;
+/* ------------------------ */
+/* Base & Body Styling      */
+/* ------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #f8fafc 0%, #e0e7ff 100%);
+    min-height: 100vh;
+}
+
+/* ------------------------ */
+/* Navigation               */
+/* ------------------------ */
 nav {
-  background: #1e3a8a;
-  padding: 20px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
 }
 
-.container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
+nav a:hover,
+nav a.active {
+    background: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
 }
 
-.card {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  margin-bottom: 25px;
+/* ------------------------ */
+/* Container & Header       */
+/* ------------------------ */
+.devotional-container {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.devotional-header {
+    text-align: center;
+    margin-bottom: 50px;
 }
 
 h1 {
-  color: #1e3a8a;
-  margin-bottom: 15px;
+    color: #1e3a8a;
+    font-size: 52px;
+    margin-bottom: 20px;
 }
 
-.scripture {
-  font-size: 18px;
-  line-height: 1.7;
-  color: #334155;
+.subtitle {
+    color: #475569;
+    font-size: 20px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
-.reference {
-  margin-top: 10px;
-  font-weight: 600;
-  color: #1e3a8a;
+/* ------------------------ */
+/* Verse Section            */
+/* ------------------------ */
+.verse-section {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    padding: 60px 50px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 15px 40px rgba(30,58,138,0.3);
 }
 
-.prayer-input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  min-height: 100px;
-  margin-top: 10px;
+.verse-section h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
-.btn {
-  background: #1e3a8a;
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-top: 15px;
+.verse-content {
+    background: rgba(255,255,255,0.15);
+    padding: 40px;
+    border-radius: 15px;
+    border-left: 5px solid rgba(255,255,255,0.8);
 }
 
-.share-group {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 15px;
+.verse-text {
+    font-size: 24px;
+    line-height: 1.9;
+    font-style: italic;
+    margin-bottom: 25px;
+}
+
+.verse-reference {
+    font-size: 19px;
+    font-weight: 700;
+    text-align: right;
+}
+
+/* ------------------------ */
+/* Devotional Card          */
+/* ------------------------ */
+.devotional-card {
+    background: white;
+    padding: 60px 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    border-top: 5px solid #1e3a8a;
+}
+
+.devotional-card h2 {
+    color: #1e3a8a;
+    font-size: 36px;
+    margin-bottom: 25px;
+}
+
+.devotional-meta {
+    color: #64748b;
+    font-size: 16px;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 3px solid #f1f5f9;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.devotional-card p {
+    color: #475569;
+    font-size: 19px;
+    line-height: 2;
+    margin-bottom: 25px;
+}
+
+.devotional-card ul {
+    margin-left: 30px;
+    color: #475569;
+}
+
+.devotional-card li {
+    margin: 15px 0;
+    line-height: 1.8;
+    font-size: 18px;
+}
+
+/* ------------------------ */
+/* Prayer Box               */
+/* ------------------------ */
+.prayer-box {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    padding: 40px;
+    border-radius: 15px;
+    margin-top: 40px;
+    border-left: 5px solid #f59e0b;
+}
+
+.prayer-text {
+    font-style: italic;
+    color: #78350f;
+    line-height: 1.9;
+    font-size: 18px;
+}
+
+/* ------------------------ */
+/* Share Button             */
+/* ------------------------ */
+.share-section {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 3px solid #f1f5f9;
+}
+
+.share-btn-main {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.share-btn-main:hover { transform: translateY(-3px); }
+.share-btn-main:active { transform: translateY(-1px); }
+
+/* ------------------------ */
+/* Responsive               */
+/* ------------------------ */
+@media (max-width:768px){
+    h1 { font-size:38px; }
+    nav ul { gap:12px; }
+    nav a { font-size:14px; padding:8px 14px; }
+    .devotional-container { padding:40px 15px; }
+    .verse-section, .devotional-card { padding:35px 25px; }
+    .verse-text { font-size:20px; }
+    .devotional-card h2 { font-size:28px; }
+    .devotional-card p { font-size:17px; }
+    .devotional-meta { flex-direction:column; gap:10px; }
 }
 </style>
 </head>
@@ -100,82 +239,132 @@ h1 {
 <nav>
   <ul>
     <li><a href="home.html">Home</a></li>
-    <li><a href="devotional.html">Devotional</a></li>
+    <li><a href="livestream.html">Live Stream</a></li>
+    <li><a href="devotional.html" class="active">Devotional</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="services.html">Services</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
 </nav>
 
-<div class="container">
+<div class="devotional-container">
 
-  <!-- DEVOTIONAL CARD (THIS is what gets shared as image) -->
-  <div class="card" id="devotionalCard">
-    <h1>Daily Scripture</h1>
-
-    <p class="scripture" id="scriptureText">
-      “The Lord is my shepherd; I shall not want.  
-      He makes me lie down in green pastures,  
-      He leads me beside still waters.”
-    </p>
-
-    <p class="reference" id="scriptureRef">
-      — Psalm 23:1–2
-    </p>
+  <div class="devotional-header">
+    <h1>📖 Daily Devotional</h1>
+    <p class="subtitle">Start your day with God's Word. Let Scripture guide, encourage, and strengthen you.</p>
   </div>
 
-  <!-- SHARE OPTIONS -->
-  <div class="card">
-    <h1>Share</h1>
+  <div class="verse-section">
+    <h2>✨ Verse of the Day</h2>
+    <div id="verseOfDay">Loading today's verse...</div>
+  </div>
 
-    <div class="share-group">
-      <button class="btn" onclick="shareLink()">Share Link</button>
-      <button class="btn" onclick="shareImage()">Share Scripture as Image</button>
+  <div class="devotional-card" id="devotionalCard">
+
+    <h2 id="devotionalTitle">Loading...</h2>
+
+    <div class="devotional-meta">
+      <span><strong>Date:</strong> <span id="currentDate"></span></span>
+      <span><strong>Key Verse:</strong> <span id="keyVerseRef"></span></span>
     </div>
+
+    <div id="devotionalContent">
+      <p style="text-align:center;">Loading devotional content...</p>
+    </div>
+
+    <h3>💭 Reflection Questions</h3>
+    <ul id="reflectionQuestions">
+      <li>Loading questions...</li>
+    </ul>
+
+    <div class="prayer-box">
+      <h3>🙏 Prayer for Today</h3>
+      <p class="prayer-text" id="dailyPrayer">Loading prayer...</p>
+    </div>
+
+    <div class="share-section">
+      <button class="share-btn-main" onclick="shareDevotionalLink()">🔗 Share Link</button>
+      <button class="share-btn-main" onclick="shareDevotionalImage()">🖼️ Share as Image</button>
+    </div>
+
   </div>
-
-  <!-- PRAYER (RESTORED) -->
-  <div class="card">
-    <h1>Prayer</h1>
-
-    <textarea class="prayer-input" id="prayerText"
-      placeholder="Write your prayer here..."></textarea>
-
-    <button class="btn" onclick="submitPrayer()">Submit Prayer</button>
-  </div>
-
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-/* ===== SHARE LINK ===== */
-function shareLink() {
-  const url = window.location.href;
-  window.open(
-    'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
-    '_blank'
-  );
-}
+document.getElementById('currentDate').textContent = new Date().toLocaleDateString(
+  'en-US',
+  { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }
+);
 
-/* ===== SHARE IMAGE (SCRIPTURE CARD ONLY) ===== */
-function shareImage() {
-  const card = document.getElementById('devotionalCard');
+// Fetch scripture from Our Manna API
+fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
+  .then(res => res.json())
+  .then(data => {
+    const verseText = data.verse.details.text;
+    const verseRef  = data.verse.details.reference;
 
-  html2canvas(card, { scale: 2 }).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'daily-scripture.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    document.getElementById('verseOfDay').innerHTML = `
+      <div class="verse-content">
+        <p class="verse-text">"${verseText}"</p>
+        <p class="verse-reference">- ${verseRef}</p>
+      </div>
+    `;
+
+    document.getElementById('keyVerseRef').textContent = verseRef;
+    document.getElementById('devotionalTitle').textContent = "Reflection on Our Manna";
+
+    document.getElementById('devotionalContent').innerHTML = `
+      <p>Today's Our Manna reminds us that God's Word is our daily strength and direction.</p>
+      <p>"${verseText}" teaches us to trust in God's promises and walk in faith.</p>
+      <p>As you go through your day, meditate on this verse and let it guide your actions.</p>
+    `;
+
+    document.getElementById('reflectionQuestions').innerHTML = `
+      <li>What is God teaching me through this verse today?</li>
+      <li>How can I apply this scripture in my daily life?</li>
+      <li>What step of faith is God calling me to take?</li>
+      <li>How can I share this Word with someone today?</li>
+    `;
+
+    document.getElementById('dailyPrayer').innerHTML = `
+      Heavenly Father,<br><br>
+      Thank You for today's Our Manna from Your Word.<br><br>
+      Let this scripture guide my thoughts and actions today.<br><br>
+      In Jesus' name, Amen.
+    `;
+  })
+  .catch(() => {
+    document.getElementById('verseOfDay').innerHTML = `
+      <div class="verse-content">
+        <p class="verse-text">Unable to load today's verse. Please check your internet.</p>
+      </div>
+    `;
   });
+
+// Share link
+function shareDevotionalLink() {
+  const shareText = window.location.href;
+  if(navigator.share){
+    navigator.share({ title: "Daily Devotional", url: shareText });
+  } else {
+    navigator.clipboard.writeText(shareText).then(() => alert("✅ Devotional link copied!"));
+  }
 }
 
-/* ===== PRAYER SUBMIT ===== */
-function submitPrayer() {
-  const prayer = document.getElementById('prayerText').value.trim();
-  if (!prayer) {
-    alert('Please write a prayer.');
-    return;
-  }
-
-  window.location.href =
-    `mailto:dzesefrank108@gmail.com?subject=Prayer Request&body=${encodeURIComponent(prayer)}`;
+// Share card as image
+function shareDevotionalImage() {
+  const card = document.getElementById('devotionalCard');
+  html2canvas(card).then(canvas => {
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'devotional.png';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  });
 }
 </script>
 
