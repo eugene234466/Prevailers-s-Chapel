@@ -6,9 +6,9 @@
 <title>Devotional - Prevailed Chapel International</title>
 
 <style>
-/* ------------------------ */
-/* Base & Body Styling      */
-/* ------------------------ */
+/* ========================= */
+/* YOUR ORIGINAL CSS         */
+/* ========================= */
 * {
     margin: 0;
     padding: 0;
@@ -21,9 +21,6 @@ body {
     min-height: 100vh;
 }
 
-/* ------------------------ */
-/* Navigation               */
-/* ------------------------ */
 nav {
     background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
     padding: 20px;
@@ -59,9 +56,6 @@ nav a.active {
     transform: translateY(-2px);
 }
 
-/* ------------------------ */
-/* Container & Header       */
-/* ------------------------ */
 .devotional-container {
     max-width: 950px;
     margin: 0 auto;
@@ -87,9 +81,6 @@ h1 {
     margin: 0 auto;
 }
 
-/* ------------------------ */
-/* Verse Section            */
-/* ------------------------ */
 .verse-section {
     background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
     color: white;
@@ -125,9 +116,6 @@ h1 {
     text-align: right;
 }
 
-/* ------------------------ */
-/* Devotional Card          */
-/* ------------------------ */
 .devotional-card {
     background: white;
     padding: 60px 50px;
@@ -172,9 +160,6 @@ h1 {
     font-size: 18px;
 }
 
-/* ------------------------ */
-/* Prayer Box               */
-/* ------------------------ */
 .prayer-box {
     background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     padding: 40px;
@@ -190,9 +175,6 @@ h1 {
     font-size: 18px;
 }
 
-/* ------------------------ */
-/* Share Button             */
-/* ------------------------ */
 .share-section {
     text-align: center;
     margin-top: 40px;
@@ -209,27 +191,6 @@ h1 {
     font-weight: 700;
     cursor: pointer;
     font-size: 18px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.share-btn-main:hover { transform: translateY(-3px); }
-.share-btn-main:active { transform: translateY(-1px); }
-
-/* ------------------------ */
-/* Responsive               */
-/* ------------------------ */
-@media (max-width:768px){
-    h1 { font-size:38px; }
-    nav ul { gap:12px; }
-    nav a { font-size:14px; padding:8px 14px; }
-    .devotional-container { padding:40px 15px; }
-    .verse-section, .devotional-card { padding:35px 25px; }
-    .verse-text { font-size:20px; }
-    .devotional-card h2 { font-size:28px; }
-    .devotional-card p { font-size:17px; }
-    .devotional-meta { flex-direction:column; gap:10px; }
 }
 </style>
 </head>
@@ -283,21 +244,23 @@ h1 {
     </div>
 
     <div class="share-section">
-      <button class="share-btn-main" onclick="shareDevotionalLink()">🔗 Share Link</button>
-      <button class="share-btn-main" onclick="shareDevotionalImage()">🖼️ Share as Image</button>
+      <button class="share-btn-main" id="shareWhatsapp">📤 Share on WhatsApp</button>
     </div>
 
   </div>
 </div>
 
+<!-- html2canvas library -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <script>
+// Set date
 document.getElementById('currentDate').textContent = new Date().toLocaleDateString(
   'en-US',
   { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }
 );
 
-// Fetch scripture from Our Manna API
+// Fetch scripture from Our Manna
 fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
   .then(res => res.json())
   .then(data => {
@@ -333,6 +296,16 @@ fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
       Let this scripture guide my thoughts and actions today.<br><br>
       In Jesus' name, Amen.
     `;
+
+    // WhatsApp share as image
+    document.getElementById('shareWhatsapp').onclick = () => {
+      html2canvas(document.getElementById('devotionalCard')).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent("Check out today's devotional:")}%0A${encodeURIComponent(imageData)}`;
+        window.open(whatsappUrl, '_blank');
+      });
+    };
+
   })
   .catch(() => {
     document.getElementById('verseOfDay').innerHTML = `
@@ -341,32 +314,8 @@ fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
       </div>
     `;
   });
-
-// Share link
-function shareDevotionalLink() {
-  const shareText = window.location.href;
-  if(navigator.share){
-    navigator.share({ title: "Daily Devotional", url: shareText });
-  } else {
-    navigator.clipboard.writeText(shareText).then(() => alert("✅ Devotional link copied!"));
-  }
-}
-
-// Share card as image
-function shareDevotionalImage() {
-  const card = document.getElementById('devotionalCard');
-  html2canvas(card).then(canvas => {
-    canvas.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'devotional.png';
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-  });
-}
 </script>
 
 </body>
 </html>
+
