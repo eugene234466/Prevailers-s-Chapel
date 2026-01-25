@@ -1,27 +1,45 @@
-/* NAVBAR FIX */
+  /* RESET (SAFE) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ================= NAVBAR ================= */
 nav {
   background: #fff;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #eee;
 }
 
 nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;              /* Controls navbar height */
+  height: 80px;
 }
 
-/* LOGO */
 .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #000;
 }
 
 .logo-img {
-  width: 55px;               /* 🔥 CRITICAL FIX */
-  height: 55px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
 }
 
@@ -29,24 +47,23 @@ nav .container {
   margin-left: 0.6rem;
   font-weight: 700;
   font-size: 1.1rem;
+  color: #000;
 }
 
-/* MENU */
-#navMenu {
+nav ul {
   list-style: none;
   display: flex;
-  align-items: center;
   gap: 1.8rem;
 }
 
-#navMenu a {
+nav ul li a {
   text-decoration: none;
   color: #000;
-  font-weight: 500;
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
-/* MOBILE TOGGLE */
+/* MOBILE MENU */
 .menu-toggle {
   display: none;
   background: none;
@@ -55,26 +72,82 @@ nav .container {
   cursor: pointer;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  #navMenu {
-    display: none;
-    position: absolute;
-    top: 80px;
-    right: 0;
-    background: #fff;
-    width: 100%;
-    flex-direction: column;
-    padding: 1rem 0;
-    border-top: 1px solid #eaeaea;
-  }
-
-  #navMenu.active {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
+/* ================= HERO ================= */
+.hero {
+  padding: 6rem 2rem;
+  text-align: center;
 }
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.9rem 2.2rem;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #003d5c;
+  color: #fff;
+}
+
+.btn-secondary {
+  border: 2px solid #003d5c;
+  color: #003d5c;
+}
+
+/* ================= SECTIONS ================= */
+section {
+  padding: 5rem 2rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 3rem;
+}
+
+/* ABOUT */
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* DECLARATION */
+.declaration-section {
+  background: #003d5c;
+  color: #fff;
+  text-align: center;
+}
+
+.declaration-title {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+}
+
+.declaration-content p {
+  margin-bottom: 0.8rem;
+}
+
+.declaration-final
+
 
