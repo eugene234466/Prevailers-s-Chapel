@@ -13,7 +13,7 @@ body {
 
 /* Navigation Bar */
 nav {
-    background: #003d5c;
+    background: #1e3a8a;
     padding: 1rem 0;
     position: sticky;
     top: 0;
@@ -96,7 +96,7 @@ nav ul li a:hover {
     font-weight: 300;
     letter-spacing: 2px;
     animation: fadeInUp 1s ease;
-    color: #003d5c;
+    color: #1e3a8a;
 }
 
 .hero p {
@@ -104,7 +104,7 @@ nav ul li a:hover {
     margin-bottom: 2rem;
     opacity: 0.95;
     animation: fadeInUp 1.2s ease;
-    color: #003d5c;
+    color: #1e3a8a;
 }
 
 .hero-buttons {
@@ -127,7 +127,7 @@ nav ul li a:hover {
 
 .btn-primary {
     background: whitesmoke;
-    color: #003d5c;
+    color: #1e3a8a;
 }
 
 .btn-primary:hover {
@@ -137,13 +137,13 @@ nav ul li a:hover {
 
 .btn-secondary {
     background: transparent;
-    color: #003d5c;
+    color: #1e3a8a;
     border: 2px solid white;
 }
 
 .btn-secondary:hover {
     background: white;
-    color: #003d5c;
+    color: #1e3a8a;
 }
 
 @keyframes fadeInUp {
@@ -176,7 +176,7 @@ section:nth-child(even) {
 .section-title {
     text-align: center;
     font-size: 2.5rem;
-    color: #003d5c;
+    color: #1e3a8a;
     margin-bottom: 3rem;
     font-weight: 300;
     letter-spacing: 1px;
@@ -195,7 +195,7 @@ section:nth-child(even) {
 /* Declaration Section */
 .declaration-section {
     background: linear-gradient(135deg, #003d5c, #005580);
-    color: #003d5c;
+    color: #1e3a8a;
     padding: 4rem 2rem;
     text-align: center;
 }
@@ -249,7 +249,7 @@ section:nth-child(even) {
 }
 
 .service-card h3 {
-    color: #003d5c;
+    color: #1e3a8a;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
@@ -319,7 +319,7 @@ section:nth-child(even) {
 }
 
 .event-card h3 {
-    color: #003d5c;
+    color: #1e3a8a;
     margin-bottom: 0.75rem;
     font-size: 1.3rem;
 }
@@ -343,7 +343,7 @@ section:nth-child(even) {
 
 /* Footer */
 footer {
-    background: #003d5c;
+    background: #1e3a8a;
     color: white;
     text-align: center;
     padding: 2rem;
@@ -366,7 +366,7 @@ footer p {
         top: 70px;
         left: 0;
         right: 0;
-        background: #003d5c;
+        background: #1e3a8a;
         flex-direction: column;
         padding: 1rem 0;
         gap: 0;
