@@ -108,6 +108,7 @@ h1 {
   border-radius:8px;
   font-weight:600;
   cursor:pointer;
+  margin:5px;
 }
 
 /* MOBILE */
@@ -152,9 +153,8 @@ h1 {
     </div>
 
     <div class="share">
-      <button onclick="window.open('https://wa.me/?text='+encodeURIComponent(window.location.href))">
-        Share Devotional
-      </button>
+      <button onclick="shareWhatsApp()">Share on WhatsApp</button>
+      <button onclick="shareTelegram()">Share on Telegram</button>
     </div>
 
   </div>
@@ -174,8 +174,28 @@ fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
   })
   .catch(() => {
     document.getElementById("verseRef").innerText =
-      "Unable to load scripture today."
+      "Unable to load scripture today.";
   });
+
+
+// SHARE LOGIC — ENTIRE PAGE LINK
+function shareWhatsApp() {
+  const pageUrl = window.location.href;
+  const message = "Today's Devotional:\n" + pageUrl;
+  window.open("https://wa.me/?text=" + encodeURIComponent(message), "_blank");
+}
+
+function shareTelegram() {
+  const pageUrl = window.location.href;
+  const message = "Today's Devotional:";
+  window.open(
+    "https://t.me/share/url?url=" +
+    encodeURIComponent(pageUrl) +
+    "&text=" +
+    encodeURIComponent(message),
+    "_blank"
+  );
+}
 </script>
 
 </body>
