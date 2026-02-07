@@ -331,7 +331,7 @@ section:nth-child(even) {
 }
 
 .event-link {
-    color: #005580;
+    color: #1e3a8a;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s;
