@@ -230,7 +230,9 @@ h1 {
 </div>
 
   </div>
-</div><!-- html2canvas library --><script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script><script>
+</div>
+    <script>
+        <script>
 // Set date
 document.getElementById('currentDate').textContent = new Date().toLocaleDateString(
   'en-US',
@@ -274,13 +276,13 @@ fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
       In Jesus' name, Amen.
     `;
 
-    // WhatsApp share as image
+    // ===============================
+    // WHATSAPP SHARE — PAGE LINK ONLY
+    // ===============================
     document.getElementById('shareWhatsapp').onclick = () => {
-      html2canvas(document.getElementById('devotionalCard')).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
-        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent("Check out today's devotional:")}%0A${encodeURIComponent(imageData)}`;
-        window.open(whatsappUrl, '_blank');
-      });
+      const pageUrl = window.location.href;
+      const message = `Today's Devotional — ${verseRef}\n\nRead here: ${pageUrl}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
     };
 
   })
@@ -291,6 +293,8 @@ fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
       </div>
     `;
   });
-</script></body>
+</script>
+    </script>
+</body>
 </html>
 
