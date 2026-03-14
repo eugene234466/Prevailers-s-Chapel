@@ -221,69 +221,22 @@ async function loadVerse() {
 async function generateDevotion(verseText, verseRef) {
     document.getElementById('skeletonBlock').style.display = 'block';
 
-    // IMPORTANT: The scripture is injected into the system prompt AND user prompt
-    // so the model cannot ignore it.
-    const systemPrompt = `You are a warm, Spirit-filled pastor writing a daily devotional for a church congregation in Ghana. 
-You MUST base your entire devotional on the specific scripture provided. 
-Every paragraph of the message must directly reference or quote from the given verse.
-Do not write a generic devotional — it must be grounded in this specific scripture: "${verseText}" (${verseRef}).
-Respond ONLY with valid JSON. No markdown, no backticks, no explanation — pure JSON only.`;
-
-    const userPrompt = `Write a devotional based EXCLUSIVELY on this scripture:
-
-VERSE: "${verseText}"
-REFERENCE: ${verseRef}
-
-Return this exact JSON structure:
-{
-  "title": "A compelling sermon title that directly reflects the meaning of ${verseRef} (max 10 words)",
-  "message": [
-    "Opening paragraph: Begin by quoting or closely paraphrasing '${verseText}' and connect it to everyday life in Ghana (3-4 sentences)",
-    "Middle paragraph: Unpack the spiritual truth in this specific verse. Use a simple illustration or story that ties back to ${verseRef} (3-4 sentences)",
-    "Closing paragraph: Practical application — how to live out the truth of ${verseRef} today (2-3 sentences)"
-  ],
-  "reflections": [
-    "A personal introspective question directly about ${verseRef}",
-    "A question connecting ${verseRef} to relationships or community",
-    "An action-oriented question inspired by the truth in ${verseRef}",
-    "A faith question about trusting God as shown in ${verseRef}"
-  ],
-  "prayer": "A heartfelt prayer that opens by addressing God, specifically references '${verseText}' from ${verseRef}, applies it personally, and ends with Amen. (4-6 sentences)"
-}`;
-
     try {
         console.log('🤖 Sending to AI — verse:', verseRef);
 
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
+        const response = await fetch('/api/devotional', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                model: 'claude-sonnet-4-20250514',
-                max_tokens: 1200,
-                system: systemPrompt,
-                messages: [{ role: 'user', content: userPrompt }]
-            })
+            body: JSON.stringify({ verseText, verseRef })
         });
 
         if (!response.ok) {
-            const err = await response.text();
-            throw new Error(`API error ${response.status}: ${err}`);
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.error || `Server error ${response.status}`);
         }
 
-        const data = await response.json();
-        const raw  = data.content?.[0]?.text || '';
-        console.log('✅ AI response received, length:', raw.length);
-
-        // Strip any accidental markdown fences
-        const clean = raw.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
-
-        let parsed;
-        try {
-            parsed = JSON.parse(clean);
-        } catch (parseErr) {
-            console.error('❌ JSON parse failed. Raw response:', raw);
-            throw new Error('Could not parse AI response as JSON');
-        }
+        const parsed = await response.json();
+        console.log('✅ Devotional received for:', verseRef);
 
         renderContent(parsed);
 
