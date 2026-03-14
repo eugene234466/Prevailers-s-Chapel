@@ -1,5 +1,4 @@
-// /api/devotional.js
-
+// api/devotional.js
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
@@ -10,29 +9,49 @@ export default async function handler(req, res) {
         'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
     );
 
+    // Handle OPTIONS request
     if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
+        return res.status(200).end();
     }
 
+    // Handle GET request for testing
+    if (req.method === 'GET') {
+        return res.status(200).json({
+            message: 'Devotional API is running',
+            instructions: 'Send a POST request with verseText and verseRef',
+            timestamp: new Date().toISOString(),
+            environment: process.env.VERCEL_ENV || 'development'
+        });
+    }
+
+    // Only allow POST
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const { verseText, verseRef } = req.body;
-
-    if (!verseText || !verseRef) {
-        return res.status(400).json({ error: 'Missing verseText or verseRef' });
-    }
-
-    const API_KEY = process.env.ANTHROPIC_API_KEY;
-    if (!API_KEY) {
-        console.error('Missing ANTHROPIC_API_KEY environment variable');
-        return res.status(500).json({ error: 'Server misconfigured: missing API key' });
+        return res.status(405).json({ error: 'Method not allowed. Use POST.' });
     }
 
     try {
-        // Construct the prompt for Claude
+        const { verseText, verseRef } = req.body;
+
+        if (!verseText || !verseRef) {
+            return res.status(400).json({ 
+                error: 'Missing required fields',
+                required: ['verseText', 'verseRef']
+            });
+        }
+
+        const API_KEY = process.env.ANTHROPIC_API_KEY;
+        if (!API_KEY) {
+            console.error('ANTHROPIC_API_KEY is not set');
+            return res.status(500).json({ 
+                error: 'Server configuration error',
+                details: 'API key not found. Please add ANTHROPIC_API_KEY to environment variables.'
+            });
+        }
+
+        console.log('Generating devotional for:', verseRef);
+        console.log('Verse text:', verseText.substring(0, 50) + '...');
+
+        // Construct prompt for Claude
         const prompt = `You are a Christian pastor writing a daily devotional. Write an encouraging, thoughtful devotional based on this verse:
 
 Verse: ${verseRef} - "${verseText}"
@@ -59,8 +78,7 @@ Make it:
 - Written in warm, pastoral language
 - Appropriate for a diverse Christian audience`;
 
-        console.log('Calling Anthropic API for verse:', verseRef);
-
+        // Call Anthropic API
         const response = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
             headers: {
@@ -85,7 +103,17 @@ Make it:
         if (!response.ok) {
             const errorText = await response.text();
             console.error('Anthropic API error:', response.status, errorText);
-            throw new Error(`API responded with status ${response.status}: ${errorText}`);
+            
+            // Try to parse error
+            let errorDetail = 'Unknown error';
+            try {
+                const errorJson = JSON.parse(errorText);
+                errorDetail = errorJson.error?.message || errorJson.message || errorText;
+            } catch {
+                errorDetail = errorText.substring(0, 200);
+            }
+            
+            throw new Error(`Anthropic API returned ${response.status}: ${errorDetail}`);
         }
 
         const data = await response.json();
@@ -96,7 +124,7 @@ Make it:
         // Clean the text - remove any potential markdown code blocks
         text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
 
-        console.log('Raw AI response:', text.substring(0, 200) + '...');
+        console.log('Raw AI response received, length:', text.length);
 
         // Try to extract JSON from Claude output
         let parsed;
@@ -111,7 +139,7 @@ Make it:
                 try {
                     parsed = JSON.parse(match[0]);
                 } catch (innerErr) {
-                    console.error('Failed to parse JSON from match:', match[0]);
+                    console.error('Failed to parse JSON from match:', match[0].substring(0, 100));
                 }
             }
         }
@@ -139,13 +167,13 @@ Make it:
         };
 
         console.log('✅ Successfully generated devotional for:', verseRef);
-        res.status(200).json(validated);
+        return res.status(200).json(validated);
 
-    } catch (err) {
-        console.error('Devotional generation error:', err);
-        res.status(500).json({ 
+    } catch (error) {
+        console.error('Error in devotional API:', error);
+        return res.status(500).json({ 
             error: 'Failed to generate devotional',
-            details: err.message 
+            message: error.message
         });
     }
 }
