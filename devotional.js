@@ -1,0 +1,86 @@
+// api/devotional.js  — Vercel Serverless Function
+// Sits between the browser and Anthropic so the API key is never exposed.
+// Deploy this file at:  /api/devotional.js  in your Vercel project root.
+// Add ANTHROPIC_API_KEY to your Vercel environment variables.
+
+export default async function handler(req, res) {
+    // Only allow POST
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
+    const { verseText, verseRef } = req.body;
+
+    if (!verseText || !verseRef) {
+        return res.status(400).json({ error: 'verseText and verseRef are required' });
+    }
+
+    const systemPrompt = `You are a warm, Spirit-filled pastor writing a daily devotional for a church congregation in Ghana.
+You MUST base your entire devotional on the specific scripture provided.
+Every paragraph of the message must directly reference or quote from the given verse.
+Do not write a generic devotional — it must be grounded in this specific scripture: "${verseText}" (${verseRef}).
+Respond ONLY with valid JSON. No markdown, no backticks, no explanation — pure JSON only.`;
+
+    const userPrompt = `Write a devotional based EXCLUSIVELY on this scripture:
+
+VERSE: "${verseText}"
+REFERENCE: ${verseRef}
+
+Return this exact JSON structure:
+{
+  "title": "A compelling sermon title that directly reflects the meaning of ${verseRef} (max 10 words)",
+  "message": [
+    "Opening paragraph: Begin by quoting or closely paraphrasing '${verseText}' and connect it to everyday life in Ghana (3-4 sentences)",
+    "Middle paragraph: Unpack the spiritual truth in this specific verse. Use a simple illustration or story that ties back to ${verseRef} (3-4 sentences)",
+    "Closing paragraph: Practical application — how to live out the truth of ${verseRef} today (2-3 sentences)"
+  ],
+  "reflections": [
+    "A personal introspective question directly about ${verseRef}",
+    "A question connecting ${verseRef} to relationships or community",
+    "An action-oriented question inspired by the truth in ${verseRef}",
+    "A faith question about trusting God as shown in ${verseRef}"
+  ],
+  "prayer": "A heartfelt prayer that opens by addressing God, specifically references '${verseText}' from ${verseRef}, applies it personally, and ends with Amen. (4-6 sentences)"
+}`;
+
+    try {
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.ANTHROPIC_API_KEY,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model: 'claude-haiku-4-5-20251001', // Fast + cheap for daily devotionals
+                max_tokens: 1200,
+                system: systemPrompt,
+                messages: [{ role: 'user', content: userPrompt }]
+            })
+        });
+
+        if (!response.ok) {
+            const err = await response.text();
+            console.error('Anthropic API error:', response.status, err);
+            return res.status(502).json({ error: 'AI service unavailable' });
+        }
+
+        const data = await response.json();
+        const raw  = data.content?.[0]?.text || '';
+        const clean = raw.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+
+        let parsed;
+        try {
+            parsed = JSON.parse(clean);
+        } catch (e) {
+            console.error('JSON parse failed. Raw:', raw);
+            return res.status(502).json({ error: 'Invalid AI response format' });
+        }
+
+        return res.status(200).json(parsed);
+
+    } catch (e) {
+        console.error('Handler error:', e);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
