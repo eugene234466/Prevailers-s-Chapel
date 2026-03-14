@@ -2,6 +2,7 @@
 // Sits between the browser and Anthropic so the API key is never exposed.
 // Deploy this file at:  /api/devotional.js  in your Vercel project root.
 // Add ANTHROPIC_API_KEY to your Vercel environment variables.
+console.log("ANTHROPIC_API_KEY:", !!process.env.ANTHROPIC_API_KEY);
 
 export default async function handler(req, res) {
     // Only allow POST
