@@ -96,6 +96,8 @@
 
         .retry-btn { background: var(--navy); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 12px; }
         .retry-btn:hover { background: var(--blue); }
+        
+        .debug-info { background: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 0.8rem; margin-top: 20px; color: #475569; display: none; }
     </style>
 </head>
 <body>
@@ -169,6 +171,8 @@
         <div style="text-align: center; margin-top: 20px;" id="retryContainer" style="display:none;">
             <button class="retry-btn" onclick="loadVerse()">⟳ Try Again</button>
         </div>
+        
+        <div class="debug-info" id="debugInfo"></div>
     </div>
 
     <script>
@@ -179,6 +183,14 @@
 
         let _verseText = '';
         let _verseRef = '';
+
+        // Helper function to show debug info
+        function showDebug(message) {
+            const debugEl = document.getElementById('debugInfo');
+            debugEl.style.display = 'block';
+            debugEl.innerHTML += `<div>🔍 ${message}</div>`;
+            console.log('DEBUG:', message);
+        }
 
         // ── STEP 1: FETCH SCRIPTURE ────────────────────────────────
         async function loadVerse() {
@@ -199,6 +211,8 @@
             `;
 
             try {
+                showDebug('Fetching verse from Bible API...');
+                
                 const controller = new AbortController();
                 const timeout = setTimeout(() => controller.abort(), 8000);
 
@@ -220,12 +234,12 @@
                     <div class="verse-ref">— ${_verseRef}</div>
                 `;
 
-                console.log('✅ Verse loaded:', _verseRef);
+                showDebug(`✅ Verse loaded: ${_verseRef}`);
                 setupShareButtons();
                 await generateDevotion(_verseText, _verseRef);
 
             } catch (e) {
-                console.error('❌ Verse fetch failed:', e.message);
+                showDebug(`❌ Verse fetch failed: ${e.message}`);
                 
                 // Use fallback verse
                 _verseText = 'I can do all things through Christ who strengthens me.';
@@ -248,12 +262,26 @@
             document.getElementById('errorBox').style.display = 'none';
 
             try {
-                console.log('🤖 Sending to AI — verse:', verseRef);
+                // Get the base URL dynamically
+                const baseUrl = window.location.origin;
+                const apiUrl = `${baseUrl}/api/devotional`;
+                showDebug(`Calling API at: ${apiUrl}`);
+
+                // First test if API is reachable
+                try {
+                    const testResponse = await fetch(`${baseUrl}/api/test`, { method: 'GET' });
+                    if (testResponse.ok) {
+                        const testData = await testResponse.json();
+                        showDebug(`API test: ${JSON.stringify(testData)}`);
+                    }
+                } catch (testErr) {
+                    showDebug(`API test failed: ${testErr.message}`);
+                }
 
                 const controller = new AbortController();
                 const timeout = setTimeout(() => controller.abort(), 15000);
 
-                const response = await fetch('/api/devotional', {
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ verseText, verseRef }),
@@ -268,12 +296,11 @@
                 }
 
                 const parsed = await response.json();
-                console.log('✅ Devotional received for:', verseRef);
-
+                showDebug('✅ Devotional received from AI');
                 renderContent(parsed);
 
             } catch (e) {
-                console.error('❌ AI generation failed:', e.message);
+                showDebug(`❌ AI generation failed: ${e.message}`);
                 
                 const errorBox = document.getElementById('errorBox');
                 errorBox.textContent = `Unable to generate devotional: ${e.message}. Using fallback content.`;
@@ -329,7 +356,7 @@
 
         // ── FALLBACK CONTENT ───────────────────────────────────────
         function renderFallback(verseText, verseRef) {
-            console.warn('⚠️ Using fallback content for:', verseRef);
+            showDebug('⚠️ Using fallback content');
             
             const fallback = {
                 title: `Walking in the Truth of ${verseRef}`,
