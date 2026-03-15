@@ -39,74 +39,55 @@ export default async function handler(req, res) {
         if (!API_KEY) {
             console.log('No API key, using fallback');
             return res.status(200).json({
-                title: `Understanding ${verseRef}`,
+                title: `Living Out ${verseRef}`,
                 message: [
                     `${verseRef} tells us: "${verseText}"`,
-                    `The apostle Paul writes these words to believers facing persecution and conflict. In the surrounding verses, he gives commands for community life: warn the idle, encourage the timid, help the weak, be patient with everyone. Then he addresses the natural human response to being wronged - the desire for revenge.`,
-                    `The phrase "pay back wrong for wrong" reflects the ancient principle of retaliation, but Paul absolutely forbids this among believers. Instead, he commands us to "always strive" - the Greek word means to pursue or chase after aggressively. We are to pursue goodness with the same energy the world pursues revenge.`,
-                    `Notice the scope: "for each other" (fellow believers) AND "for everyone else" (even enemies). This echoes Jesus' teaching in Matthew 5:44-45 to love our enemies and pray for those who persecute us.`
+                    `Here's what this looks like in real life...`,
+                    `When you're tempted to get even with someone who hurt you, this verse calls you to a different path.`,
+                    `It's not easy, but God gives you the strength to do good even when others do you wrong.`
                 ],
                 reflections: [
-                    `When someone wrongs you, what is your first internal response? Revenge or doing good?`,
-                    `Is there someone right now toward whom you need to "strive to do good" instead of holding a grudge?`
+                    `Who comes to mind when you read this verse? Is there someone you need to forgive?`,
+                    `What's one small way you can "do good" to someone today, even if they don't deserve it?`
                 ],
-                prayer: `Lord Jesus, You who when reviled did not revile in return, give me Your strength to overcome evil with good. Search my heart for any bitterness and replace it with Your love, even for those who have wronged me. Amen.`
+                prayer: `Lord, this is hard. My first instinct is to strike back when I'm hurt. Give me Your heart and Your strength to do good instead. Amen.`
             });
         }
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // PROMPT - Bible explanation style exactly like the sample
-        const prompt = `You are a Bible teacher writing a daily devotional that explains scripture deeply and accurately. Write a devotional that TEACHES the meaning of this verse, following this EXACT style:
+        // PROMPT - Practical life application style
+        const prompt = `You are a pastor writing a daily devotional for your congregation. Write something practical that helps people APPLY God's Word to their everyday lives. Keep it warm, personal, and down-to-earth.
 
-SAMPLE DEVOTIONAL (study this style carefully):
-"Understanding 1 Thessalonians 5:15
+VERSE: ${verseRef} - "${verseText}"
 
-1 Thessalonians 5:15 tells us: 'Make sure that nobody pays back wrong for wrong, but always strive to do what is good for each other and for everyone else.'
+IMPORTANT GUIDELINES:
+- NOT a theology lecture - this is for regular people with jobs, kids, bills, and struggles
+- Use everyday language, not churchy jargon
+- Start with a real-life situation people can relate to
+- Explain the verse briefly, but focus on WHAT TO DO WITH IT TODAY
+- End with practical application they can actually do
 
-The apostle Paul writes these words to the Thessalonian believers who were facing persecution and conflict. In the previous verses (14-15), Paul gives a series of short, powerful commands for community life: warn the idle, encourage the timid, help the weak, be patient with everyone. Then he addresses the natural human response to being wronged - the desire for revenge.
+STYLE EXAMPLE (study this tone):
+"When someone cuts you off in traffic, what's your first instinct? Honk? Shout? Speed up and get back in front of them? 1 Thessalonians 5:15 speaks right into that moment. Paul says don't pay back wrong for wrong. Instead, do good. Even to that driver. Even when you're running late. That's not natural - that's supernatural. But that's exactly what following Jesus looks like in rush hour traffic."
 
-The phrase 'pay back wrong for wrong' (Greek: kakon anti kakou) reflects the ancient principle of retaliation, but Paul absolutely forbids this among believers. Instead, he commands them to 'always strive' - the Greek word diōkete means to pursue or chase after aggressively. We are to pursue goodness with the same energy the world pursues revenge.
-
-Notice the scope: 'for each other' (fellow believers) AND 'for everyone else' (even enemies). This echoes Jesus' teaching in Matthew 5:44-45 to love our enemies and pray for those who persecute us. Paul is applying the Sermon on the Mount to the daily life of the church.
-
-The reason? Vengeance belongs to God (Romans 12:19), and our good deeds become powerful witnesses to a watching world. When we refuse to retaliate and instead do good, we demonstrate that we are truly children of our Father in heaven.
-
-Questions for reflection:
-1. When someone wrongs you, what is your first internal response? Revenge or doing good?
-2. Is there someone right now toward whom you need to 'strive to do good' instead of holding a grudge?
-
-Prayer: Lord Jesus, You who when reviled did not revile in return, give me Your strength to overcome evil with good. Search my heart for any bitterness and replace it with Your love, even for those who have wronged me. Amen."
-
-NOW WRITE A DEVOTIONAL FOR THIS VERSE:
-${verseRef}: "${verseText}"
-
-REQUIREMENTS:
-- Start with "Understanding [verse reference]" as the title
-- First line should quote the verse exactly
-- EXPLAIN the context (who wrote it, to whom, what was happening)
-- EXPLAIN key words in the original language (Greek for NT, Hebrew for OT)
-- CONNECT to other scriptures that relate
-- APPLY briefly to daily life
-- End with 2 reflection questions and a prayer
-
-Return ONLY a JSON object with this exact structure:
+Return ONLY a JSON object with this structure:
 {
-  "title": "Understanding [Verse Reference]",
+  "title": "A short, catchy title that connects to real life (3-6 words)",
   "message": [
-    "First paragraph: Quote the verse and introduce its context. Who wrote it? To whom? What's happening? (2-3 sentences)",
-    "Second paragraph: Explain key words and phrases. Dig into the original language meaning. (3-4 sentences)",
-    "Third paragraph: Connect to other scriptures. Show how this fits with the rest of the Bible. (2-3 sentences)",
-    "Fourth paragraph: Brief application. What does this mean for today? (1-2 sentences)"
+    "First paragraph: Start with a relatable scenario or question that draws people in. Make them think 'that's me!' (2-3 sentences)",
+    "Second paragraph: Bring in the verse and explain it simply. What does it actually mean? No Greek or Hebrew unless it's super simple. (2-3 sentences)",
+    "Third paragraph: Give practical application. What does obeying this look like today? At work? At home? With your family? (3-4 sentences)",
+    "Fourth paragraph: Encouragement and hope. Remind them God provides the strength to do this. (1-2 sentences)"
   ],
   "reflections": [
-    "Question 1: A thoughtful, personal question that flows from the explanation",
-    "Question 2: Another practical question for application"
+    "A question that helps them examine their heart honestly",
+    "A question that moves them to action today"
   ],
-  "prayer": "A prayer that responds to the truth explained, written in a warm, personal tone"
+  "prayer": "A simple, honest prayer someone could pray right now - not fancy, just real"
 }
 
-IMPORTANT: This must be actual Bible teaching, not generic encouragement. Dig deep into the meaning!`
+Remember: Make it feel like a caring friend giving advice, not a professor teaching a class.`
 ;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -118,9 +99,9 @@ IMPORTANT: This must be actual Bible teaching, not generic encouragement. Dig de
             },
             body: JSON.stringify({
                 model: 'claude-3-haiku-20240307',
-                max_tokens: 1200,
-                temperature: 0.7,
-                system: "You are a Bible teacher and scholar who explains scripture deeply. You always provide context, original language meaning, and connections to other passages. You never give generic advice - you TEACH the Word.",
+                max_tokens: 1000,
+                temperature: 0.8,
+                system: "You are a warm, practical pastor who helps people apply God's Word to their everyday lives. You use simple language, real-life examples, and always point to what the reader can DO today.",
                 messages: [{ role: 'user', content: prompt }]
             })
         });
@@ -158,24 +139,19 @@ IMPORTANT: This must be actual Bible teaching, not generic encouragement. Dig de
         // Always return something useful
         const { verseText, verseRef } = req.body;
         
-        // Parse book and chapter
-        const bookMatch = verseRef.match(/([a-zA-Z\s]+)\s(\d+):/);
-        const book = bookMatch ? bookMatch[1] : 'Scripture';
-        
         return res.status(200).json({
-            title: `Understanding ${verseRef}`,
+            title: `Real Life with ${verseRef}`,
             message: [
-                `${verseRef} tells us: "${verseText}"`,
-                `The writer of ${book} presents this truth within a specific historical and theological context. Understanding the original audience and purpose helps us grasp the full meaning.`,
-                `In the original language, key words here carry deep significance. The construction emphasizes the certainty of God's promises and the appropriate human response.`,
-                `This passage connects with other scriptures that develop the same theme, forming a consistent biblical witness.`,
-                `For believers today, this truth calls us to examine our hearts and align our lives with God's revealed will.`
+                `You know that moment when someone really gets under your skin? Maybe it's a coworker who takes credit for your work, or a family member who knows exactly which buttons to push.`,
+                `${verseRef} speaks right into that moment: "${verseText}"`,
+                `Here's what this looks like practically: Before you fire off that angry text, pause. Before you give them the silent treatment, pause. Before you tell your side of the story to anyone who'll listen, pause. In that pause, ask God to show you what "doing good" could look like. Maybe it's a kind word. Maybe it's setting a boundary with grace. Maybe it's just praying for them instead of plotting against them.`,
+                `You can't do this in your own strength - and God knows that. He's not asking you to try harder. He's asking you to rely on Him more. His Spirit inside you can produce responses you never could on your own.`
             ],
             reflections: [
-                `What does this verse reveal about God's character and purposes?`,
-                `How should this truth shape your thoughts, words, or actions today?`
+                `Who is the hardest person for you to be kind to right now?`,
+                `What's one specific good thing you could do for them this week?`
             ],
-            prayer: `Lord God, thank You for Your Word in ${verseRef}. Open my eyes to understand its meaning and give me grace to live in light of Your truth. In Jesus' name, Amen.`
+            prayer: `God, I admit there are people I'd rather avoid than bless. Change my heart. Show me one practical way to do good today, and give me the strength to actually do it. Amen.`
         });
     }
 }
