@@ -359,7 +359,7 @@
                 <h2>Sunday Sermon Livestream</h2>
                 <div class="video-meta">
                     <span>📅 <strong>Sundays 9:00 AM GMT</strong></span>
-                    <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown"></span></span>
+                    <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown">Starting soon...</span></span>
                     <span>👥 Watch on <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener">Facebook</a></span>
                 </div>
                 <p class="video-description">
@@ -380,7 +380,7 @@
                     <button class="share-btn" onclick="shareOn('twitter')">Twitter</button>
                     <button class="share-btn" onclick="shareOn('whatsapp')">WhatsApp</button>
                 </div>
-                <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted;">Invite someone to join the service</p>
+                <p style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">Invite someone to join the service</p>
             </div>
 
             <!-- Prayer Request Card -->
@@ -391,12 +391,12 @@
                 <p id="prayerFeedback" style="margin-top: 8px; font-size: 13px; color: var(--text-muted); min-height: 20px;"></p>
             </div>
 
-            <!-- Upcoming Services Card (New) -->
+            <!-- Upcoming Services Card -->
             <div class="sidebar-card">
                 <h3>📅 Upcoming Services</h3>
                 <ul style="list-style: none; color: var(--text-muted);">
                     <li style="margin-bottom: 8px;">• Sunday Worship - 9:00 AM</li>
-                    <li style="margin-bottom: 8px;">• Wednesday Bible Study - 6:30 PM</li>
+                    <li style="margin-bottom: 8px;">• Wednesday Bible Study - 7:00 PM</li>
                     <li style="margin-bottom: 8px;">• Friday Prayer - 6:30 PM</li>
                 </ul>
             </div>
@@ -419,35 +419,52 @@
 </div>
 
 <script>
-    // Countdown timer for next service
+    // FIXED: Countdown timer for next Sunday service at 9:00 AM GMT
     function updateCountdown() {
         const now = new Date();
-        const nextSunday = new Date();
         
-        // Set to next Sunday at 9:00 AM
+        // Create next Sunday at 9:00 AM GMT
+        const nextSunday = new Date();
         nextSunday.setDate(now.getDate() + ((7 - now.getDay() + 0) % 7 || 7));
         nextSunday.setHours(9, 0, 0, 0);
         
-        // If it's past Sunday 9am, move to next week
-        if (now > nextSunday) {
-            nextSunday.setDate(nextSunday.getDate() + 7);
+        // If it's Sunday but before 9am, service is today!
+        if (now.getDay() === 0 && now.getHours() < 9) {
+            nextSunday.setDate(now.getDate()); // Today
+            nextSunday.setHours(9, 0, 0, 0);
         }
         
+        // Calculate difference
         const diff = nextSunday - now;
         
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        // If negative (service already started today), show "Live now" or "Next Sunday"
+        if (diff < 0) {
+            // Check if we're within service time (9am - 11am Sunday)
+            if (now.getDay() === 0 && now.getHours() >= 9 && now.getHours() < 11) {
+                document.getElementById('nextServiceCountdown').textContent = '🔴 LIVE NOW';
+            } else {
+                // Move to next Sunday
+                nextSunday.setDate(nextSunday.getDate() + 7);
+                const nextDiff = nextSunday - now;
+                const nextHours = Math.floor(nextDiff / (1000 * 60 * 60));
+                const nextMinutes = Math.floor((nextDiff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('nextServiceCountdown').textContent = `Next Sunday ${nextHours}h ${nextMinutes}m`;
+            }
+            return;
+        }
+        
+        // Format the countdown
+        const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         
         const countdownEl = document.getElementById('nextServiceCountdown');
-        if (countdownEl) {
-            if (days > 0) {
-                countdownEl.textContent = `${days}d ${hours}h ${minutes}m`;
-            } else if (hours > 0) {
-                countdownEl.textContent = `${hours}h ${minutes}m`;
-            } else {
-                countdownEl.textContent = `${minutes}m`;
-            }
+        
+        if (hours > 0) {
+            countdownEl.textContent = `${hours}h ${minutes}m`;
+        } else if (minutes > 0) {
+            countdownEl.textContent = `${minutes}m`;
+        } else {
+            countdownEl.textContent = `Starting soon...`;
         }
     }
 
@@ -540,19 +557,18 @@
         const now = new Date();
         const day = now.getDay(); // 0 = Sunday
         const hour = now.getHours();
-        const minutes = now.getMinutes();
         
-        const liveBadge = document.querySelector('.live-badge span');
+        const liveStatusEl = document.getElementById('liveStatus');
         
         // Sunday 9am - 11am
         if (day === 0 && hour >= 9 && hour < 11) {
-            liveBadge.textContent = '🔴 LIVE NOW';
+            liveStatusEl.textContent = '🔴 LIVE NOW';
         } else {
-            liveBadge.textContent = '⏰ NEXT SERVICE SOON';
+            liveStatusEl.textContent = '⏰ NEXT SERVICE SOON';
         }
     }
 
-    // Initialize countdown and live status
+    // Initialize
     updateCountdown();
     updateLiveStatus();
     
