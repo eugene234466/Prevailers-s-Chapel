@@ -304,6 +304,25 @@
             }
         }
 
+        .facebook-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1877f2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .facebook-link:hover {
+            background: #0d5fcc;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 28px; }
             .content-grid { grid-template-columns: 1fr; }
@@ -349,7 +368,7 @@
         <div class="video-section">
             <div class="video-wrapper">
                 <iframe 
-                    src="https://www.facebook.com/plugins/video.php?href=&show_text=false" 
+                    src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/debby.kutu1/videos/820307307006426&show_text=false" 
                     allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" 
                     allowfullscreen>
                 </iframe>
@@ -362,9 +381,12 @@
                     <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown">Starting soon...</span></span>
                     <span>👥 Watch on <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener">Facebook</a></span>
                 </div>
+                <a href="https://www.facebook.com/debby.kutu1/videos/820307307006426" target="_blank" rel="noopener" class="facebook-link">
+                    ▶️ Watch directly on Facebook
+                </a>
                 <p class="video-description">
                     Come and experience the mind of God as He speaks to us through His servant Apostle Frank Dzese. 
-                    First time here? Fill out our <a href="https://www.facebook.com/debby.kutu1/videos/820307307006426/contact.html">contact card</a> to connect with us.
+                    First time here? Fill out our <a href="contact.html">contact card</a> to connect with us.
                 </p>
             </div>
         </div>
@@ -396,7 +418,7 @@
                 <h3>📅 Upcoming Services</h3>
                 <ul style="list-style: none; color: var(--text-muted);">
                     <li style="margin-bottom: 8px;">• Sunday Worship - 9:00 AM</li>
-                    <li style="margin-bottom: 8px;">• Wednesday Bible Study - 6:30 PM</li>
+                    <li style="margin-bottom: 8px;">• Wednesday Bible Study - 7:00 PM</li>
                     <li style="margin-bottom: 8px;">• Friday Prayer - 6:30 PM</li>
                 </ul>
             </div>
