@@ -57,24 +57,40 @@ export default async function handler(req, res) {
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // Call Anthropic API
-        const prompt = `You are a Christian pastor. Write a devotional for ${verseRef}: "${verseText}"
+        // IMPROVED PROMPT - More pastoral and specific
+        const prompt = `You are a loving, experienced Christian pastor writing a daily devotional for your congregation. Write a warm, encouraging, and practical devotional based on this verse:
 
-Return ONLY this JSON format (no other text):
+VERSE: ${verseRef} - "${verseText}"
+
+INSTRUCTIONS:
+- Write like a caring pastor speaking directly to one person
+- Be warm, personal, and encouraging
+- Make it practical for daily life
+- Stay faithful to Scripture
+- Use simple, clear language
+
+Return ONLY a JSON object with this exact structure:
 {
-  "title": "A short, meaningful title (5-8 words)",
+  "title": "A warm, engaging title (5-8 words that capture the essence)",
   "message": [
-    "First paragraph explaining the verse (2-3 sentences)",
-    "Second paragraph with practical application (2-3 sentences)",
-    "Third paragraph with encouragement (2-3 sentences)"
+    "Start with a gentle introduction that connects the verse to everyday life. Make it personal and relatable. (2-3 sentences)",
+    "Explain the verse's meaning in simple terms. Share a brief insight about God's character or His promises. Include a short, relatable example or illustration. (3-4 sentences)",
+    "Give practical application for today. Help the reader take one step of faith. End with hope and encouragement. (2-3 sentences)"
   ],
   "reflections": [
-    "First reflection question",
-    "Second reflection question", 
-    "Third reflection question"
+    "A personal question that helps the reader examine their heart (make it gentle and thoughtful)",
+    "A question about applying this truth in their relationships or daily activities",
+    "A question that points them to take action or share with someone today"
   ],
-  "prayer": "A heartfelt prayer (3-4 sentences)"
-}`;
+  "prayer": "Write a heartfelt, conversational prayer that flows from the devotional. Address God warmly, thank Him for the truth in this verse, and ask for help to live it out. End with 'In Jesus' name, Amen.' (4-5 sentences)"
+}
+
+EXAMPLE OF GOOD TONE:
+Instead of "One must consider the theological implications..."
+Write: "Friend, have you ever felt like God was far away? This verse reminds us that..."
+
+Make every word feel like a gentle, caring conversation.`
+;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
@@ -86,8 +102,8 @@ Return ONLY this JSON format (no other text):
             body: JSON.stringify({
                 model: 'claude-3-haiku-20240307',
                 max_tokens: 1024,
-                temperature: 0.7,
-                system: "You are a helpful pastor. Always respond with valid JSON only.",
+                temperature: 0.8, // Slightly higher for more warmth
+                system: "You are a kind, experienced pastor who writes warm, personal devotionals. You speak directly to one person with love and encouragement. Your writing is simple, heartfelt, and practical.",
                 messages: [{ role: 'user', content: prompt }]
             })
         });
@@ -120,18 +136,19 @@ Return ONLY this JSON format (no other text):
 
         // Ensure all fields exist
         const result = {
-            title: parsed.title || `Word for Today`,
+            title: parsed.title || `Reflections on ${verseRef}`,
             message: Array.isArray(parsed.message) ? parsed.message : [
-                `Today's verse: ${verseRef}`,
-                "Meditate on God's Word.",
-                "Let it guide your steps."
+                `Today, let's reflect on ${verseRef}.`,
+                `"${verseText}"`,
+                "Take a moment to let these words sink into your heart.",
+                "God's Word has a way of meeting us right where we are."
             ],
             reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [
-                "How does this apply to your life?",
-                "What is God teaching you?",
-                "How will you respond?"
+                "What is God speaking to you through this verse?",
+                "How can you live this out today?",
+                "Who can you share this encouragement with?"
             ],
-            prayer: parsed.prayer || `Lord, thank You for ${verseRef}. Amen.`
+            prayer: parsed.prayer || `Dear Lord, thank You for ${verseRef}. Help me to carry this truth in my heart today. In Jesus' name, Amen.`
         };
 
         return res.status(200).json(result);
@@ -144,16 +161,16 @@ Return ONLY this JSON format (no other text):
             title: `God's Word for Today`,
             message: [
                 `"${verseText || 'God is love'}"`,
-                "Take time to reflect on this scripture.",
-                "Let God's truth encourage your heart today.",
-                "His promises are true and His love never fails."
+                "Friend, take a moment to read that verse again slowly.",
+                "Let it sink into your heart. God is speaking to you through these words.",
+                "Whatever you're facing today, He is with you."
             ],
             reflections: [
-                "What does this verse teach you about God?",
-                "How does it apply to your life right now?",
-                "Who can you share this encouragement with?"
+                "What word or phrase stood out to you in this verse?",
+                "How does this truth apply to your life right now?",
+                "What would it look like to trust God with this today?"
             ],
-            prayer: `Heavenly Father, thank You for Your Word in ${verseRef || 'Scripture'}. Help me to live in Your truth and share Your love with others today. In Jesus' name, Amen.`
+            prayer: `Lord Jesus, thank You for Your living Word. Speak to my heart through this scripture. Help me not just to read it, but to live it. I trust You with whatever I'm facing today. In Your name, Amen.`
         });
     }
 }
