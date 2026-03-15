@@ -39,57 +39,57 @@ export default async function handler(req, res) {
         if (!API_KEY) {
             console.log('No API key, using fallback');
             return res.status(200).json({
-                title: `Meditation on ${verseRef}`,
+                title: `Understanding ${verseRef}`,
                 message: [
-                    `"${verseText}"`,
-                    "Take time to meditate on this scripture today.",
-                    "Let God's Word guide your thoughts and actions.",
-                    "His promises are true and His love endures forever."
+                    `Today's scripture is ${verseRef}: "${verseText}"`,
+                    `This verse reveals God's character and His promises to us.`,
+                    `Take time to study the context and meaning of this passage.`,
+                    `Consider how it points to God's faithfulness and our response.`
                 ],
                 reflections: [
-                    `How does ${verseRef} speak to your current situation?`,
-                    "What is one way you can apply this verse today?",
-                    "Who in your life needs to hear this message?"
+                    `What does this verse teach you about God's character?`,
+                    `How should this truth shape your response to Him?`,
+                    `What practical difference does this make in your daily life?`
                 ],
-                prayer: `Heavenly Father, thank You for Your Word in ${verseRef}. Help me to hide it in my heart and live it out today. In Jesus' name, Amen.`
+                prayer: `Heavenly Father, thank You for Your Word in ${verseRef}. Help me to understand and apply this truth today. In Jesus' name, Amen.`
             });
         }
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // IMPROVED PROMPT - More pastoral and specific
-        const prompt = `You are a loving, experienced Christian pastor writing a daily devotional for your congregation. Write a warm, encouraging, and practical devotional based on this verse:
+        // UPDATED PROMPT - Bible explanation style like the sample
+        const prompt = `You are a Bible teacher writing a daily devotional that explains scripture. Write a devotional that teaches and explains the meaning of this verse, just like the sample provided.
 
-VERSE: ${verseRef} - "${verseText}"
+SAMPLE DEVOTIONAL STYLE:
+"Our God is faithful and just - let us praise Him
 
-INSTRUCTIONS:
-- Write like a caring pastor speaking directly to one person
-- Be warm, personal, and encouraging
-- Make it practical for daily life
-- Stay faithful to Scripture
-- Use simple, clear language
+Some people feel awkward praising God publicly, but for the Psalmist, it was his utmost desire to express his thanksgiving wholeheartedly in the congregation of the righteous (v.1). How did he describe the works of God from v.3? God's miraculous works attest to His greatness, honour, and goodness. He provides food for those who fear Him, and He is forever mindful of His covenant (vs.2-6). God's actions are trustworthy and just (vs.7-9). This means that God is fair and His decisions are always right. If you must enjoy more of God's faithfulness and walk in wisdom, you must fear and obey Him at all times and in all things. The fear of the Lord is the beginning of wisdom (v.10)."
 
-Return ONLY a JSON object with this exact structure:
+VERSE TO EXPLAIN TODAY: ${verseRef} - "${verseText}"
+
+Write a devotional that:
+1. EXPLAINS what the verse means (don't just say "meditate on it")
+2. TEACHES the context and significance
+3. REVEALS something about God's character
+4. APPLIES it to daily life (1-2 sentences at most)
+5. Uses a warm but instructive tone
+
+Return ONLY a JSON object with this structure:
 {
-  "title": "A warm, engaging title (5-8 words that capture the essence)",
+  "title": "A clear, meaningful title that captures the main truth (5-8 words)",
   "message": [
-    "Start with a gentle introduction that connects the verse to everyday life. Make it personal and relatable. (2-3 sentences)",
-    "Explain the verse's meaning in simple terms. Share a brief insight about God's character or His promises. Include a short, relatable example or illustration. (3-4 sentences)",
-    "Give practical application for today. Help the reader take one step of faith. End with hope and encouragement. (2-3 sentences)"
+    "First paragraph: Introduce the verse and explain its context. What is the psalmist or writer communicating? (2-3 sentences)",
+    "Second paragraph: Dig deeper into the meaning. Explain key phrases. What does this teach us about God? About ourselves? (3-4 sentences)",
+    "Third paragraph: Brief application. How should this truth shape our lives today? (1-2 sentences)"
   ],
   "reflections": [
-    "A personal question that helps the reader examine their heart (make it gentle and thoughtful)",
-    "A question about applying this truth in their relationships or daily activities",
-    "A question that points them to take action or share with someone today"
+    "Question 1: A thoughtful question that helps readers examine their lives (like the sample's Q.1)",
+    "Question 2: Another practical question for application (like the sample's Q.2)"
   ],
-  "prayer": "Write a heartfelt, conversational prayer that flows from the devotional. Address God warmly, thank Him for the truth in this verse, and ask for help to live it out. End with 'In Jesus' name, Amen.' (4-5 sentences)"
+  "prayer": "A prayer that responds to the truth explained, not just a generic blessing"
 }
 
-EXAMPLE OF GOOD TONE:
-Instead of "One must consider the theological implications..."
-Write: "Friend, have you ever felt like God was far away? This verse reminds us that..."
-
-Make every word feel like a gentle, caring conversation.`
+Important: Focus on EXPLAINING the scripture, not just encouraging meditation. Be warm but instructive.`
 ;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -102,8 +102,8 @@ Make every word feel like a gentle, caring conversation.`
             body: JSON.stringify({
                 model: 'claude-3-haiku-20240307',
                 max_tokens: 1024,
-                temperature: 0.8, // Slightly higher for more warmth
-                system: "You are a kind, experienced pastor who writes warm, personal devotionals. You speak directly to one person with love and encouragement. Your writing is simple, heartfelt, and practical.",
+                temperature: 0.7,
+                system: "You are a Bible teacher who explains scripture clearly and warmly. You focus on teaching the meaning of the text, not just encouraging meditation.",
                 messages: [{ role: 'user', content: prompt }]
             })
         });
@@ -136,19 +136,18 @@ Make every word feel like a gentle, caring conversation.`
 
         // Ensure all fields exist
         const result = {
-            title: parsed.title || `Reflections on ${verseRef}`,
+            title: parsed.title || `Understanding ${verseRef}`,
             message: Array.isArray(parsed.message) ? parsed.message : [
-                `Today, let's reflect on ${verseRef}.`,
-                `"${verseText}"`,
-                "Take a moment to let these words sink into your heart.",
-                "God's Word has a way of meeting us right where we are."
+                `Today's scripture is ${verseRef}: "${verseText}"`,
+                `This verse reveals an important truth about God's character and His relationship with us.`,
+                `The writer is emphasizing that God is faithful to His promises and just in all His ways.`,
+                `This means we can trust Him completely, even when we don't understand our circumstances.`
             ],
             reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [
-                "What is God speaking to you through this verse?",
-                "How can you live this out today?",
-                "Who can you share this encouragement with?"
+                `What does this verse teach you about God's character?`,
+                `How should this truth shape your response to Him today?`
             ],
-            prayer: parsed.prayer || `Dear Lord, thank You for ${verseRef}. Help me to carry this truth in my heart today. In Jesus' name, Amen.`
+            prayer: parsed.prayer || `Lord, thank You for revealing Yourself through Your Word. Help me to trust in Your faithfulness and justice today. Amen.`
         };
 
         return res.status(200).json(result);
@@ -158,19 +157,18 @@ Make every word feel like a gentle, caring conversation.`
         // Always return something useful
         const { verseText, verseRef } = req.body;
         return res.status(200).json({
-            title: `God's Word for Today`,
+            title: `Understanding ${verseRef}`,
             message: [
-                `"${verseText || 'God is love'}"`,
-                "Friend, take a moment to read that verse again slowly.",
-                "Let it sink into your heart. God is speaking to you through these words.",
-                "Whatever you're facing today, He is with you."
+                `${verseRef} tells us: "${verseText}"`,
+                `This verse reveals God's character - He is faithful, just, and worthy of our trust.`,
+                `The writer wants us to understand that God's nature is unchanging, even when our circumstances fluctuate.`,
+                `Because God is faithful, we can rely on His promises. Because He is just, we know He will do what is right.`
             ],
             reflections: [
-                "What word or phrase stood out to you in this verse?",
-                "How does this truth apply to your life right now?",
-                "What would it look like to trust God with this today?"
+                `How have you experienced God's faithfulness recently?`,
+                `What does it mean for you today that God is just?`
             ],
-            prayer: `Lord Jesus, thank You for Your living Word. Speak to my heart through this scripture. Help me not just to read it, but to live it. I trust You with whatever I'm facing today. In Your name, Amen.`
+            prayer: `Heavenly Father, thank You for revealing Yourself in ${verseRef}. Help me to trust in Your faithfulness and rest in Your justice today. In Jesus' name, Amen.`
         });
     }
 }
