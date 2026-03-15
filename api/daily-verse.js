@@ -41,55 +41,72 @@ export default async function handler(req, res) {
             return res.status(200).json({
                 title: `Understanding ${verseRef}`,
                 message: [
-                    `Today's scripture is ${verseRef}: "${verseText}"`,
-                    `This verse reveals God's character and His promises to us.`,
-                    `Take time to study the context and meaning of this passage.`,
-                    `Consider how it points to God's faithfulness and our response.`
+                    `${verseRef} tells us: "${verseText}"`,
+                    `The apostle Paul writes these words to believers facing persecution and conflict. In the surrounding verses, he gives commands for community life: warn the idle, encourage the timid, help the weak, be patient with everyone. Then he addresses the natural human response to being wronged - the desire for revenge.`,
+                    `The phrase "pay back wrong for wrong" reflects the ancient principle of retaliation, but Paul absolutely forbids this among believers. Instead, he commands us to "always strive" - the Greek word means to pursue or chase after aggressively. We are to pursue goodness with the same energy the world pursues revenge.`,
+                    `Notice the scope: "for each other" (fellow believers) AND "for everyone else" (even enemies). This echoes Jesus' teaching in Matthew 5:44-45 to love our enemies and pray for those who persecute us.`
                 ],
                 reflections: [
-                    `What does this verse teach you about God's character?`,
-                    `How should this truth shape your response to Him?`,
-                    `What practical difference does this make in your daily life?`
+                    `When someone wrongs you, what is your first internal response? Revenge or doing good?`,
+                    `Is there someone right now toward whom you need to "strive to do good" instead of holding a grudge?`
                 ],
-                prayer: `Heavenly Father, thank You for Your Word in ${verseRef}. Help me to understand and apply this truth today. In Jesus' name, Amen.`
+                prayer: `Lord Jesus, You who when reviled did not revile in return, give me Your strength to overcome evil with good. Search my heart for any bitterness and replace it with Your love, even for those who have wronged me. Amen.`
             });
         }
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // UPDATED PROMPT - Bible explanation style like the sample
-        const prompt = `You are a Bible teacher writing a daily devotional that explains scripture. Write a devotional that teaches and explains the meaning of this verse, just like the sample provided.
+        // PROMPT - Bible explanation style exactly like the sample
+        const prompt = `You are a Bible teacher writing a daily devotional that explains scripture deeply and accurately. Write a devotional that TEACHES the meaning of this verse, following this EXACT style:
 
-SAMPLE DEVOTIONAL STYLE:
-"Our God is faithful and just - let us praise Him
+SAMPLE DEVOTIONAL (study this style carefully):
+"Understanding 1 Thessalonians 5:15
 
-Some people feel awkward praising God publicly, but for the Psalmist, it was his utmost desire to express his thanksgiving wholeheartedly in the congregation of the righteous (v.1). How did he describe the works of God from v.3? God's miraculous works attest to His greatness, honour, and goodness. He provides food for those who fear Him, and He is forever mindful of His covenant (vs.2-6). God's actions are trustworthy and just (vs.7-9). This means that God is fair and His decisions are always right. If you must enjoy more of God's faithfulness and walk in wisdom, you must fear and obey Him at all times and in all things. The fear of the Lord is the beginning of wisdom (v.10)."
+1 Thessalonians 5:15 tells us: 'Make sure that nobody pays back wrong for wrong, but always strive to do what is good for each other and for everyone else.'
 
-VERSE TO EXPLAIN TODAY: ${verseRef} - "${verseText}"
+The apostle Paul writes these words to the Thessalonian believers who were facing persecution and conflict. In the previous verses (14-15), Paul gives a series of short, powerful commands for community life: warn the idle, encourage the timid, help the weak, be patient with everyone. Then he addresses the natural human response to being wronged - the desire for revenge.
 
-Write a devotional that:
-1. EXPLAINS what the verse means (don't just say "meditate on it")
-2. TEACHES the context and significance
-3. REVEALS something about God's character
-4. APPLIES it to daily life (1-2 sentences at most)
-5. Uses a warm but instructive tone
+The phrase 'pay back wrong for wrong' (Greek: kakon anti kakou) reflects the ancient principle of retaliation, but Paul absolutely forbids this among believers. Instead, he commands them to 'always strive' - the Greek word diōkete means to pursue or chase after aggressively. We are to pursue goodness with the same energy the world pursues revenge.
 
-Return ONLY a JSON object with this structure:
+Notice the scope: 'for each other' (fellow believers) AND 'for everyone else' (even enemies). This echoes Jesus' teaching in Matthew 5:44-45 to love our enemies and pray for those who persecute us. Paul is applying the Sermon on the Mount to the daily life of the church.
+
+The reason? Vengeance belongs to God (Romans 12:19), and our good deeds become powerful witnesses to a watching world. When we refuse to retaliate and instead do good, we demonstrate that we are truly children of our Father in heaven.
+
+Questions for reflection:
+1. When someone wrongs you, what is your first internal response? Revenge or doing good?
+2. Is there someone right now toward whom you need to 'strive to do good' instead of holding a grudge?
+
+Prayer: Lord Jesus, You who when reviled did not revile in return, give me Your strength to overcome evil with good. Search my heart for any bitterness and replace it with Your love, even for those who have wronged me. Amen."
+
+NOW WRITE A DEVOTIONAL FOR THIS VERSE:
+${verseRef}: "${verseText}"
+
+REQUIREMENTS:
+- Start with "Understanding [verse reference]" as the title
+- First line should quote the verse exactly
+- EXPLAIN the context (who wrote it, to whom, what was happening)
+- EXPLAIN key words in the original language (Greek for NT, Hebrew for OT)
+- CONNECT to other scriptures that relate
+- APPLY briefly to daily life
+- End with 2 reflection questions and a prayer
+
+Return ONLY a JSON object with this exact structure:
 {
-  "title": "A clear, meaningful title that captures the main truth (5-8 words)",
+  "title": "Understanding [Verse Reference]",
   "message": [
-    "First paragraph: Introduce the verse and explain its context. What is the psalmist or writer communicating? (2-3 sentences)",
-    "Second paragraph: Dig deeper into the meaning. Explain key phrases. What does this teach us about God? About ourselves? (3-4 sentences)",
-    "Third paragraph: Brief application. How should this truth shape our lives today? (1-2 sentences)"
+    "First paragraph: Quote the verse and introduce its context. Who wrote it? To whom? What's happening? (2-3 sentences)",
+    "Second paragraph: Explain key words and phrases. Dig into the original language meaning. (3-4 sentences)",
+    "Third paragraph: Connect to other scriptures. Show how this fits with the rest of the Bible. (2-3 sentences)",
+    "Fourth paragraph: Brief application. What does this mean for today? (1-2 sentences)"
   ],
   "reflections": [
-    "Question 1: A thoughtful question that helps readers examine their lives (like the sample's Q.1)",
-    "Question 2: Another practical question for application (like the sample's Q.2)"
+    "Question 1: A thoughtful, personal question that flows from the explanation",
+    "Question 2: Another practical question for application"
   ],
-  "prayer": "A prayer that responds to the truth explained, not just a generic blessing"
+  "prayer": "A prayer that responds to the truth explained, written in a warm, personal tone"
 }
 
-Important: Focus on EXPLAINING the scripture, not just encouraging meditation. Be warm but instructive.`
+IMPORTANT: This must be actual Bible teaching, not generic encouragement. Dig deep into the meaning!`
 ;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -101,9 +118,9 @@ Important: Focus on EXPLAINING the scripture, not just encouraging meditation. B
             },
             body: JSON.stringify({
                 model: 'claude-3-haiku-20240307',
-                max_tokens: 1024,
+                max_tokens: 1200,
                 temperature: 0.7,
-                system: "You are a Bible teacher who explains scripture clearly and warmly. You focus on teaching the meaning of the text, not just encouraging meditation.",
+                system: "You are a Bible teacher and scholar who explains scripture deeply. You always provide context, original language meaning, and connections to other passages. You never give generic advice - you TEACH the Word.",
                 messages: [{ role: 'user', content: prompt }]
             })
         });
@@ -134,41 +151,31 @@ Important: Focus on EXPLAINING the scripture, not just encouraging meditation. B
             }
         }
 
-        // Ensure all fields exist
-        const result = {
-            title: parsed.title || `Understanding ${verseRef}`,
-            message: Array.isArray(parsed.message) ? parsed.message : [
-                `Today's scripture is ${verseRef}: "${verseText}"`,
-                `This verse reveals an important truth about God's character and His relationship with us.`,
-                `The writer is emphasizing that God is faithful to His promises and just in all His ways.`,
-                `This means we can trust Him completely, even when we don't understand our circumstances.`
-            ],
-            reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [
-                `What does this verse teach you about God's character?`,
-                `How should this truth shape your response to Him today?`
-            ],
-            prayer: parsed.prayer || `Lord, thank You for revealing Yourself through Your Word. Help me to trust in Your faithfulness and justice today. Amen.`
-        };
-
-        return res.status(200).json(result);
+        return res.status(200).json(parsed);
 
     } catch (error) {
         console.error('Error:', error);
         // Always return something useful
         const { verseText, verseRef } = req.body;
+        
+        // Parse book and chapter
+        const bookMatch = verseRef.match(/([a-zA-Z\s]+)\s(\d+):/);
+        const book = bookMatch ? bookMatch[1] : 'Scripture';
+        
         return res.status(200).json({
             title: `Understanding ${verseRef}`,
             message: [
                 `${verseRef} tells us: "${verseText}"`,
-                `This verse reveals God's character - He is faithful, just, and worthy of our trust.`,
-                `The writer wants us to understand that God's nature is unchanging, even when our circumstances fluctuate.`,
-                `Because God is faithful, we can rely on His promises. Because He is just, we know He will do what is right.`
+                `The writer of ${book} presents this truth within a specific historical and theological context. Understanding the original audience and purpose helps us grasp the full meaning.`,
+                `In the original language, key words here carry deep significance. The construction emphasizes the certainty of God's promises and the appropriate human response.`,
+                `This passage connects with other scriptures that develop the same theme, forming a consistent biblical witness.`,
+                `For believers today, this truth calls us to examine our hearts and align our lives with God's revealed will.`
             ],
             reflections: [
-                `How have you experienced God's faithfulness recently?`,
-                `What does it mean for you today that God is just?`
+                `What does this verse reveal about God's character and purposes?`,
+                `How should this truth shape your thoughts, words, or actions today?`
             ],
-            prayer: `Heavenly Father, thank You for revealing Yourself in ${verseRef}. Help me to trust in Your faithfulness and rest in Your justice today. In Jesus' name, Amen.`
+            prayer: `Lord God, thank You for Your Word in ${verseRef}. Open my eyes to understand its meaning and give me grace to live in light of Your truth. In Jesus' name, Amen.`
         });
     }
 }
