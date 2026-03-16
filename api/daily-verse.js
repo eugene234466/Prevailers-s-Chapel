@@ -28,16 +28,17 @@ export default async function handler(req, res) {
         const { verseText, verseRef } = req.body;
 
         if (!verseText || !verseRef) {
-            return res.status(400).json({ 
-                error: 'Missing verseText or verseRef' 
+            return res.status(400).json({
+                error: 'Missing verseText or verseRef'
             });
         }
 
         const API_KEY = process.env.ANTHROPIC_API_KEY;
-        
+
         // If no API key, return thoughtful fallback
         if (!API_KEY) {
             console.log('No API key, using fallback');
+
             return res.status(200).json({
                 title: `Understanding ${verseRef}`,
                 message: [
@@ -172,7 +173,9 @@ Required JSON Format
                 max_tokens: 1000,
                 temperature: 0.7,
                 system: "You are a warm, pastoral Bible teacher who writes devotionals that are biblically faithful, deeply spiritual, and practically helpful. You always let the scripture guide your teaching.",
-                messages: [{ role: 'user', content: prompt }]
+                messages: [
+                    { role: 'user', content: prompt }
+                ]
             })
         });
 
@@ -183,31 +186,53 @@ Required JSON Format
         }
 
         const data = await response.json();
-        let text = data.content[0].text;
-        
-        // Clean the response
-        text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-        
-        // Parse JSON
+
+        // DEBUG: log full Claude response
+        console.log("Claude raw response:", JSON.stringify(data));
+
+        // Safely extract text
+        let text = data.content?.[0]?.text || "";
+
+        if (!text) {
+            throw new Error("Claude returned empty response");
+        }
+
+        // Clean markdown formatting if Claude added it
+        text = text
+            .replace(/```json/g, '')
+            .replace(/```/g, '')
+            .trim();
+
+        console.log("Claude cleaned text:", text);
+
+        // Parse JSON safely
         let parsed;
+
         try {
             parsed = JSON.parse(text);
         } catch (e) {
-            console.log('Failed direct parse, trying to extract JSON...');
+            console.log('Direct JSON parse failed, trying extraction...');
+
             const match = text.match(/\{[\s\S]*\}/);
+
             if (match) {
                 parsed = JSON.parse(match[0]);
             } else {
-                throw new Error('Could not parse AI response');
+                throw new Error('Could not extract JSON from Claude response');
             }
         }
+
+        console.log("Claude devotional parsed successfully");
 
         return res.status(200).json(parsed);
 
     } catch (error) {
-        console.error('Error:', error);
-        const { verseText, verseRef } = req.body;
-        
+
+        console.error('Devotional API Error:', error);
+
+        const { verseText, verseRef } = req.body || {};
+
+        // Always return something useful
         return res.status(200).json({
             title: `Reflections on ${verseRef}`,
             message: [
