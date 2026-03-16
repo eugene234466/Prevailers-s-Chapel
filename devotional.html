@@ -263,8 +263,8 @@
             document.getElementById('errorBox').style.display = 'none';
 
             try {
-                // Use your working API
-                const apiUrl = 'https://prevailers-chapel.vercel.app/api/daily-verse';
+                // USING EXTERNAL API - No API key needed!
+                const apiUrl = 'https://api.zyphr.io/api/devotional';
                 showDebug(`Calling API at: ${apiUrl}`);
 
                 const controller = new AbortController();
@@ -280,9 +280,8 @@
                 clearTimeout(timeout);
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    showDebug(`Error response: ${errorText}`);
-                    throw new Error(`Server error ${response.status}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `Server error ${response.status}`);
                 }
 
                 const parsed = await response.json();
