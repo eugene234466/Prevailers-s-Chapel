@@ -1,3 +1,6 @@
+console.log("ANTHROPIC_API_KEY length:", process.env.ANTHROPIC_API_KEY?.length);
+
+
 // api/daily-verse.js
 export default async function handler(req, res) {
     // Add CORS headers
