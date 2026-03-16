@@ -56,7 +56,6 @@ export default async function handler(req, res) {
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // HIGH-QUALITY PROMPT V2 - Your improved version
         const prompt = `You are a pastor, Bible teacher, and devotional writer preparing a short daily devotional for Christians seeking spiritual encouragement and practical wisdom.
 
 Your task is to write a devotional based on the following scripture.
@@ -74,16 +73,20 @@ Explain the meaning of this verse in a way that is:
 The devotional should help readers understand the verse, reflect on their spiritual life, and respond to God in prayer.
 
 Writing Instructions
+
 1. Let the Scripture Lead
 The devotional must be guided by the verse itself.
+
 Examples:
 If the verse speaks about peace, explain biblical peace.
 If it addresses faith, explore trusting God.
 If it deals with suffering, speak about endurance and hope.
 If it highlights love or obedience, focus on those themes.
+
 Avoid forcing a generic devotional structure.
 
 2. Paragraph Expectations
+
 Paragraph 1 – Understanding the Verse
 Explain what the verse means.
 Mention important words, imagery, or context if helpful.
@@ -101,37 +104,46 @@ Make the verse practical.
 Show how a believer might apply this truth in everyday life.
 Encourage reflection and obedience.
 
+Each paragraph should be about 3–5 sentences and concise but meaningful.
+
 3. Tone
+
 Write in a voice that feels like:
 a pastor encouraging their church
 compassionate
 hopeful
 personal but not casual
 spiritually thoughtful
+
 Avoid:
 academic commentary
 theological jargon
 robotic or repetitive structures
 
 4. Reflection Questions
-Write two thoughtful reflection questions that help the reader:
-examine their heart
-apply the verse personally
-The questions should be deep, not generic.
+
+Write two thoughtful reflection questions that are:
+- open-ended
+- personally applicable
+- directly connected to the verse
+- helpful for examining one's heart and life
 
 5. Prayer
+
 Write a short heartfelt prayer that:
-responds to the truth of the verse
-asks God for help to live it out
-sounds natural and sincere
+- responds to the truth of the verse
+- asks God for help to live it out
+- sounds natural, sincere, and pastoral
 
 Output Requirements
-Return ONLY valid JSON.
-Do NOT include:
-explanations
-markdown
-commentary
-extra text
+
+Return ONLY a valid JSON object.
+
+The response MUST:
+- start with {
+- end with }
+- contain no text before or after the JSON
+- contain valid JSON syntax
 
 Required JSON Format
 {
@@ -194,7 +206,6 @@ Required JSON Format
 
     } catch (error) {
         console.error('Error:', error);
-        // Always return something useful
         const { verseText, verseRef } = req.body;
         
         return res.status(200).json({
