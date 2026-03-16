@@ -39,55 +39,51 @@ export default async function handler(req, res) {
         if (!API_KEY) {
             console.log('No API key, using fallback');
             return res.status(200).json({
-                title: `Living Out ${verseRef}`,
+                title: `Understanding ${verseRef}`,
                 message: [
                     `${verseRef} tells us: "${verseText}"`,
-                    `Here's what this looks like in real life...`,
-                    `When you're tempted to get even with someone who hurt you, this verse calls you to a different path.`,
-                    `It's not easy, but God gives you the strength to do good even when others do you wrong.`
+                    `This verse reveals something important about God's character and His relationship with us.`,
+                    `Take time to reflect on what God is saying to you through these words today.`,
+                    `Let this scripture guide your thoughts and actions.`
                 ],
                 reflections: [
-                    `Who comes to mind when you read this verse? Is there someone you need to forgive?`,
-                    `What's one small way you can "do good" to someone today, even if they don't deserve it?`
+                    `What does this verse teach you about God?`,
+                    `How does it apply to your life right now?`
                 ],
-                prayer: `Lord, this is hard. My first instinct is to strike back when I'm hurt. Give me Your heart and Your strength to do good instead. Amen.`
+                prayer: `Lord, thank You for Your Word. Help me to understand and live out this truth today. Amen.`
             });
         }
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // PROMPT - Practical life application style
-        const prompt = `You are a pastor writing a daily devotional for your congregation. Write something practical that helps people APPLY God's Word to their everyday lives. Keep it warm, personal, and down-to-earth.
+        // DYNAMIC PROMPT - Let Claude explain based on what the verse actually says
+        const prompt = `You are a pastor writing a daily devotional. Write a warm, practical explanation of this verse:
 
 VERSE: ${verseRef} - "${verseText}"
 
-IMPORTANT GUIDELINES:
-- NOT a theology lecture - this is for regular people with jobs, kids, bills, and struggles
-- Use everyday language, not churchy jargon
-- Start with a real-life situation people can relate to
-- Explain the verse briefly, but focus on WHAT TO DO WITH IT TODAY
-- End with practical application they can actually do
+INSTRUCTIONS:
+- EXPLAIN what this verse actually means (context, key words, what it's teaching)
+- Make it practical for everyday life
+- Be warm and personal, like a pastor talking to their congregation
+- Let the content be GUIDED BY THE VERSE ITSELF - if it's about faith, explain faith; if it's about love, explain love; if it's about suffering, explain suffering
+- Don't force the same structure every time - be dynamic
 
-STYLE EXAMPLE (study this tone):
-"When someone cuts you off in traffic, what's your first instinct? Honk? Shout? Speed up and get back in front of them? 1 Thessalonians 5:15 speaks right into that moment. Paul says don't pay back wrong for wrong. Instead, do good. Even to that driver. Even when you're running late. That's not natural - that's supernatural. But that's exactly what following Jesus looks like in rush hour traffic."
-
-Return ONLY a JSON object with this structure:
+Return a JSON object with this structure:
 {
-  "title": "A short, catchy title that connects to real life (3-6 words)",
+  "title": "A title that captures the main point of THIS specific verse",
   "message": [
-    "First paragraph: Start with a relatable scenario or question that draws people in. Make them think 'that's me!' (2-3 sentences)",
-    "Second paragraph: Bring in the verse and explain it simply. What does it actually mean? No Greek or Hebrew unless it's super simple. (2-3 sentences)",
-    "Third paragraph: Give practical application. What does obeying this look like today? At work? At home? With your family? (3-4 sentences)",
-    "Fourth paragraph: Encouragement and hope. Remind them God provides the strength to do this. (1-2 sentences)"
+    "First paragraph: Explain what the verse means. What's the context? What's the key message?",
+    "Second paragraph: Go deeper. What does this teach us about God? About ourselves?",
+    "Third paragraph: Practical application. How do we live this out today?"
   ],
   "reflections": [
-    "A question that helps them examine their heart honestly",
-    "A question that moves them to action today"
+    "A thoughtful question that flows from this specific verse",
+    "Another question that helps apply it personally"
   ],
-  "prayer": "A simple, honest prayer someone could pray right now - not fancy, just real"
+  "prayer": "A prayer that responds to the truth of THIS verse"
 }
 
-Remember: Make it feel like a caring friend giving advice, not a professor teaching a class.`
+Remember: Be dynamic! If the verse is about grace, talk about grace. If it's about forgiveness, talk about forgiveness. Let the scripture guide you.`
 ;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -100,8 +96,8 @@ Remember: Make it feel like a caring friend giving advice, not a professor teach
             body: JSON.stringify({
                 model: 'claude-3-haiku-20240307',
                 max_tokens: 1000,
-                temperature: 0.8,
-                system: "You are a warm, practical pastor who helps people apply God's Word to their everyday lives. You use simple language, real-life examples, and always point to what the reader can DO today.",
+                temperature: 0.7,
+                system: "You are a warm, practical pastor who explains scripture clearly. You let the Bible itself guide what you say - every verse gets treated according to what it's actually about.",
                 messages: [{ role: 'user', content: prompt }]
             })
         });
@@ -140,18 +136,18 @@ Remember: Make it feel like a caring friend giving advice, not a professor teach
         const { verseText, verseRef } = req.body;
         
         return res.status(200).json({
-            title: `Real Life with ${verseRef}`,
+            title: `Reflections on ${verseRef}`,
             message: [
-                `You know that moment when someone really gets under your skin? Maybe it's a coworker who takes credit for your work, or a family member who knows exactly which buttons to push.`,
-                `${verseRef} speaks right into that moment: "${verseText}"`,
-                `Here's what this looks like practically: Before you fire off that angry text, pause. Before you give them the silent treatment, pause. Before you tell your side of the story to anyone who'll listen, pause. In that pause, ask God to show you what "doing good" could look like. Maybe it's a kind word. Maybe it's setting a boundary with grace. Maybe it's just praying for them instead of plotting against them.`,
-                `You can't do this in your own strength - and God knows that. He's not asking you to try harder. He's asking you to rely on Him more. His Spirit inside you can produce responses you never could on your own.`
+                `Today's scripture: ${verseRef} - "${verseText}"`,
+                `This verse speaks directly to our lives. Take time to let it sink in.`,
+                `God's Word has a way of meeting us right where we are.`,
+                `Whatever you're facing today, this truth is for you.`
             ],
             reflections: [
-                `Who is the hardest person for you to be kind to right now?`,
-                `What's one specific good thing you could do for them this week?`
+                `What stands out to you most in this verse?`,
+                `How can you live this out today?`
             ],
-            prayer: `God, I admit there are people I'd rather avoid than bless. Change my heart. Show me one practical way to do good today, and give me the strength to actually do it. Amen.`
+            prayer: `Lord, thank You for speaking to me through Your Word. Help me to walk in this truth today. Amen.`
         });
     }
 }
