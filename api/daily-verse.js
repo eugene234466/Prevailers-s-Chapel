@@ -42,117 +42,62 @@ export default async function handler(req, res) {
             console.log(`API Key length: ${API_KEY.length}`);
         }
         
-        // If no API key, return thoughtful fallback
+        // If no API key, return practical fallback
         if (!API_KEY) {
             console.log('No API key, using fallback');
             return res.status(200).json({
-                title: `The Greatness of Our God`,
+                title: `When God Feels Bigger Than Your Problems`,
                 message: [
-                    `${verseRef} declares: "${verseText}"`,
-                    `The psalmist David uses the Hebrew word "gadol" for "great" - it speaks of something magnificent, beyond ordinary measure. God's greatness isn't like human greatness - it's infinite, unmatched, and eternal.`,
-                    `The phrase "no one can fathom" comes from the Hebrew "eyn cheqer" - there is no searching, no measuring, no fully comprehending. This doesn't frustrate God; it invites worship. A God we could fully explain would be too small for our needs.`,
-                    `Today, instead of trying to figure God out completely, let's stand in awe of who He is. Your problems may seem big, but they're not bigger than your God. His greatness has no limits - and neither does His love for you.`
+                    `${verseRef} says: "${verseText}"`,
+                    `You know those days when everything feels overwhelming? The kids are acting up, work is stressful, and you're running on empty. This verse is for that exact moment.`,
+                    `The writer isn't using fancy religious language. He's saying something simple: God is really, really big. Bigger than your messy house. Bigger than your bank account. Bigger than that situation you've been worrying about.`,
+                    `So today, when you feel small and your problems feel huge, just look up. The same God who holds the universe together can handle whatever you're facing. You don't need to have it all figured out. You just need to remember who's in charge.`
                 ],
                 reflections: [
-                    `What aspect of God's greatness amazes you most today?`,
-                    `How might remembering God's unfathomable greatness change how you face your current situation?`
+                    `What's one thing stressing you out right now that you need to hand over to God?`,
+                    `How might your day change if you actually believed God is bigger than your problems?`
                 ],
-                prayer: `Lord, Your greatness is beyond what my mind can grasp. Yet in Your mercy, You reveal Yourself to me. Today, I choose to trust not in my own understanding, but in Your infinite wisdom and love. Amen.`
+                prayer: `God, I've been carrying a lot. Remind me today that You're bigger than any of it. Help me to trust You with the things I can't control. Amen.`
             });
         }
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // YOUR HIGH-QUALITY PROMPT V2
-        const prompt = `You are a pastor, Bible teacher, and devotional writer preparing a short daily devotional for Christians seeking spiritual encouragement and practical wisdom.
+        // PRACTICAL, EVERYDAY PROMPT - Less theology, more real life
+        const prompt = `You are a pastor writing a short daily devotional for regular people with jobs, families, and real-life struggles.
 
-Your task is to write a devotional based on the following scripture.
+Scripture: ${verseRef} — "${verseText}"
 
-Scripture
-${verseRef} — "${verseText}"
+Write a devotional that SOUNDS LIKE THIS:
+- Start with a relatable situation someone might be facing today
+- Use everyday language, not churchy words
+- Explain the verse simply - what does it mean for Tuesday morning?
+- Give practical help they can actually use today
+- End with hope they can hold onto
 
-Core Objective
-Explain the meaning of this verse in a way that is:
-- Biblically faithful
-- Pastoral and warm
-- Deep but easy to understand
-- Practical for everyday Christian living
+NOT this: theological explanations, Greek words, deep doctrine
+DO this: "You know that moment when...", "Here's what helps me...", "Today you could try..."
 
-The devotional should help readers understand the verse, reflect on their spiritual life, and respond to God in prayer.
+Format:
+Title: A short, catchy title (3-6 words)
 
-Writing Instructions
-1. Let the Scripture Lead
-The devotional must be guided by the verse itself.
-Examples:
-If the verse speaks about peace, explain biblical peace.
-If it addresses faith, explore trusting God.
-If it deals with suffering, speak about endurance and hope.
-If it highlights love or obedience, focus on those themes.
-Avoid forcing a generic devotional structure.
+Message: Three short paragraphs that feel like a friend encouraging you
+Paragraph 1: Start with something relatable
+Paragraph 2: Bring in the verse and what it means for real life
+Paragraph 3: Give one practical thing they can do today
 
-2. Paragraph Expectations
-Paragraph 1 – Understanding the Verse
-Explain what the verse means.
-Mention important words, imagery, or context if helpful.
-Focus on the main truth the verse communicates.
+Reflections: Two simple questions that help them apply it
+Question 1: Something to think about
+Question 2: Something to try
 
-Paragraph 2 – Spiritual Insight
-Go deeper into what this verse reveals about:
-God's character
-God's promises
-human nature
-the life of faith
+Prayer: A short, honest prayer in everyday words
 
-Paragraph 3 – Living It Out
-Make the verse practical.
-Show how a believer might apply this truth in everyday life.
-Encourage reflection and obedience.
-
-3. Tone
-Write in a voice that feels like:
-a pastor encouraging their church
-compassionate
-hopeful
-personal but not casual
-spiritually thoughtful
-Avoid:
-academic commentary
-theological jargon
-robotic or repetitive structures
-
-4. Reflection Questions
-Write two thoughtful reflection questions that help the reader:
-examine their heart
-apply the verse personally
-The questions should be deep, not generic.
-
-5. Prayer
-Write a short heartfelt prayer that:
-responds to the truth of the verse
-asks God for help to live it out
-sounds natural and sincere
-
-Output Requirements
-Return ONLY valid JSON.
-Do NOT include:
-explanations
-markdown
-commentary
-extra text
-
-Required JSON Format
+Return ONLY valid JSON with this structure:
 {
-  "title": "A meaningful devotional title that reflects the message of the verse",
-  "message": [
-    "Paragraph explaining the meaning of the verse",
-    "Paragraph exploring the deeper spiritual insight",
-    "Paragraph giving practical life application"
-  ],
-  "reflections": [
-    "Reflection question based on the verse",
-    "Personal application question"
-  ],
-  "prayer": "A sincere prayer responding to the message of the verse"
+  "title": "title here",
+  "message": ["para1", "para2", "para3"],
+  "reflections": ["question1", "question2"],
+  "prayer": "prayer here"
 }`;
 
         try {
@@ -165,9 +110,9 @@ Required JSON Format
                 },
                 body: JSON.stringify({
                     model: 'claude-3-haiku-20240307',
-                    max_tokens: 1000,
-                    temperature: 0.7,
-                    system: "You are a warm, pastoral Bible teacher who writes devotionals that are biblically faithful, deeply spiritual, and practically helpful. You always let the scripture guide your teaching.",
+                    max_tokens: 800,
+                    temperature: 0.8,
+                    system: "You are a pastor who talks like a friend. You use simple words and help people connect God's Word to their everyday life. No jargon, no theology lessons - just real help for real people.",
                     messages: [{ role: 'user', content: prompt }]
                 })
             });
@@ -175,22 +120,20 @@ Required JSON Format
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Anthropic API error status:', response.status);
-                console.error('Anthropic API error response:', errorText);
                 
-                // Fallback to built-in devotional if Anthropic fails
+                // Practical fallback
                 return res.status(200).json({
-                    title: `The Unfathomable Greatness of God`,
+                    title: `For When You Need to Remember`,
                     message: [
-                        `${verseRef} tells us: "${verseText}"`,
-                        `The Hebrew word for "great" here is "gadol" - it speaks of something magnificent, immense, beyond ordinary measure. The psalmist isn't just saying God is big; he's declaring that God's greatness is in a category all its own.`,
-                        `The phrase "no one can fathom" comes from "eyn cheqer" - there is no searching, no measuring, no fully comprehending. This doesn't mean we can't know God at all; it means we spend eternity discovering more of who He is. His love has no bottom, His wisdom no limit, His power no boundary.`,
-                        `Today, when life feels overwhelming, remember you serve a God whose greatness is bigger than any problem. When you don't understand your circumstances, trust the God whose ways are beyond finding out. Let your inability to fully comprehend Him become an invitation to deeper trust.`
+                        `You know those moments when you forget who's really in charge? When you're stressing over things you can't control?`,
+                        `${verseRef} is a gentle reminder: "${verseText}" It's not complicated theology. It's just truth - God is good, and you can trust Him.`,
+                        `Today, try this: every time you catch yourself worrying, take one deep breath and quietly say, "God's got this." See if it changes how you feel by the end of the day.`
                     ],
                     reflections: [
-                        `When have you tried to put God in a box you could understand?`,
-                        `How might you embrace the mystery of God's greatness today instead of trying to figure it all out?`
+                        `What's one thing you're holding onto that you need to let God handle?`,
+                        `Who in your life needs to hear this reminder today?`
                     ],
-                    prayer: `Lord, forgive me for wanting a God small enough to fit in my understanding. Expand my vision of Your greatness today. Help me to trust You even when I cannot trace You. In Jesus' name, Amen.`
+                    prayer: `God, I forget sometimes. I get busy and stressed and I try to do it all myself. Help me remember today that You're with me, You're for me, and You're big enough for whatever comes. Amen.`
                 });
             }
 
@@ -216,17 +159,17 @@ Required JSON Format
 
             // Ensure the response has the required structure
             const devotional = {
-                title: parsed.title || `Reflections on ${verseRef}`,
+                title: parsed.title || `A Word for Today`,
                 message: Array.isArray(parsed.message) ? parsed.message : [
-                    parsed.message || `Today we reflect on ${verseRef}.`,
-                    "Take time to meditate on God's Word.",
-                    "Let it guide your steps today."
+                    `Let's be real for a moment.`,
+                    `${verseRef} says: "${verseText}"`,
+                    `That's something you can hold onto today.`
                 ],
                 reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [
-                    "What is God saying to you through this verse?",
-                    "How will you respond today?"
+                    `What stood out to you in this verse?`,
+                    `How can you live this out today?`
                 ],
-                prayer: parsed.prayer || `Lord, thank You for Your Word in ${verseRef}. Amen.`
+                prayer: parsed.prayer || `God, help me with this today. Amen.`
             };
 
             return res.status(200).json(devotional);
@@ -234,40 +177,37 @@ Required JSON Format
         } catch (anthropicError) {
             console.error('Anthropic fetch error:', anthropicError.message);
             
-            // Return a beautiful fallback specific to this verse
+            // Practical, relatable fallback
             return res.status(200).json({
-                title: `The God We Cannot Fully Grasp`,
+                title: `For When You're Feeling Small`,
                 message: [
-                    `${verseRef} declares: "${verseText}"`,
-                    `The psalmist uses two powerful Hebrew words here. "Gadol" (great) describes something so immense it overwhelms the senses. And "eyn cheqer" (no one can fathom) means there's no searching it out - like trying to measure the ocean with a teaspoon.`,
-                    `This verse isn't discouraging - it's liberating! We don't have to have God all figured out. We're invited to stand in awe, to worship, to trust. A God we could fully explain would be a God small enough for our minds but too small for our needs.`,
-                    `Today, instead of being frustrated by what you don't understand about God, let it draw you into wonder. Your questions don't threaten Him - they're an invitation to know Him more.`
+                    `Ever have one of those days where everything feels too big and you feel too small?`,
+                    `${verseRef} is for that day. "${verseText}" It's not saying you have to understand everything about God. It's saying He's got this. He's got you.`,
+                    `So today, just breathe. You don't have to have all the answers. You don't have to be strong enough. You just have to look up and remember who's actually in charge.`
                 ],
                 reflections: [
-                    `What's one thing about God that amazes you today?`,
-                    `How might you turn your unanswered questions into moments of worship?`
+                    `What's weighing on you right now that you need to hand over?`,
+                    `What would it look like to trust God with that one thing today?`
                 ],
-                prayer: `Father, thank You that You're bigger than my understanding. Help me to trust You not because I have all the answers, but because I know Your character. Expand my awe of You today. In Jesus' name, Amen.`
+                prayer: `God, I'm handing this to You. I can't carry it anymore. Help me to trust You with it today. Amen.`
             });
         }
 
     } catch (error) {
         console.error('Server error:', error.message);
-        // Always return something useful
         const { verseText, verseRef } = req.body || {};
         return res.status(200).json({
-            title: `God's Word for Today`,
+            title: `Just For Today`,
             message: [
-                `${verseRef || 'Today'}'s scripture reminds us: "${verseText || 'God is love'}"`,
-                `This verse reveals something important about God's character.`,
-                `Take time to reflect on what God is saying to you through these words.`,
-                `Let this scripture guide your thoughts and actions today.`
+                `Some days are harder than others.`,
+                `${verseRef || 'Scripture'} reminds us: "${verseText || 'God is with you'}"`,
+                `That's enough to get through today. One step at a time.`
             ],
             reflections: [
-                `What does this verse teach you about God?`,
-                `How does it apply to your life right now?`
+                `What do you need from God today?`,
+                `Who can you check in on?`
             ],
-            prayer: `Lord, thank You for Your Word. Help me to understand and live out this truth today. Amen.`
+            prayer: `God, be with me today. That's all I ask. Amen.`
         });
     }
 }
