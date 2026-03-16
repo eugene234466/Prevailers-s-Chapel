@@ -1,6 +1,3 @@
-console.log("ANTHROPIC_API_KEY length:", process.env.ANTHROPIC_API_KEY?.length);
-
-
 // api/daily-verse.js
 export default async function handler(req, res) {
     // Add CORS headers
@@ -31,21 +28,20 @@ export default async function handler(req, res) {
         const { verseText, verseRef } = req.body;
 
         if (!verseText || !verseRef) {
-            return res.status(400).json({
-                error: 'Missing verseText or verseRef'
+            return res.status(400).json({ 
+                error: 'Missing verseText or verseRef' 
             });
         }
 
         const API_KEY = process.env.ANTHROPIC_API_KEY;
-
+        
         // If no API key, return thoughtful fallback
         if (!API_KEY) {
             console.log('No API key, using fallback');
-
             return res.status(200).json({
                 title: `Understanding ${verseRef}`,
                 message: [
-                    `${verseRef} tells us: "${verseText}"`,
+                    `${verseRef} reminds us: "${verseText}"`,
                     `This verse reveals something important about God's character and His relationship with us.`,
                     `Take time to reflect on what God is saying to you through these words today.`,
                     `Let this scripture guide your thoughts and actions.`
@@ -60,6 +56,7 @@ export default async function handler(req, res) {
 
         console.log('Calling Anthropic API for:', verseRef);
 
+        // YOUR HIGH-QUALITY PROMPT V2
         const prompt = `You are a pastor, Bible teacher, and devotional writer preparing a short daily devotional for Christians seeking spiritual encouragement and practical wisdom.
 
 Your task is to write a devotional based on the following scripture.
@@ -77,20 +74,16 @@ Explain the meaning of this verse in a way that is:
 The devotional should help readers understand the verse, reflect on their spiritual life, and respond to God in prayer.
 
 Writing Instructions
-
 1. Let the Scripture Lead
 The devotional must be guided by the verse itself.
-
 Examples:
 If the verse speaks about peace, explain biblical peace.
 If it addresses faith, explore trusting God.
 If it deals with suffering, speak about endurance and hope.
 If it highlights love or obedience, focus on those themes.
-
 Avoid forcing a generic devotional structure.
 
 2. Paragraph Expectations
-
 Paragraph 1 – Understanding the Verse
 Explain what the verse means.
 Mention important words, imagery, or context if helpful.
@@ -108,46 +101,37 @@ Make the verse practical.
 Show how a believer might apply this truth in everyday life.
 Encourage reflection and obedience.
 
-Each paragraph should be about 3–5 sentences and concise but meaningful.
-
 3. Tone
-
 Write in a voice that feels like:
 a pastor encouraging their church
 compassionate
 hopeful
 personal but not casual
 spiritually thoughtful
-
 Avoid:
 academic commentary
 theological jargon
 robotic or repetitive structures
 
 4. Reflection Questions
-
-Write two thoughtful reflection questions that are:
-- open-ended
-- personally applicable
-- directly connected to the verse
-- helpful for examining one's heart and life
+Write two thoughtful reflection questions that help the reader:
+examine their heart
+apply the verse personally
+The questions should be deep, not generic.
 
 5. Prayer
-
 Write a short heartfelt prayer that:
-- responds to the truth of the verse
-- asks God for help to live it out
-- sounds natural, sincere, and pastoral
+responds to the truth of the verse
+asks God for help to live it out
+sounds natural and sincere
 
 Output Requirements
-
-Return ONLY a valid JSON object.
-
-The response MUST:
-- start with {
-- end with }
-- contain no text before or after the JSON
-- contain valid JSON syntax
+Return ONLY valid JSON.
+Do NOT include:
+explanations
+markdown
+commentary
+extra text
 
 Required JSON Format
 {
@@ -176,9 +160,7 @@ Required JSON Format
                 max_tokens: 1000,
                 temperature: 0.7,
                 system: "You are a warm, pastoral Bible teacher who writes devotionals that are biblically faithful, deeply spiritual, and practically helpful. You always let the scripture guide your teaching.",
-                messages: [
-                    { role: 'user', content: prompt }
-                ]
+                messages: [{ role: 'user', content: prompt }]
             })
         });
 
@@ -189,53 +171,32 @@ Required JSON Format
         }
 
         const data = await response.json();
-
-        // DEBUG: log full Claude response
-        console.log("Claude raw response:", JSON.stringify(data));
-
-        // Safely extract text
-        let text = data.content?.[0]?.text || "";
-
-        if (!text) {
-            throw new Error("Claude returned empty response");
-        }
-
-        // Clean markdown formatting if Claude added it
-        text = text
-            .replace(/```json/g, '')
-            .replace(/```/g, '')
-            .trim();
-
-        console.log("Claude cleaned text:", text);
-
-        // Parse JSON safely
+        let text = data.content[0].text;
+        
+        // Clean the response
+        text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        
+        // Parse JSON
         let parsed;
-
         try {
             parsed = JSON.parse(text);
         } catch (e) {
-            console.log('Direct JSON parse failed, trying extraction...');
-
+            console.log('Failed direct parse, trying to extract JSON...');
             const match = text.match(/\{[\s\S]*\}/);
-
             if (match) {
                 parsed = JSON.parse(match[0]);
             } else {
-                throw new Error('Could not extract JSON from Claude response');
+                throw new Error('Could not parse AI response');
             }
         }
-
-        console.log("Claude devotional parsed successfully");
 
         return res.status(200).json(parsed);
 
     } catch (error) {
-
-        console.error('Devotional API Error:', error);
-
-        const { verseText, verseRef } = req.body || {};
-
+        console.error('Error:', error);
         // Always return something useful
+        const { verseText, verseRef } = req.body;
+        
         return res.status(200).json({
             title: `Reflections on ${verseRef}`,
             message: [
