@@ -56,35 +56,97 @@ export default async function handler(req, res) {
 
         console.log('Calling Anthropic API for:', verseRef);
 
-        // DYNAMIC PROMPT - Let Claude explain based on what the verse actually says
-        const prompt = `You are a pastor writing a daily devotional. Write a warm, practical explanation of this verse:
+        // HIGH-QUALITY PROMPT V2 - Your improved version
+        const prompt = `You are a pastor, Bible teacher, and devotional writer preparing a short daily devotional for Christians seeking spiritual encouragement and practical wisdom.
 
-VERSE: ${verseRef} - "${verseText}"
+Your task is to write a devotional based on the following scripture.
 
-INSTRUCTIONS:
-- EXPLAIN what this verse actually means (context, key words, what it's teaching)
-- Make it practical for everyday life
-- Be warm and personal, like a pastor talking to their congregation
-- Let the content be GUIDED BY THE VERSE ITSELF - if it's about faith, explain faith; if it's about love, explain love; if it's about suffering, explain suffering
-- Don't force the same structure every time - be dynamic
+Scripture
+${verseRef} — "${verseText}"
 
-Return a JSON object with this structure:
+Core Objective
+Explain the meaning of this verse in a way that is:
+- Biblically faithful
+- Pastoral and warm
+- Deep but easy to understand
+- Practical for everyday Christian living
+
+The devotional should help readers understand the verse, reflect on their spiritual life, and respond to God in prayer.
+
+Writing Instructions
+1. Let the Scripture Lead
+The devotional must be guided by the verse itself.
+Examples:
+If the verse speaks about peace, explain biblical peace.
+If it addresses faith, explore trusting God.
+If it deals with suffering, speak about endurance and hope.
+If it highlights love or obedience, focus on those themes.
+Avoid forcing a generic devotional structure.
+
+2. Paragraph Expectations
+Paragraph 1 – Understanding the Verse
+Explain what the verse means.
+Mention important words, imagery, or context if helpful.
+Focus on the main truth the verse communicates.
+
+Paragraph 2 – Spiritual Insight
+Go deeper into what this verse reveals about:
+God's character
+God's promises
+human nature
+the life of faith
+
+Paragraph 3 – Living It Out
+Make the verse practical.
+Show how a believer might apply this truth in everyday life.
+Encourage reflection and obedience.
+
+3. Tone
+Write in a voice that feels like:
+a pastor encouraging their church
+compassionate
+hopeful
+personal but not casual
+spiritually thoughtful
+Avoid:
+academic commentary
+theological jargon
+robotic or repetitive structures
+
+4. Reflection Questions
+Write two thoughtful reflection questions that help the reader:
+examine their heart
+apply the verse personally
+The questions should be deep, not generic.
+
+5. Prayer
+Write a short heartfelt prayer that:
+responds to the truth of the verse
+asks God for help to live it out
+sounds natural and sincere
+
+Output Requirements
+Return ONLY valid JSON.
+Do NOT include:
+explanations
+markdown
+commentary
+extra text
+
+Required JSON Format
 {
-  "title": "A title that captures the main point of THIS specific verse",
+  "title": "A meaningful devotional title that reflects the message of the verse",
   "message": [
-    "First paragraph: Explain what the verse means. What's the context? What's the key message?",
-    "Second paragraph: Go deeper. What does this teach us about God? About ourselves?",
-    "Third paragraph: Practical application. How do we live this out today?"
+    "Paragraph explaining the meaning of the verse",
+    "Paragraph exploring the deeper spiritual insight",
+    "Paragraph giving practical life application"
   ],
   "reflections": [
-    "A thoughtful question that flows from this specific verse",
-    "Another question that helps apply it personally"
+    "Reflection question based on the verse",
+    "Personal application question"
   ],
-  "prayer": "A prayer that responds to the truth of THIS verse"
-}
-
-Remember: Be dynamic! If the verse is about grace, talk about grace. If it's about forgiveness, talk about forgiveness. Let the scripture guide you.`
-;
+  "prayer": "A sincere prayer responding to the message of the verse"
+}`;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
             method: 'POST',
@@ -97,7 +159,7 @@ Remember: Be dynamic! If the verse is about grace, talk about grace. If it's abo
                 model: 'claude-3-haiku-20240307',
                 max_tokens: 1000,
                 temperature: 0.7,
-                system: "You are a warm, practical pastor who explains scripture clearly. You let the Bible itself guide what you say - every verse gets treated according to what it's actually about.",
+                system: "You are a warm, pastoral Bible teacher who writes devotionals that are biblically faithful, deeply spiritual, and practically helpful. You always let the scripture guide your teaching.",
                 messages: [{ role: 'user', content: prompt }]
             })
         });
@@ -138,16 +200,16 @@ Remember: Be dynamic! If the verse is about grace, talk about grace. If it's abo
         return res.status(200).json({
             title: `Reflections on ${verseRef}`,
             message: [
-                `Today's scripture: ${verseRef} - "${verseText}"`,
-                `This verse speaks directly to our lives. Take time to let it sink in.`,
-                `God's Word has a way of meeting us right where we are.`,
-                `Whatever you're facing today, this truth is for you.`
+                `${verseRef} reminds us: "${verseText || 'God is love'}"`,
+                `This verse speaks to our hearts and calls us to deeper faith.`,
+                `Take time to let these words sink in and shape your day.`,
+                `God's truth has the power to transform how we live.`
             ],
             reflections: [
-                `What stands out to you most in this verse?`,
-                `How can you live this out today?`
+                `What is God saying to you through this verse?`,
+                `How will you respond today?`
             ],
-            prayer: `Lord, thank You for speaking to me through Your Word. Help me to walk in this truth today. Amen.`
+            prayer: `Lord, thank You for Your living Word. Speak to my heart through this scripture and help me to walk in Your ways. Amen.`
         });
     }
 }
