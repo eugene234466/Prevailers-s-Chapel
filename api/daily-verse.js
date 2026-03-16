@@ -25,11 +25,16 @@ export default async function handler(req, res) {
     }
 
     try {
+        // Log the request body for debugging
+        console.log('Request body:', req.body);
+        
         const { verseText, verseRef } = req.body;
 
         if (!verseText || !verseRef) {
+            console.log('Missing fields:', { verseText, verseRef });
             return res.status(400).json({ 
-                error: 'Missing verseText or verseRef' 
+                error: 'Missing verseText or verseRef',
+                received: { verseText, verseRef }
             });
         }
 
@@ -41,16 +46,16 @@ export default async function handler(req, res) {
             return res.status(200).json({
                 title: `Understanding ${verseRef}`,
                 message: [
-                    `${verseRef} reminds us: "${verseText}"`,
-                    `This verse reveals something important about God's character and His relationship with us.`,
-                    `Take time to reflect on what God is saying to you through these words today.`,
-                    `Let this scripture guide your thoughts and actions.`
+                    `${verseRef} tells us: "${verseText}"`,
+                    `This verse reveals God's character - He is great and worthy of our praise.`,
+                    `The word "fathom" means to measure or comprehend fully. God's greatness is beyond human understanding.`,
+                    `Today, instead of trying to figure God out completely, let's stand in awe of who He is.`
                 ],
                 reflections: [
-                    `What does this verse teach you about God?`,
-                    `How does it apply to your life right now?`
+                    `What aspect of God's greatness amazes you most today?`,
+                    `How can you respond to God's greatness with praise right now?`
                 ],
-                prayer: `Lord, thank You for Your Word. Help me to understand and live out this truth today. Amen.`
+                prayer: `Lord, Your greatness is beyond what my mind can grasp. Yet You invite me to know You. Help me to trust You even when I cannot fully understand You. Amen.`
             });
         }
 
@@ -190,26 +195,40 @@ Required JSON Format
             }
         }
 
-        return res.status(200).json(parsed);
+        // Ensure the response has the required structure
+        const devotional = {
+            title: parsed.title || `Reflections on ${verseRef}`,
+            message: Array.isArray(parsed.message) ? parsed.message : [
+                parsed.message || `Today we reflect on ${verseRef}.`,
+                "Take time to meditate on God's Word.",
+                "Let it guide your steps today."
+            ],
+            reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [
+                "What is God saying to you through this verse?",
+                "How will you respond today?"
+            ],
+            prayer: parsed.prayer || `Lord, thank You for Your Word in ${verseRef}. Amen.`
+        };
+
+        return res.status(200).json(devotional);
 
     } catch (error) {
         console.error('Error:', error);
         // Always return something useful
-        const { verseText, verseRef } = req.body;
-        
+        const { verseText, verseRef } = req.body || {};
         return res.status(200).json({
-            title: `Reflections on ${verseRef}`,
+            title: `Reflections on ${verseRef || 'Scripture'}`,
             message: [
-                `${verseRef} reminds us: "${verseText || 'God is love'}"`,
-                `This verse speaks to our hearts and calls us to deeper faith.`,
-                `Take time to let these words sink in and shape your day.`,
-                `God's truth has the power to transform how we live.`
+                `${verseRef || 'Today'}'s scripture reminds us: "${verseText || 'God is love'}"`,
+                `This verse reveals something important about God's character.`,
+                `Take time to reflect on what God is saying to you through these words.`,
+                `Let this scripture guide your thoughts and actions today.`
             ],
             reflections: [
-                `What is God saying to you through this verse?`,
-                `How will you respond today?`
+                `What does this verse teach you about God?`,
+                `How does it apply to your life right now?`
             ],
-            prayer: `Lord, thank You for Your living Word. Speak to my heart through this scripture and help me to walk in Your ways. Amen.`
+            prayer: `Lord, thank You for Your Word. Help me to understand and live out this truth today. Amen.`
         });
     }
 }
