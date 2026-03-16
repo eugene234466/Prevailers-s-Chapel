@@ -272,23 +272,33 @@
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify({ verseText, verseRef }),
                     signal: controller.signal
                 });
 
                 clearTimeout(timeout);
 
+                // Log response status for debugging
+                showDebug(`Response status: ${response.status}`);
+
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.error || `Server error ${response.status}`);
+                    const errorText = await response.text();
+                    showDebug(`Error response: ${errorText.substring(0, 100)}`);
+                    throw new Error(`Server error ${response.status}`);
                 }
 
-                // FIXED: Parse the response as JSON
+                // Parse the response as JSON
                 const data = await response.json();
                 showDebug('✅ Devotional received');
                 
-                // FIXED: Pass the parsed JSON to renderContent
+                // Log the received data structure
+                showDebug(`Title: ${data.title}`);
+                showDebug(`Message paragraphs: ${data.message?.length || 0}`);
+                
                 renderContent(data);
 
             } catch (e) {
