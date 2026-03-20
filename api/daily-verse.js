@@ -211,6 +211,25 @@ function generateDevotional(verseRef, verseText) {
         };
     }
     
+    // NEW THEME: For Galatians 6:10 and verses about doing good, helping others, serving
+    if (text.includes('good') || text.includes('do good') || text.includes('help') || 
+        text.includes('serve') || text.includes('serving') || text.includes('others') ||
+        text.includes('everyone') || text.includes('especially') || text.includes('family of believers')) {
+        return {
+            title: "When You're Too Tired to Help Anyone Else",
+            message: [
+                `You've given and given. Made meals, sent texts, shown up, listened, prayed. And now you're running on fumes. But there's always one more person who needs something.`,
+                `${verseRef} catches you right here: "${verseText}" It's not guilt-tripping you. It's reminding you that helping others is part of who you've become. But here's the thing - you can't pour from an empty cup.`,
+                `Today, doing good might look different. Maybe it's just one small thing. A two-minute text. A quick prayer. And then giving yourself permission to rest. You're not the savior - you're just someone pointing to Him. So do what you can, then let Him handle the rest.`
+            ],
+            reflections: [
+                `Who's one person you could encourage today without exhausting yourself?`,
+                `What would it look like to do good without burning out?`
+            ],
+            prayer: `God, I want to help people but I'm tired. Show me one small way to do good today, and give me the wisdom to know when to rest. Amen.`
+        };
+    }
+    
     // Default - for any other verse
     return {
         title: `Just for Today`,
