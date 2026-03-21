@@ -33,10 +33,8 @@ export default async function handler(req, res) {
             });
         }
 
-        // I AM THE DEVOTIONAL GENERATOR! No API key needed.
         console.log('Generating devotional for:', verseRef);
         
-        // Generate devotional based on the verse content
         const devotional = generateDevotional(verseRef, verseText);
         
         return res.status(200).json(devotional);
@@ -60,12 +58,29 @@ export default async function handler(req, res) {
     }
 }
 
-// I generate devotionals based on what the verse is actually about
 function generateDevotional(verseRef, verseText) {
     const text = verseText.toLowerCase();
     const ref = verseRef.toLowerCase();
     
-    // Check what the verse is about and write accordingly
+    // Check for Ephesians 1:13-14 specifically (sealed with Holy Spirit, inheritance)
+    if (ref.includes('ephesians 1:13') || ref.includes('ephesians 1:14') || 
+        (text.includes('sealed') && text.includes('spirit')) || 
+        text.includes('guarantee') || text.includes('inheritance') ||
+        text.includes('deposit') || text.includes('promised')) {
+        return {
+            title: "For When You Doubt You Belong",
+            message: [
+                `Ever feel like you don't quite fit? Like everyone else got the memo and you're still trying to figure out where you belong? Maybe you've messed up so many times you wonder if you're still in.`,
+                `Ephesians 1:13-14 says something remarkable: "${verseText}" A seal in Paul's day wasn't just a sticker - it was a mark of ownership, a guarantee that what belonged to the king was protected. And you? You've been sealed. Marked as His. Not because you earned it, but because you trusted Him.`,
+                `Here's what that means for today: when that voice whispers you're not good enough, not faithful enough, not worthy enough - you can look at that seal and remember you don't have to be enough. He already claimed you. The deposit is paid. The inheritance is coming. Today, just rest in what's already true about you.`
+            ],
+            reflections: [
+                `What's one thing that makes you doubt you belong to God?`,
+                `If you really believed you're sealed and secure, how would that change today?`
+            ],
+            prayer: `God, I forget sometimes that I belong to You. Thank You for sealing me, for marking me as Yours. Help me rest in that today. Amen.`
+        };
+    }
     
     if (text.includes('fear') || text.includes('afraid') || text.includes('anxious')) {
         return {
@@ -211,7 +226,6 @@ function generateDevotional(verseRef, verseText) {
         };
     }
     
-    // NEW THEME: For Galatians 6:10 and verses about doing good, helping others, serving
     if (text.includes('good') || text.includes('do good') || text.includes('help') || 
         text.includes('serve') || text.includes('serving') || text.includes('others') ||
         text.includes('everyone') || text.includes('especially') || text.includes('family of believers')) {
