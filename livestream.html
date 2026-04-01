@@ -375,10 +375,10 @@
             </div>
 
             <div class="video-info">
-                <h2>Sunday Sermon Livestream</h2>
+                <h2>Easter Convention Day 1</h2>
                 <div class="video-meta">
-                    <span>📅 <strong>Sundays 9:00 AM GMT</strong></span>
-                    <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown">Starting soon...</span></span>
+                    <span>📅 <strong>Wednesday to Friday 9:00 AM GMT and 8:00Am on Sunday</strong></span>
+                    <!-- <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown">Starting soon...</span></span>-->
                     <span>👥 Watch on <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener">Facebook</a></span>
                 </div>
                 <a href="https://www.facebook.com/debby.kutu1/videos/820307307006426" target="_blank" rel="noopener" class="facebook-link">
@@ -476,19 +476,19 @@
         }
         
         // Format the countdown
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        //const hours = Math.floor(diff / (1000 * 60 * 60));
+        //const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         
-        const countdownEl = document.getElementById('nextServiceCountdown');
+        //const countdownEl = document.getElementById('nextServiceCountdown');
         
-        if (hours > 0) {
-            countdownEl.textContent = `${hours}h ${minutes}m`;
-        } else if (minutes > 0) {
-            countdownEl.textContent = `${minutes}m`;
-        } else {
-            countdownEl.textContent = `Starting soon...`;
-        }
-    }
+       // if (hours > 0) {
+            //countdownEl.textContent = `${hours}h ${minutes}m`;
+       // } else if (minutes > 0) {
+           // countdownEl.textContent = `${minutes}m`;
+       // } else {
+           // countdownEl.textContent = `Starting soon...`;
+        //}
+   // }
 
     // Share function
     function shareOn(platform) {
