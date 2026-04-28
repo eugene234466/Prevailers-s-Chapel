@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { verseText, verseRef } = req.body;
+        const { verseText = '', verseRef = '' } = req.body || {};
 
         if (!verseText || !verseRef) {
             return res.status(400).json({
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('Error:', error.message);
 
-        const { verseText, verseRef } = req.body || {};
+        const { verseText = '', verseRef = '' } = req.body || {};
 
         return res.status(200).json({
             title: `A Word for Today`,
@@ -66,7 +66,7 @@ function generateDevotional(verseRef, verseText) {
     const text = verseText.toLowerCase();
     const ref = verseRef.toLowerCase();
 
-    // 🔥 SPECIAL CASE (kept from your original)
+    // 🔥 SPECIAL CASE (kept)
     if (
         ref.includes('ephesians 1:13') ||
         ref.includes('ephesians 1:14') ||
@@ -79,18 +79,17 @@ function generateDevotional(verseRef, verseText) {
             message: [
                 `Ever feel like you don't quite fit?`,
                 `${verseRef} says: "${verseText}"`,
-                `You've been sealed. Marked as His. Not because you earned it—but because you trusted Him.`,
-                `You don't have to prove anything today. Just rest in what is already true.`
+                `You've been sealed. Marked as His.`,
+                `You don't have to prove anything today. Just rest in that truth.`
             ],
             reflections: [
                 `What makes you feel like you don't belong?`,
-                `What changes if you believe you are already chosen?`
+                `What changes if you believe you are already His?`
             ],
             prayer: `God, remind me that I am Yours. Help me rest in that today. Amen.`
         };
     }
 
-    // 🔥 DYNAMIC FLOW
     return generateDynamicDevotional(verseRef, verseText);
 }
 
@@ -108,7 +107,15 @@ function detectThemes(text) {
         peace: ['peace', 'calm'],
         forgiveness: ['forgive', 'forgiveness'],
         grace: ['grace', 'mercy'],
-        service: ['serve', 'help', 'give']
+        service: ['serve', 'help', 'give'],
+
+        // 🔥 GOD-CENTERED THEMES
+        sovereignty: ['almighty', 'king', 'lord', 'reign', 'throne'],
+        eternity: ['forever', 'eternal', 'beginning', 'end', 'alpha', 'omega'],
+        presence: ['with you', 'always', 'never leave', 'who is', 'who was', 'to come'],
+        power: ['power', 'mighty', 'authority'],
+        holiness: ['holy', 'righteous'],
+        faithfulness: ['faithful', 'promise', 'covenant']
     };
 
     let scores = {};
@@ -134,99 +141,86 @@ function detectThemes(text) {
 const openings = {
     fear: [
         "Your mind won't slow down, will it?",
-        "The anxiety keeps creeping in.",
-        "You're carrying too much right now."
+        "The anxiety keeps creeping in."
     ],
     waiting: [
         "You're tired of waiting.",
-        "Nothing seems to be moving.",
-        "You're stuck in the in-between."
+        "Nothing seems to be changing."
     ],
     love: [
         "Love isn't always easy.",
-        "Some people are hard to love.",
         "Your heart feels stretched."
     ],
     strength: [
         "You're running on empty.",
-        "You've got nothing left.",
-        "You're tired of being strong."
+        "You've got nothing left."
     ],
     hope: [
         "Hope feels far away.",
-        "It's been a long road.",
-        "You're trying not to give up."
+        "You're trying to hold on."
     ],
     peace: [
-        "Everything feels loud.",
-        "Life is chaotic right now.",
-        "Your mind is all over the place."
+        "Everything feels loud right now.",
+        "Life is chaotic."
+    ],
+    sovereignty: [
+        "God is bigger than everything you're facing.",
+        "Nothing is outside His control."
+    ],
+    eternity: [
+        "Before anything existed—He was.",
+        "God isn't bound by time like you are."
+    ],
+    presence: [
+        "You're not alone in this.",
+        "God is right here with you."
     ]
 };
 
 const insights = {
     fear: [
-        "You don't have to carry everything—God is with you in this.",
         "Fear gets loud, but it doesn't get the final say."
     ],
     waiting: [
-        "Waiting isn't wasted—something is being formed in you.",
-        "Growth often happens in silence."
+        "Waiting seasons are not wasted."
     ],
     love: [
-        "Love isn't about perfection—it's about showing up.",
-        "You reflect God most in how you love others."
+        "Love is about showing up, not perfection."
     ],
     strength: [
-        "You don't need strength—you need surrender.",
         "God meets you best in your weakness."
     ],
     hope: [
-        "Hope doesn't mean everything is fixed—it means you're not alone.",
-        "Even now, something good can still grow."
+        "Hope means you're not alone."
     ],
     peace: [
-        "Peace isn't the absence of noise—it's God's presence in it.",
-        "You can be still even when life isn't."
-    ]
-};
-
-const actions = {
-    fear: [
-        "Give one worry to God right now.",
-        "Take a deep breath and release what you can't control."
+        "Peace exists even in chaos."
     ],
-    waiting: [
-        "Notice one small thing to be grateful for today.",
-        "Focus on today—not the whole future."
+    sovereignty: [
+        "If He is Almighty, your situation is not."
     ],
-    love: [
-        "Do one small act of kindness.",
-        "Reach out to someone today."
+    eternity: [
+        "The One who holds the beginning holds your future."
     ],
-    strength: [
-        "Admit you're tired—then rest.",
-        "Let today be lighter than yesterday."
-    ],
-    hope: [
-        "Hold on for just today.",
-        "Take one small step forward."
-    ],
-    peace: [
-        "Find one quiet minute today.",
-        "Pause. Breathe. Reset."
+    presence: [
+        "Even when you don't feel it, He is there."
     ]
 };
 
 /* =========================
-   GENERATOR ENGINE
+   GENERATOR
 ========================= */
 
 function generateDynamicDevotional(verseRef, verseText) {
     const text = verseText.toLowerCase();
-    const themes = detectThemes(text);
+    let themes = detectThemes(text);
 
-    const mainTheme = themes[0] || 'hope';
+    // 🚨 HARD FALLBACK FIX (never empty)
+    if (themes.length === 0) {
+        themes = ['eternity', 'sovereignty', 'hope'];
+    }
+
+    const mainTheme = themes[0];
     const secondaryTheme = themes[1];
 
     return {
@@ -240,17 +234,17 @@ function generateDynamicDevotional(verseRef, verseText) {
         message: [
             pickRandom(openings[mainTheme] || ["Some days are heavy."]),
             `${verseRef} says: "${verseText}"`,
-            pickRandom(insights[mainTheme]),
+            pickRandom(insights[mainTheme] || ["God is present with you."]),
             secondaryTheme ? pickRandom(insights[secondaryTheme] || []) : null,
-            "You don't have to figure everything out today. Just take the next step."
+            "Take this with you today. You don't have to carry everything at once."
         ].filter(Boolean),
 
         reflections: [
-            "What is weighing on you most right now?",
-            "What would trusting God with that look like today?"
+            "What stands out to you in this verse?",
+            "Where do you need this truth today?"
         ],
 
-        prayer: `God, meet me where I am. Help me take one step with You today. Amen.`
+        prayer: `God, help me hold onto Your truth today. Amen.`
     };
 }
 
