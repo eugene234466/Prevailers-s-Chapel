@@ -17,7 +17,7 @@ export default function handler(req, res) {
         environment: {
             vercel: !!process.env.VERCEL,
             vercel_env: process.env.VERCEL_ENV || 'not set',
-            hasAnthropicKey: !!process.env.ANTHROPIC_API_KEY,
+            hasGroqKey: !!process.env.GROQ_API_KEY,
             node_version: process.version
         },
         endpoints: {

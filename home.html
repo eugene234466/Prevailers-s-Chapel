@@ -11,16 +11,17 @@
     <body>
         <nav>
             <div class="container">
-                <a href="home.html" class="logo"><img src="3.JPG" alt="PCI Logo" class="logo-img"> 
-                <span class="logo-text">PCI</span>
+                <a href="home.html" class="logo">
+                    <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
+                    <span class="logo-text">PCI</span>
                 </a>
-                <button class="menu-toggle" onclick="toggleMenu()">===</button>
+                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
                 <ul id="navMenu">
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="livestream.html">Live Stream</a></li>
+                    <li><a href="home.html" class="active">Home</a></li>
                     <li><a href="devotional.html">Devotional</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="events.html">Events</a></li>
+                    <li><a href="livestream.html">Live Stream</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </div>
@@ -90,26 +91,17 @@
         </section>
         <section>
             <div class="container">
-                <h2 class="section-title">NO EVENTS AVAILABLE</h2>
-                <div class="event-grid">
-                    <div class="event-card">
-                        <div class="event-image">
-                            
-                        </div>
-                        <div class="event-content">
-                            <p class="event">📅 </p>
-                            <h3></h3>
-                            <p></p>
-                            <p></p>
-                            <a href="events.html" class="event-link">Learn More</a>    
-                        </div>
-                    </div>
+                <h2 class="section-title">Upcoming Events & Programs</h2>
+                <div class="notice-card">
+                    <h3>Join Us in Fellowship</h3>
+                    <p>There are no special standalone events currently scheduled, but our weekly services and Bible studies are always active and open to everyone! Come experience God's transformative presence this week.</p>
+                    <a href="services.html" class="btn btn-primary" style="background: var(--church-navy); color: #ffffff;">View Service Schedule</a>
                 </div>
             </div>
         </section>
         <footer>
-            <p>&copy; 2026 Prevailers Chapel International. All rights reserved</p>
-            <p>A House of Transformation where Nobodies are made Somebody</p>
+            <p>&copy; 2026 Prevailers Chapel International. All rights reserved.</p>
+            <p class="tagline">A House of Transformation where Nobodies are made Somebody</p>
         </footer>
     </body>
 </html>

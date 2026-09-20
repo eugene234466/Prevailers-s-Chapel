@@ -1,4 +1,16 @@
 // api/daily-verse.js
+import Groq from 'groq-sdk';
+
+let groqClient = null;
+
+function getGroqClient() {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) return null;
+    if (!groqClient) {
+        groqClient = new Groq({ apiKey });
+    }
+    return groqClient;
+}
 
 export default async function handler(req, res) {
     // CORS
@@ -12,8 +24,9 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
         return res.status(200).json({
-            message: 'Dynamic Devotional API is ready 🚀',
+            message: 'Devotional API is ready 🚀',
             instructions: 'Send POST with verseText and verseRef',
+            hasGroq: !!process.env.GROQ_API_KEY,
             status: 'online'
         });
     }
@@ -33,7 +46,66 @@ export default async function handler(req, res) {
 
         console.log('Generating devotional for:', verseRef);
 
-        const devotional = generateDevotional(verseRef, verseText);
+        let devotional = null;
+        const groq = getGroqClient();
+
+        if (groq) {
+            try {
+                const completion = await groq.chat.completions.create({
+                    model: 'llama-3.3-70b-versatile',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: `You are an uplifting and doctrinally sound pastor and devotional writer for Prevailers Chapel International ("A House of Transformation where Nobodies are made Somebody").
+Write an inspiring, spirit-filled daily devotional based on the provided scripture.
+Return strictly valid JSON only (no markdown, no backticks, no extra text) with this structure:
+{
+  "title": "Inspiring Title (3-6 words)",
+  "message": [
+    "Paragraph 1: An engaging, relatable opening that connects with everyday struggles or life situations.",
+    "Paragraph 2: Deep spiritual insight showing how this scripture reveals God's power and victory in Christ.",
+    "Paragraph 3: An empowering closing encouraging the believer to prevail in faith today."
+  ],
+  "reflections": [
+    "First reflection question for personal meditation.",
+    "Second reflection question for practical daily application."
+  ],
+  "prayer": "A heartfelt prayer of faith, surrender, and breakthrough, ending with Amen."
+}`
+                        },
+                        {
+                            role: 'user',
+                            content: `Scripture: ${verseRef}\n"${verseText}"`
+                        }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 900,
+                    response_format: { type: 'json_object' }
+                });
+
+                const rawContent = completion.choices?.[0]?.message?.content;
+                if (rawContent) {
+                    const cleaned = rawContent.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+                    const parsed = JSON.parse(cleaned);
+                    if (parsed.title && parsed.message && parsed.prayer) {
+                        devotional = {
+                            title: parsed.title,
+                            message: Array.isArray(parsed.message) ? parsed.message : [parsed.message],
+                            reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [parsed.reflections],
+                            prayer: parsed.prayer,
+                            provider: 'groq'
+                        };
+                    }
+                }
+            } catch (groqErr) {
+                console.warn('Groq generation error, falling back to local generator:', groqErr.message);
+            }
+        }
+
+        if (!devotional) {
+            devotional = generateDevotional(verseRef, verseText);
+            devotional.provider = 'built-in';
+        }
 
         return res.status(200).json(devotional);
 
@@ -53,7 +125,8 @@ export default async function handler(req, res) {
                 `What do you need from God right now?`,
                 `Who around you might need encouragement today?`
             ],
-            prayer: `God, be with me. That's all. Amen.`
+            prayer: `God, be with me. That's all. Amen.`,
+            provider: 'fallback'
         });
     }
 }

@@ -1,24 +1,26 @@
-function toggleMenu(){
-    const menu = document.getElementById('navMenu')
-    menu.classList.toggle('active')
+function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    if (menu) {
+        menu.classList.toggle('active');
+    }
 }
 
-document.getElementById('navMenu').addEventListener('click',function(e){
-    e.stopPropagation()
-})
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('navMenu');
+    const toggle = document.querySelector('.menu-toggle');
 
-document.addEventListener('click', function(event){
-    const nav = document.querySelector('nav')
-    const menu = document.getElementById('navMenu')
-    const toggle = document.querySelector('.menu-toggle')
+    if (!menu || !toggle) return;
 
-    if(!toggle.contains(event.target) && !nav.contains(event.target)){
-        menu.classList.toggle('active')
+    if (!toggle.contains(event.target) && !menu.contains(event.target)) {
+        menu.classList.remove('active');
     }
-})
+});
 
-document.querySelectorAll('#navMenu').forEach(link => {
-    link.addEventListener('click', function(){
-        document.getElementById('navMenu').classList.remove('active')
-    })
-})
+document.querySelectorAll('#navMenu a').forEach(link => {
+    link.addEventListener('click', function() {
+        const menu = document.getElementById('navMenu');
+        if (menu) {
+            menu.classList.remove('active');
+        }
+    });
+});

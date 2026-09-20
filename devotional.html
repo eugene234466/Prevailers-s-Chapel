@@ -10,32 +10,91 @@
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --navy: #1e3a8a;
-            --blue: #2563eb;
+            --navy: #003d5c;
+            --church-blue: #1e3a8a;
+            --blue: #0284c7;
             --sky: #0ea5e9;
-            --gold: #f59e0b;
-            --cream: #fef9f0;
-            --text: #334155;
+            --gold: #ffd700;
+            --gold-warm: #f59e0b;
+            --cream: #fffdf5;
+            --text: #1e293b;
             --muted: #64748b;
             --border: #e2e8f0;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f4ff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f8fafc;
             min-height: 100vh;
             color: var(--text);
+            -webkit-font-smoothing: antialiased;
         }
 
         nav {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
-            padding: 16px 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-            position: sticky; top: 0; z-index: 1000;
+            background: linear-gradient(135deg, #003d5c 0%, #1e3a8a 100%);
+            padding: 0.85rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 39, 60, 0.15);
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
         }
-        nav ul { list-style: none; display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
-        nav a { color: rgba(255,255,255,0.82); text-decoration: none; font-weight: 600; transition: all 0.25s; padding: 8px 18px; border-radius: 8px; font-size: 15px; }
-        nav a:hover, nav a.active { background: rgba(255,255,255,0.22); color: #fff; transform: translateY(-1px); }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+        }
+        .logo-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .logo-text {
+            color: #ffffff;
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            align-items: center;
+            gap: 0.5rem; 
+            margin: 0;
+            padding: 0;
+        }
+        nav a { 
+            color: rgba(255,255,255,0.9); 
+            text-decoration: none; 
+            font-weight: 500; 
+            transition: all 0.25s; 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            font-size: 0.95rem; 
+            display: inline-block;
+        }
+        nav a:hover, nav a.active { 
+            background: rgba(255,255,255,0.18); 
+            color: #fff; 
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 0.75rem 1rem; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
+            nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+        }
 
         .page { max-width: 820px; margin: 0 auto; padding: 48px 16px 80px; }
 
@@ -102,14 +161,20 @@
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="livestream.html">Live Stream</a></li>
-            <li><a href="devotional.html" class="active">Devotional</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
+        <div class="nav-container">
+            <a href="home.html" class="logo">
+                <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
+                <span class="logo-text">PCI</span>
+            </a>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="devotional.html" class="active">Devotional</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="livestream.html">Live Stream</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="page">
@@ -353,7 +418,16 @@
 
             document.getElementById('contentCard').style.display = 'block';
             document.getElementById('prayerSection').style.display = 'block';
-            document.getElementById('aiBadge').style.display = 'inline-flex';
+            
+            const badge = document.getElementById('aiBadge');
+            if (badge) {
+                if (parsed.provider === 'groq') {
+                    badge.innerHTML = '✦ Generated with Groq AI';
+                } else {
+                    badge.innerHTML = '✦ Daily Scripture Devotional';
+                }
+                badge.style.display = 'inline-flex';
+            }
         }
 
         // ── FALLBACK CONTENT ───────────────────────────────────────
@@ -372,7 +446,8 @@
                     `How can you share the encouragement of ${verseRef} with someone in your family or church community today?`,
                     `What one concrete step of faith does ${verseRef} call you to take this week?`
                 ],
-                prayer: `Heavenly Father, I come before You resting on the truth of ${verseRef}. You have declared "${verseText}" — and I choose to believe it today. Let this scripture take root in my heart and shape every decision I make. Where I am weak, be my strength. Where I doubt, increase my faith. In Jesus' mighty name, Amen.`
+                prayer: `Heavenly Father, I come before You resting on the truth of ${verseRef}. You have declared "${verseText}" — and I choose to believe it today. Let this scripture take root in my heart and shape every decision I make. Where I am weak, be my strength. Where I doubt, increase my faith. In Jesus' mighty name, Amen.`,
+                provider: 'built-in'
             };
             
             renderContent(fallback);
@@ -387,13 +462,25 @@
 
             document.getElementById('btnCopy').onclick = function() {
                 const text = `"${_verseText}"\n— ${_verseRef}`;
-                navigator.clipboard.writeText(text).then(() => {
-                    const originalText = this.innerHTML;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '✅ Copied!';
+                        setTimeout(() => this.innerHTML = originalText, 2000);
+                    }).catch(() => {
+                        this.innerHTML = 'Copied!';
+                        setTimeout(() => this.innerHTML = '📋 Copy Verse', 2000);
+                    });
+                } else {
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = text;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
                     this.innerHTML = '✅ Copied!';
-                    setTimeout(() => this.innerHTML = originalText, 2000);
-                }).catch(() => {
-                    alert('Could not copy to clipboard');
-                });
+                    setTimeout(() => this.innerHTML = '📋 Copy Verse', 2000);
+                }
             };
         }
 

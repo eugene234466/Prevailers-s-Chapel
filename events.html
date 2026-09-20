@@ -24,50 +24,97 @@ body {
 
 /* NAVBAR */
 nav {
-    background: #1e3a8a;
-    padding: 18px;
+    background: linear-gradient(135deg, #003d5c 0%, #1e3a8a 100%);
+    padding: 0.85rem 1.5rem;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 39, 60, 0.15);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+}
+
+.logo-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: #ffffff;
+    padding: 2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.logo-text {
+    color: #ffffff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
 }
 
 nav a {
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 5px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: all 0.25s;
 }
 
 nav a:hover,
 nav a.active {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    nav { padding: 0.75rem 1rem; }
+    nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
+    nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
 }
 
 /* PAGE HEADER */
 .page-header {
     text-align: center;
-    padding: 40px 15px 20px;
+    padding: 50px 15px 30px;
 }
 
 .page-header h1 {
-    color: #1e3a8a;
-    font-size: 42px;
+    color: #003d5c;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
 .page-header p {
-    color: #555;
-    max-width: 700px;
-    margin: 10px auto;
-    font-size: 18px;
+    color: #64748b;
+    max-width: 650px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
 /* EVENTS SECTION */
@@ -172,60 +219,72 @@ nav a.active {
 
 <!-- NAVBAR -->
 <nav>
-    <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="livestream.html">Live Stream</a></li>
-        <li><a href="devotional.html">Devotional</a></li>
-        <li><a href="events.html" class="active">Events</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
+    <div class="nav-container">
+        <a href="home.html" class="logo">
+            <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
+            <span class="logo-text">PCI</span>
+        </a>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="devotional.html">Devotional</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="events.html" class="active">Events</a></li>
+            <li><a href="livestream.html">Live Stream</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
 </nav>
 
 <!-- PAGE HEADER -->
 <div class="page-header">
-    <h1>Our Events</h1>
-    <p>Join us for powerful moments of worship, prayer, and fellowship.</p>
+    <h1>Our Gatherings & Events</h1>
+    <p>Join us for powerful moments of worship, prayer, and fellowship as we grow together in Christ.</p>
 </div>
 
 <!-- EVENTS -->
 <div class="events-container">
 
-    <!-- Example Event Card 1 -->
-    <div class="event-card" class="event-banner" onclick="openGallery(this.src)">
-        
-            <img src="">
-        <div class="event-info">
-            <h3>NO EVENTS AVAILABLE</h3>
-            <p class="event-date"></p>
-            <p class="event-time"></p>
-
-            <p class="event-desc">
-                
-            </p>
-
-            <span class="event-location"></span>
-        </div>
-    </div>
-
-    <!-- Example Event Card 2 (optional, just copy this block for future events) -->
-    <!--
+    <!-- Event Card 1 -->
     <div class="event-card">
-        <img src="5.jpeg" class="event-banner" onclick="openGallery(this.src)">
-
+        <img src="5.jpeg" alt="Sunday Worship Service" class="event-banner" onclick="openGallery(this.src)">
         <div class="event-info">
             <h3>Sunday Praise & Worship</h3>
-            <p class="event-date">Every Sunday</p>
-            <p class="event-time">9:00 AM – 12:00 PM</p>
-
+            <p class="event-date">Every Sunday Morning</p>
+            <p class="event-time">8:00 AM – 10:30 AM</p>
             <p class="event-desc">
-                Join us for uplifting praise, worship, and a message of hope.
+                Experience transformative worship, inspiring Biblical teaching, and heartfelt fellowship in God's presence.
             </p>
-
             <span class="event-location">📍 Main Auditorium</span>
         </div>
     </div>
-    -->
+
+    <!-- Event Card 2 -->
+    <div class="event-card">
+        <img src="2.jpeg" alt="Mid-Week Bible Study" class="event-banner" onclick="openGallery(this.src)">
+        <div class="event-info">
+            <h3>Mid-Week Bible Study</h3>
+            <p class="event-date">Every Wednesday Evening</p>
+            <p class="event-time">6:30 PM – 8:00 PM</p>
+            <p class="event-desc">
+                Dive deep into God's Word with verse-by-verse teaching and interactive spiritual growth.
+            </p>
+            <span class="event-location">📍 Main Auditorium</span>
+        </div>
+    </div>
+
+    <!-- Event Card 3 -->
+    <div class="event-card">
+        <img src="4.jpeg" alt="Prayer Meeting" class="event-banner" onclick="openGallery(this.src)">
+        <div class="event-info">
+            <h3>Friday Prayer & Deliverance</h3>
+            <p class="event-date">Every Friday Evening</p>
+            <p class="event-time">6:30 PM – 7:30 PM</p>
+            <p class="event-desc">
+                A sacred atmosphere of corporate prayer, intercession, and seeking God's divine favor.
+            </p>
+            <span class="event-location">📍 Main Auditorium</span>
+        </div>
+    </div>
 
 </div>
 
