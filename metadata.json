@@ -1,0 +1,6 @@
+{
+  "name": "Prevailers Chapel International",
+  "description": "Prevailers Chapel International church website with daily devotionals, live streams, service schedules, events, and contact info.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
