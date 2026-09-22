@@ -108,10 +108,10 @@ nav ul li a.active {
 }
 
 /* Hero Section */
+section.hero,
 .hero {
-    background: linear-gradient(135deg, rgba(0, 43, 64, 0.94) 0%, rgba(0, 61, 92, 0.92) 50%, rgba(30, 58, 138, 0.9) 100%),
-                radial-gradient(circle at top right, rgba(14, 165, 233, 0.25), transparent 60%);
-    color: white;
+    background: linear-gradient(135deg, #00273c 0%, #003d5c 45%, #1e3a8a 100%) !important;
+    color: #ffffff !important;
     padding: 7rem 1.5rem;
     text-align: center;
     position: relative;
@@ -162,12 +162,22 @@ nav ul li a.active {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 1rem;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .btn-primary {
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-sizing: border-box;
+    text-align: center;
     background: #ffffff;
     color: var(--church-navy);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-primary:hover {
@@ -178,10 +188,19 @@ nav ul li a.active {
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-sizing: border-box;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border: 2px solid rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(4px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
@@ -215,7 +234,7 @@ section {
     padding: 5rem 1.5rem;
 }
 
-section:nth-child(even) {
+section:not(.hero):not(.declaration-section):nth-of-type(even) {
     background: var(--church-light);
 }
 
@@ -252,10 +271,19 @@ section:nth-child(even) {
     color: #475569;
 }
 
+.about-content p {
+    margin-bottom: 1.25rem;
+}
+
+.about-content p:last-child {
+    margin-bottom: 0;
+}
+
 /* Declaration Section */
+section.declaration-section,
 .declaration-section {
-    background: linear-gradient(135deg, #002b40 0%, #003d5c 50%, #1e3a8a 100%);
-    color: #ffffff;
+    background: linear-gradient(135deg, #002b40 0%, #003d5c 50%, #1e3a8a 100%) !important;
+    color: #ffffff !important;
     padding: 5rem 1.5rem;
     text-align: center;
     border-top: 2px solid rgba(255, 215, 0, 0.4);
@@ -321,10 +349,15 @@ section:nth-child(even) {
     box-shadow: 0 16px 36px rgba(0, 39, 60, 0.14);
 }
 
+.service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
 .service-card h3 {
     color: var(--church-navy);
     font-size: 1.45rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     font-weight: 700;
 }
 
@@ -332,13 +365,24 @@ section:nth-child(even) {
     font-size: 1.25rem;
     color: var(--church-blue);
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
 }
 
 .service-card .day {
     color: var(--church-muted);
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
+}
+
+.service-location {
+    display: inline-block;
+    background: #f1f5f9;
+    color: var(--church-navy);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 1rem;
 }
 
 /* Events Section */
@@ -442,6 +486,7 @@ section:nth-child(even) {
     color: var(--church-navy);
     font-size: 1.5rem;
     margin-bottom: 1rem;
+    font-weight: 700;
 }
 
 .notice-card p {
@@ -449,6 +494,23 @@ section:nth-child(even) {
     font-size: 1.05rem;
     margin-bottom: 1.75rem;
     line-height: 1.7;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.notice-card .btn {
+    background: var(--church-navy);
+    color: #ffffff;
+    border: 2px solid var(--church-navy);
+}
+
+.notice-card .btn:hover {
+    background: #00273c;
+    color: #ffffff;
+    border-color: #00273c;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 39, 60, 0.25);
 }
 
 /* Footer */
@@ -520,6 +582,16 @@ footer .tagline {
 
     .declaration-section {
         padding: 3.5rem 1.25rem;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-image {
+        max-width: 500px;
+        margin: 0 auto;
     }
 }
 

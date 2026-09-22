@@ -11,6 +11,17 @@
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
     <style>
+        :root {
+            --church-navy: #003d5c;
+            --church-blue: #1e3a8a;
+            --church-deep: #00273c;
+            --church-gold: #ffd700;
+            --church-sky: #0ea5e9;
+            --church-light: #f8fafc;
+            --church-text: #1e293b;
+            --church-muted: #64748b;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,8 +31,11 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f8fafc;
-            color: #1e293b;
+            color: var(--church-text);
             line-height: 1.65;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -93,162 +107,197 @@
             color: #ffffff;
         }
 
+        .menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 1.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
         @media (max-width: 768px) {
-            nav { padding: 0.75rem 1rem; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
-            nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+            .menu-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            nav ul {
+                display: none;
+                position: fixed;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: #003d5c;
+                flex-direction: column;
+                padding: 1.25rem 0;
+                gap: 0.25rem;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                border-bottom: 2px solid var(--church-gold);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 0.25rem 1.5rem;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
         }
 
         .services-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 50px 20px 70px;
         }
 
         h1 {
-            color: #1e3a8a;
-            font-size: 42px;
-            margin-bottom: 20px;
+            color: var(--church-navy);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            margin-bottom: 12px;
             text-align: center;
+            font-weight: 700;
         }
 
         .subtitle {
             text-align: center;
-            color: #64748b;
-            font-size: 18px;
+            color: var(--church-muted);
+            font-size: 1.1rem;
             margin-bottom: 50px;
-            max-width: 800px;
+            max-width: 750px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.65;
         }
 
         .service-times {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin-top: 40px;
         }
 
         .service-card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 39, 60, 0.08);
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid var(--church-navy);
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .service-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 16px 36px rgba(0, 39, 60, 0.14);
         }
 
         .service-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 44px;
+            margin-bottom: 15px;
         }
 
         .service-card h3 {
-            color: #1e3a8a;
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .service-time {
-            font-size: 36px;
-            font-weight: bold;
-            color: #1e3a8a;
-            margin: 20px 0;
+            color: var(--church-navy);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .service-day {
-            color: #475569;
-            font-size: 20px;
+            color: var(--church-muted);
+            font-size: 1.05rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
+        }
+
+        .service-time {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--church-blue);
+            margin: 12px 0 18px;
+            letter-spacing: -0.5px;
         }
 
         .service-card p {
-            color: #64748b;
-            font-size: 16px;
-            line-height: 1.6;
+            color: var(--church-muted);
+            font-size: 0.98rem;
+            line-height: 1.65;
         }
 
         .service-details {
-            margin-top: 20px;
+            margin-top: auto;
             padding-top: 20px;
-            border-top: 2px solid #f1f5f9;
+            border-top: 1px solid #f1f5f9;
         }
 
         .service-details p {
-            margin: 8px 0;
+            margin: 6px 0;
             color: #475569;
+            font-size: 0.95rem;
         }
 
         .location-badge {
             display: inline-block;
             background: #f1f5f9;
-            color: #1e3a8a;
-            padding: 8px 16px;
+            color: var(--church-navy);
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 0.88rem;
             font-weight: 600;
-            margin-top: 15px;
+            margin-top: 16px;
         }
 
-        /* ========================= */
-        /* MOBILE RESPONSIVE FIXES  */
-        /* ========================= */
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #002b40 0%, #003d5c 100%);
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        footer .tagline {
+            color: var(--church-gold);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
         @media (max-width: 768px) {
-
-            nav ul { gap: 10px; }
-
-            nav a {
-                padding: 6px 10px;
-                font-size: 14px;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            .subtitle {
-                font-size: 16px;
-                margin-bottom: 30px;
-                padding: 0 10px;
-            }
-
             .services-container {
-                padding: 30px 15px;
+                padding: 35px 15px 50px;
             }
 
             .service-card {
-                padding: 25px 18px;
-            }
-
-            .service-card h3 {
-                font-size: 22px;
+                padding: 30px 20px;
             }
 
             .service-time {
-                font-size: 26px;
-            }
-
-            .service-day {
-                font-size: 16px;
-            }
-
-            .service-card p {
-                font-size: 15px;
-            }
-
-            .service-details p {
-                font-size: 14px;
-            }
-
-            .location-badge {
-                font-size: 13px;
-                padding: 6px 12px;
+                font-size: 1.75rem;
             }
         }
     </style>
@@ -262,7 +311,8 @@
             <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
             <span class="logo-text">PCI</span>
         </a>
-        <ul>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
+        <ul id="navMenu">
             <li><a href="home.html">Home</a></li>
             <li><a href="devotional.html">Devotional</a></li>
             <li><a href="services.html" class="active">Services</a></li>
@@ -273,64 +323,73 @@
     </div>
 </nav>
 
-<div class="services-container">
-    <h1>Our Service Times</h1>
-    <p class="subtitle">
-        Join us for worship, teaching, and fellowship as we gather together to honor God and grow in faith.
-    </p>
+<main>
+    <div class="services-container">
+        <h1>Our Service Times</h1>
+        <p class="subtitle">
+            Join us for worship, teaching, and fellowship as we gather together to honor God and grow in faith.
+        </p>
 
-    <div class="service-times">
+        <div class="service-times">
 
-        <div class="service-card">
-            <div class="service-icon">⛪</div>
-            <h3>Sunday Worship Service</h3>
-            <p class="service-day">Every Sunday</p>
-            <div class="service-time">8:00 AM</div>
-            <p>
-                Join us for powerful worship, inspiring biblical teaching, and heartfelt fellowship.
-                Experience God's presence as we celebrate together.
-            </p>
-            <div class="service-details">
-                <p><strong>Duration:</strong> 2 hours</p>
-                <p><strong>Dress Code:</strong> Come as you are</p>
+            <div class="service-card">
+                <div class="service-icon">⛪</div>
+                <h3>Sunday Worship Service</h3>
+                <p class="service-day">Every Sunday</p>
+                <div class="service-time">8:00 AM</div>
+                <p>
+                    Join us for powerful worship, inspiring biblical teaching, and heartfelt fellowship.
+                    Experience God's presence as we celebrate together.
+                </p>
+                <div class="service-details">
+                    <p><strong>Duration:</strong> 2 hours</p>
+                    <p><strong>Dress Code:</strong> Come as you are</p>
+                </div>
+                <span class="location-badge">📍 Main Auditorium</span>
             </div>
-            <span class="location-badge">📍 Main Auditorium</span>
-        </div>
 
-        <div class="service-card">
-            <div class="service-icon">📖</div>
-            <h3>Mid-Week Bible Study</h3>
-            <p class="service-day">Every Wednesday</p>
-            <div class="service-time">6:30 PM</div>
-            <p>
-                Dive deep into God's Word with verse-by-verse teaching.
-                Grow in knowledge and understanding through interactive study.
-            </p>
-            <div class="service-details">
-                <p><strong>Duration:</strong> 1 hour 30 minutes</p>
-                <p><strong>Format:</strong> Interactive Teaching</p>
+            <div class="service-card">
+                <div class="service-icon">📖</div>
+                <h3>Mid-Week Bible Study</h3>
+                <p class="service-day">Every Wednesday</p>
+                <div class="service-time">6:30 PM</div>
+                <p>
+                    Dive deep into God's Word with verse-by-verse teaching.
+                    Grow in knowledge and understanding through interactive study.
+                </p>
+                <div class="service-details">
+                    <p><strong>Duration:</strong> 1 hour 30 minutes</p>
+                    <p><strong>Format:</strong> Interactive Teaching</p>
+                </div>
+                <span class="location-badge">📍 Main Auditorium</span>
             </div>
-            <span class="location-badge">📍 Main Auditorium</span>
-        </div>
 
-        <div class="service-card">
-            <div class="service-icon">🙏</div>
-            <h3>Prayer Meeting</h3>
-            <p class="service-day">Every Friday</p>
-            <div class="service-time">6:30 PM</div>
-            <p>
-                End your day with prayer and intercession.
-                Join fellow believers as we seek God's face.
-            </p>
-            <div class="service-details">
-                <p><strong>Duration:</strong> 1 hour</p>
-                <p><strong>Focus:</strong> Corporate Prayer</p>
+            <div class="service-card">
+                <div class="service-icon">🙏</div>
+                <h3>Prayer Meeting</h3>
+                <p class="service-day">Every Friday</p>
+                <div class="service-time">6:30 PM</div>
+                <p>
+                    End your day with prayer and intercession.
+                    Join fellow believers as we seek God's face.
+                </p>
+                <div class="service-details">
+                    <p><strong>Duration:</strong> 1 hour</p>
+                    <p><strong>Focus:</strong> Corporate Prayer</p>
+                </div>
+                <span class="location-badge">📍 Main Auditorium</span>
             </div>
-            <span class="location-badge">📍 Main Auditorium</span>
-        </div>
 
+        </div>
     </div>
-</div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Prevailers Chapel International. All rights reserved.</p>
+    <p class="tagline">A House of Transformation where Nobodies are made Somebody</p>
+</footer>
+
+<script src="home.js"></script>
 
 </body>
 </html>

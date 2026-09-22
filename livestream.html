@@ -34,6 +34,34 @@
             background: var(--bg);
             color: var(--text-dark);
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .livestream-container {
+            flex: 1;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #002b40 0%, #003d5c 100%);
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        footer .tagline {
+            color: #ffd700;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
         }
 
         nav {
@@ -104,10 +132,52 @@
             color: #ffffff;
         }
 
+        .menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 1.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
         @media (max-width: 768px) {
-            nav { padding: 0.75rem 1rem; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
-            nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+            .menu-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            nav ul {
+                display: none;
+                position: fixed;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: #003d5c;
+                flex-direction: column;
+                padding: 1.25rem 0;
+                gap: 0.25rem;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                border-bottom: 2px solid #ffd700;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 0.25rem 1.5rem;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.75rem 1rem;
+            }
         }
 
         .livestream-container {
@@ -390,7 +460,8 @@
             <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
             <span class="logo-text">PCI</span>
         </a>
-        <ul>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
+        <ul id="navMenu">
             <li><a href="home.html">Home</a></li>
             <li><a href="devotional.html">Devotional</a></li>
             <li><a href="services.html">Services</a></li>
@@ -651,6 +722,13 @@
     // Update live status every minute
     setInterval(updateLiveStatus, 60000);
 </script>
+
+<footer>
+    <p>&copy; 2026 Prevailers Chapel International. All rights reserved.</p>
+    <p class="tagline">A House of Transformation where Nobodies are made Somebody</p>
+</footer>
+
+<script src="home.js"></script>
 
 </body>
 </html>

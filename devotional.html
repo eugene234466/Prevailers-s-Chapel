@@ -3,41 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devotional - Prevailers Chapel International</title>
+    <title>Daily Devotional - Prevailers Chapel International</title>
+    <link rel="icon" href="3.JPG">
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --navy: #003d5c;
+            --navy: #002b40;
             --church-blue: #1e3a8a;
             --blue: #0284c7;
             --sky: #0ea5e9;
             --gold: #ffd700;
-            --gold-warm: #f59e0b;
-            --cream: #fffdf5;
+            --gold-warm: #d97706;
+            --amber-bg: #fffbeb;
             --text: #1e293b;
             --muted: #64748b;
             --border: #e2e8f0;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f8fafc;
             min-height: 100vh;
             color: var(--text);
             -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
         }
 
         nav {
-            background: linear-gradient(135deg, #003d5c 0%, #1e3a8a 100%);
+            background: linear-gradient(135deg, #002b40 0%, #1e3a8a 100%);
             padding: 0.85rem 1.5rem;
             box-shadow: 0 4px 20px rgba(0, 39, 60, 0.15);
             position: sticky; 
             top: 0; 
             z-index: 1000;
-            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.25);
         }
         .nav-container {
             max-width: 1200px;
@@ -90,73 +93,545 @@
             color: #fff; 
         }
 
-        @media (max-width: 768px) {
-            nav { padding: 0.75rem 1rem; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
-            nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+        .menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 1.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
         }
 
-        .page { max-width: 820px; margin: 0 auto; padding: 48px 16px 80px; }
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+                z-index: 1001;
+            }
 
-        .page-header { text-align: center; margin-bottom: 40px; }
-        .page-header h1 { font-family: 'Lora', serif; font-size: clamp(2rem, 6vw, 3rem); color: var(--navy); margin-bottom: 12px; line-height: 1.2; }
-        .page-header p { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 520px; margin: 0 auto; }
-        .date-pill { display: inline-block; background: var(--navy); color: rgba(255,255,255,0.9); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; padding: 5px 16px; border-radius: 50px; margin-bottom: 16px; }
+            nav ul {
+                display: none;
+                position: fixed;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: #002b40;
+                flex-direction: column;
+                padding: 1.25rem 0;
+                gap: 0.25rem;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                border-bottom: 2px solid var(--gold);
+            }
 
-        .verse-card { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #0ea5e9 100%); border-radius: 20px; padding: 36px 32px; margin-bottom: 24px; box-shadow: 0 20px 50px rgba(30,58,138,0.28); position: relative; overflow: hidden; }
-        .verse-card::before { content: '\201C'; position: absolute; top: -20px; left: 20px; font-family: 'Lora', serif; font-size: 180px; color: rgba(255,255,255,0.06); line-height: 1; pointer-events: none; }
-        .verse-label { color: rgba(255,255,255,0.6); font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .verse-label::before { content: ''; display: block; width: 24px; height: 2px; background: rgba(255,255,255,0.4); }
-        .verse-text { font-family: 'Lora', serif; font-size: clamp(1.1rem, 3.5vw, 1.45rem); font-style: italic; color: #fff; line-height: 1.85; margin-bottom: 20px; }
-        .verse-ref { color: rgba(255,255,255,0.65); font-size: 0.9rem; font-weight: 600; text-align: right; }
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 0.25rem 1.5rem;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        .page { 
+            max-width: 860px; 
+            margin: 0 auto; 
+            padding: 40px 16px 80px; 
+            flex: 1; 
+            width: 100%; 
+        }
+
+        .page-header { 
+            text-align: center; 
+            margin-bottom: 32px; 
+        }
+        .page-header h1 { 
+            font-family: 'Lora', serif; 
+            font-size: clamp(2.1rem, 5vw, 2.85rem); 
+            color: var(--navy); 
+            margin-bottom: 10px; 
+            line-height: 1.2; 
+        }
+        .page-header p { 
+            color: var(--muted); 
+            font-size: 1.05rem; 
+            line-height: 1.6; 
+            max-width: 580px; 
+            margin: 0 auto; 
+        }
+        .date-pill { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            background: #e2e8f0; 
+            color: var(--navy); 
+            font-size: 0.82rem; 
+            font-weight: 700; 
+            letter-spacing: 0.8px; 
+            text-transform: uppercase; 
+            margin-bottom: 14px; 
+            padding: 4px 14px; 
+            border-radius: 20px; 
+        }
+
+        /* Scripture Selector Bar */
+        .scripture-bar {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .scripture-bar-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .scripture-bar-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .scripture-select-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .scripture-select {
+            flex: 1;
+            min-width: 240px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .scripture-select:focus {
+            outline: none;
+            border-color: var(--blue);
+            background: #fff;
+        }
+        .btn-custom-toggle {
+            background: #f1f5f9;
+            color: var(--navy);
+            border: 1px solid #cbd5e1;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-custom-toggle:hover {
+            background: #e2e8f0;
+        }
+        .custom-verse-form {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+        }
+        .custom-verse-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .btn-generate-custom {
+            align-self: flex-start;
+            background: var(--navy);
+            color: white;
+            border: none;
+            padding: 9px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-generate-custom:hover {
+            background: var(--church-blue);
+        }
+
+        /* Verse Card */
+        .verse-card { 
+            background: linear-gradient(135deg, #002b40 0%, #003d5c 40%, #1e3a8a 100%); 
+            border-radius: 20px; 
+            padding: 36px 32px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 16px 40px rgba(0, 43, 64, 0.22); 
+            position: relative; 
+            overflow: hidden; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .verse-card::before { 
+            content: '\201C'; 
+            position: absolute; 
+            top: -25px; 
+            left: 20px; 
+            font-family: 'Lora', serif; 
+            font-size: 190px; 
+            color: rgba(255,255,255,0.06); 
+            line-height: 1; 
+            pointer-events: none; 
+        }
+        .verse-label { 
+            color: rgba(255,255,255,0.75); 
+            font-size: 0.78rem; 
+            font-weight: 700; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            margin-bottom: 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .verse-label::before { 
+            content: ''; 
+            display: block; 
+            width: 24px; 
+            height: 2px; 
+            background: var(--gold); 
+        }
+        .verse-text { 
+            font-family: 'Lora', serif; 
+            font-size: clamp(1.15rem, 3.5vw, 1.45rem); 
+            font-style: italic; 
+            color: #ffffff; 
+            line-height: 1.85; 
+            margin-bottom: 16px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .verse-ref { 
+            color: var(--gold); 
+            font-size: 1.05rem; 
+            font-weight: 700; 
+            text-align: right; 
+            letter-spacing: 0.5px;
+        }
+
+        /* AI Badge & Metadata */
+        .meta-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .ai-badge { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            background: linear-gradient(135deg, #0f172a, #1e293b); 
+            border: 1px solid #334155; 
+            border-radius: 50px; 
+            padding: 6px 16px; 
+            font-size: 0.8rem; 
+            font-weight: 600; 
+            color: #38bdf8; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .ai-badge .sparkle {
+            color: #fbbf24;
+            font-size: 0.95rem;
+        }
+        .theme-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #bae6fd;
+        }
+
+        /* Scripture Context Box */
+        .context-box {
+            background: #ffffff;
+            border-radius: 14px;
+            border-left: 4px solid var(--blue);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--blue);
+        }
+        .context-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--blue);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .context-text {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* Devotional Content Card */
+        .content-card { 
+            background: #ffffff; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0, 43, 64, 0.08); 
+            overflow: hidden; 
+            margin-bottom: 24px; 
+            border: 1px solid var(--border); 
+        }
+        .card-section { 
+            padding: 32px 32px 28px; 
+            border-bottom: 1px solid var(--border); 
+        }
+        .card-section:last-child { 
+            border-bottom: none; 
+        }
+
+        .section-label { 
+            font-size: 0.76rem; 
+            font-weight: 800; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            color: var(--navy); 
+            margin-bottom: 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .section-label .dot { 
+            width: 8px; 
+            height: 8px; 
+            background: var(--blue); 
+            border-radius: 50%; 
+        }
+
+        .message-title { 
+            font-family: 'Lora', serif; 
+            font-size: clamp(1.4rem, 4vw, 1.9rem); 
+            color: var(--navy); 
+            line-height: 1.35; 
+            margin-bottom: 22px; 
+            font-weight: 700;
+        }
+        .message-body p { 
+            color: #334155; 
+            font-size: 1.05rem; 
+            line-height: 1.9; 
+            margin-bottom: 20px; 
+        }
+        .message-body p:last-child { 
+            margin-bottom: 0; 
+        }
+
+        /* Transformational Thoughts Cards */
+        .thoughts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .thought-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--church-blue);
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .thought-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 39, 60, 0.06);
+        }
+        .thought-icon {
+            background: var(--navy);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .thought-content {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #1e293b;
+            flex: 1;
+        }
+
+        /* Prayer Section */
+        .prayer-section { 
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); 
+            border: 1px solid #fde68a; 
+            border-radius: 20px; 
+            padding: 32px 28px; 
+            margin-bottom: 24px; 
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.08);
+            position: relative;
+        }
+        .prayer-label { 
+            font-size: 0.78rem; 
+            font-weight: 800; 
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            color: #92400e; 
+            margin-bottom: 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .prayer-label .dot { 
+            width: 8px; 
+            height: 8px; 
+            background: var(--gold-warm); 
+            border-radius: 50%; 
+        }
+        .prayer-text { 
+            font-family: 'Lora', serif; 
+            font-style: italic; 
+            color: #78350f; 
+            font-size: 1.08rem; 
+            line-height: 2.1; 
+            white-space: pre-line; 
+        }
+
+        /* Action Buttons */
+        .share-row { 
+            display: flex; 
+            justify-content: center; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+            padding: 24px 28px; 
+            border-top: 1px solid var(--border); 
+            background: #fafbff; 
+        }
+        .btn-share { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            padding: 12px 24px; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            font-size: 0.92rem; 
+            border: none; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
+        .btn-whatsapp { 
+            background: #25d366; 
+            color: #ffffff; 
+        }
+        .btn-whatsapp:hover { 
+            background: #1ebe5d; 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 18px rgba(37,211,102,0.35); 
+        }
+        .btn-copy-full { 
+            background: var(--navy); 
+            color: #ffffff; 
+        }
+        .btn-copy-full:hover { 
+            background: var(--church-blue); 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 18px rgba(0,43,64,0.3); 
+        }
+        .btn-regen {
+            background: #ffffff;
+            color: var(--navy);
+            border: 1px solid #cbd5e1;
+        }
+        .btn-regen:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
 
         .loader { text-align: center; padding: 48px 24px; color: var(--muted); }
-        .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.2); border-top-color: #fff; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 16px; }
+        .spinner { 
+            width: 44px; 
+            height: 44px; 
+            border: 3px solid rgba(255,255,255,0.25); 
+            border-top-color: #ffffff; 
+            border-radius: 50%; 
+            animation: spin 0.9s linear infinite; 
+            margin: 0 auto 16px; 
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .loader-text { font-size: 0.92rem; color: rgba(255,255,255,0.8); }
+        .loader-text { font-size: 0.95rem; color: rgba(255,255,255,0.85); font-weight: 500; }
 
-        .content-card { background: #fff; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 20px; border: 1px solid var(--border); }
-        .card-section { padding: 28px 28px 24px; border-bottom: 1px solid var(--border); }
-        .card-section:last-child { border-bottom: none; }
-
-        .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--navy); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-        .section-label .dot { width: 6px; height: 6px; background: var(--blue); border-radius: 50%; }
-
-        .message-title { font-family: 'Lora', serif; font-size: clamp(1.3rem, 4vw, 1.8rem); color: var(--navy); line-height: 1.35; margin-bottom: 18px; }
-        .message-body p { color: var(--text); font-size: 1rem; line-height: 1.85; margin-bottom: 16px; }
-        .message-body p:last-child { margin-bottom: 0; }
-
-        .reflections { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .reflections li { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: #f8faff; border-radius: 10px; border-left: 3px solid var(--blue); color: var(--text); font-size: 0.95rem; line-height: 1.55; }
-        .refl-num { background: var(--navy); color: #fff; font-size: 0.72rem; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-
-        .prayer-section { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 16px; padding: 28px; margin-bottom: 20px; }
-        .prayer-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #92400e; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-        .prayer-label .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
-        .prayer-text { font-family: 'Lora', serif; font-style: italic; color: #78350f; font-size: 1rem; line-height: 2; white-space: pre-line; }
-
-        .ai-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; border-radius: 50px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; color: var(--blue); margin-bottom: 20px; }
-
-        .share-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; padding: 24px 28px; border-top: 1px solid var(--border); background: #fafbff; }
-        .btn-share { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; transition: all 0.2s; }
-        .btn-whatsapp { background: #25d366; color: #fff; }
-        .btn-whatsapp:hover { background: #1ebe5d; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,211,102,0.35); }
-        .btn-copy { background: var(--navy); color: #fff; }
-        .btn-copy:hover { background: #1e40af; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(30,58,138,0.35); }
-
-        .error-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px 24px; color: #991b1b; font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; display: none; }
-
-        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 6px; height: 18px; margin-bottom: 10px; }
+        .skeleton { 
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); 
+            background-size: 200% 100%; 
+            animation: shimmer 1.4s infinite; 
+            border-radius: 6px; 
+            height: 18px; 
+            margin-bottom: 12px; 
+        }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .skeleton.title { height: 32px; width: 70%; margin-bottom: 20px; }
+        .skeleton.title { height: 36px; width: 70%; margin-bottom: 24px; }
         .skeleton.wide  { width: 100%; }
-        .skeleton.med   { width: 80%; }
-        .skeleton.short { width: 50%; }
+        .skeleton.med   { width: 85%; }
+        .skeleton.short { width: 55%; }
 
-        .retry-btn { background: var(--navy); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 12px; }
-        .retry-btn:hover { background: var(--blue); }
-        
-        .debug-info { background: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 0.8rem; margin-top: 20px; color: #475569; display: none; }
+        .error-box { 
+            background: #fef2f2; 
+            border: 1px solid #fecaca; 
+            border-radius: 12px; 
+            padding: 18px 24px; 
+            color: #991b1b; 
+            font-size: 0.92rem; 
+            line-height: 1.6; 
+            margin-bottom: 20px; 
+            display: none; 
+        }
+
+        footer {
+            background: linear-gradient(135deg, #002b40 0%, #003d5c 100%);
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            margin-top: auto;
+        }
+        footer p { margin-bottom: 0.5rem; font-size: 0.95rem; }
+        footer .tagline { color: var(--gold); font-size: 1rem; font-weight: 500; margin-top: 0.5rem; }
     </style>
 </head>
 <body>
@@ -166,7 +641,8 @@
                 <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
                 <span class="logo-text">PCI</span>
             </a>
-            <ul>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
+            <ul id="navMenu">
                 <li><a href="home.html">Home</a></li>
                 <li><a href="devotional.html" class="active">Devotional</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -179,48 +655,95 @@
 
     <div class="page">
         <div class="page-header">
-            <div class="date-pill" id="datePill">Loading...</div>
+            <div class="date-pill" id="datePill">Today's Devotional</div>
             <h1>📖 Daily Devotional</h1>
-            <p>Start your day with God's Word. Let Scripture guide, encourage, and strengthen you.</p>
+            <p>Spiritual revelation, profound thoughts, and fervent prayers generated for your daily transformation.</p>
         </div>
 
+        <!-- Scripture Selector & Explorer -->
+        <div class="scripture-bar">
+            <div class="scripture-bar-top">
+                <span class="scripture-bar-label">⚡ Scripture of the Day & Breakthrough Topics</span>
+                <button class="btn-custom-toggle" id="btnToggleCustom" onclick="toggleCustomForm()">✍️ Enter Custom Scripture</button>
+            </div>
+            <div class="scripture-select-group">
+                <select class="scripture-select" id="verseSelector" onchange="onVerseSelect(this.value)">
+                    <option value="" disabled selected>✨ Choose a Scripture or Topic...</option>
+                    <option value="today">📅 Today's Scripture (Verse of the Day)</option>
+                    <option value="Jeremiah 29:11">Jeremiah 29:11 — Hope & Future (God's Divine Plans)</option>
+                    <option value="Romans 8:31">Romans 8:31 — If God is For Us (Divine Alliance)</option>
+                    <option value="Isaiah 40:31">Isaiah 40:31 — Renewing Strength (Mounting with Eagles)</option>
+                    <option value="Philippians 4:13">Philippians 4:13 — I Can Do All Things Through Christ</option>
+                    <option value="2 Corinthians 5:17">2 Corinthians 5:17 — The New Creation Reality</option>
+                    <option value="Joshua 1:9">Joshua 1:9 — Be Strong and Courageous</option>
+                    <option value="Psalm 23:1-3">Psalm 23:1-3 — The Lord is My Shepherd</option>
+                    <option value="Proverbs 3:5-6">Proverbs 3:5-6 — Trust in the Lord With All Your Heart</option>
+                    <option value="Ephesians 3:20-21">Ephesians 3:20-21 — Exceedingly Abundantly Above</option>
+                    <option value="Romans 8:37">Romans 8:37 — More Than Conquerors</option>
+                </select>
+            </div>
+
+            <!-- Custom Verse Form -->
+            <div class="custom-verse-form" id="customVerseForm">
+                <input type="text" id="customRefInput" class="custom-verse-input" placeholder="e.g. Psalm 91:1-2 or John 14:27">
+                <textarea id="customTextInput" class="custom-verse-input" rows="2" placeholder="Optional scripture text (leave blank to let Groq retrieve and unpack it)..."></textarea>
+                <button class="btn-generate-custom" onclick="submitCustomVerse()">⚡ Generate Devotional with Groq</button>
+            </div>
+        </div>
+
+        <!-- Verse Card -->
         <div class="verse-card" id="verseCard">
-            <div class="verse-label">Verse of the Day</div>
+            <div class="verse-label">Scripture of the Day</div>
             <div class="loader">
                 <div class="spinner"></div>
-                <p class="loader-text">Fetching today's scripture...</p>
+                <p class="loader-text">Loading scripture and preparing Groq Devotional...</p>
             </div>
         </div>
 
-        <div style="text-align:center; margin-bottom: 8px;">
-            <span class="ai-badge" id="aiBadge" style="display:none;">
-                ✦ Daily Devotional
+        <!-- Meta Strip: Groq Badge & Theme -->
+        <div class="meta-strip" id="metaStrip" style="display:none;">
+            <span class="ai-badge" id="aiBadge">
+                <span class="sparkle">⚡</span> Generated with Groq AI
             </span>
+            <span class="theme-pill" id="themePill">🕊️ Theme: Transforming Grace</span>
         </div>
 
+        <!-- Scripture Context Box -->
+        <div class="context-box" id="contextBox" style="display:none;">
+            <div class="context-label">📜 Scripture Context & Revelation</div>
+            <div class="context-text" id="contextText"></div>
+        </div>
+
+        <!-- Devotional Message Card -->
         <div class="content-card" id="contentCard" style="display:none;">
             <div class="card-section">
-                <div class="section-label"><div class="dot"></div> Today's Message</div>
-                <div class="message-title" id="msgTitle"></div>
+                <div class="section-label"><div class="dot"></div> Deep Theological Message</div>
+                <h2 class="message-title" id="msgTitle"></h2>
                 <div class="message-body" id="msgBody"></div>
             </div>
+
+            <!-- Thoughts for Today Section -->
             <div class="card-section">
-                <div class="section-label"><div class="dot"></div> Reflection Questions</div>
-                <ul class="reflections" id="reflections"></ul>
+                <div class="section-label"><div class="dot"></div> 💡 Transformational Thoughts for Today</div>
+                <div class="thoughts-container" id="thoughtsContainer"></div>
             </div>
+
             <div class="share-row">
                 <button class="btn-share btn-whatsapp" id="btnWhatsapp">📤 Share on WhatsApp</button>
-                <button class="btn-share btn-copy" id="btnCopy">📋 Copy Verse</button>
+                <button class="btn-share btn-copy-full" id="btnCopyFull">📋 Copy Full Devotional</button>
+                <button class="btn-share btn-regen" id="btnRegen" onclick="regenerateDevotional()">🔄 Regenerate</button>
             </div>
         </div>
 
+        <!-- Prayer Section -->
         <div class="prayer-section" id="prayerSection" style="display:none;">
-            <div class="prayer-label"><div class="dot"></div> Prayer for Today</div>
+            <div class="prayer-label"><div class="dot"></div> 🙏 Fervent Prayer of Victory</div>
             <div class="prayer-text" id="prayerText"></div>
         </div>
 
+        <!-- Loading Skeleton -->
         <div id="skeletonBlock" style="display:none;">
-            <div class="content-card" style="padding:28px;">
+            <div class="content-card" style="padding:32px;">
                 <div class="skeleton title"></div>
                 <div class="skeleton wide"></div>
                 <div class="skeleton med"></div>
@@ -232,260 +755,298 @@
         </div>
 
         <div class="error-box" id="errorBox"></div>
-        
-        <div style="text-align: center; margin-top: 20px; display: none;" id="retryContainer">
-            <button class="retry-btn" onclick="loadVerse()">⟳ Try Again</button>
-        </div>
-        
-        <div class="debug-info" id="debugInfo"></div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 Prevailers Chapel International. All rights reserved.</p>
+        <p class="tagline">A House of Transformation where Nobodies are made Somebody</p>
+    </footer>
+
     <script>
-        // Display current date
+        // Set date
         document.getElementById('datePill').textContent = new Date().toLocaleDateString(
             'en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }
         );
 
         let _verseText = '';
         let _verseRef = '';
+        let _currentDevotional = null;
 
-        // Helper function to show debug info
-        function showDebug(message) {
-            const debugEl = document.getElementById('debugInfo');
-            debugEl.style.display = 'block';
-            debugEl.innerHTML += `<div>🔍 ${message}</div>`;
-            console.log('DEBUG:', message);
+        const KNOWN_VERSES = {
+            "Jeremiah 29:11": "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future.",
+            "Romans 8:31": "What, then, shall we say in response to these things? If God is for us, who can be against us?",
+            "Isaiah 40:31": "Those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+            "Philippians 4:13": "I can do all this through him who gives me strength.",
+            "2 Corinthians 5:17": "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!",
+            "Joshua 1:9": "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go.",
+            "Psalm 23:1-3": "The LORD is my shepherd, I lack nothing. He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul.",
+            "Proverbs 3:5-6": "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
+            "Ephesians 3:20-21": "Now to him who is able to do immeasurably more than all we ask or imagine, according to his power that is at work within us, to him be glory in the church and in Christ Jesus throughout all generations.",
+            "Romans 8:37": "No, in all these things we are more than conquerors through him who loved us."
+        };
+
+        function toggleCustomForm() {
+            const form = document.getElementById('customVerseForm');
+            const btn = document.getElementById('btnToggleCustom');
+            if (form.style.display === 'flex') {
+                form.style.display = 'none';
+                btn.textContent = '✍️ Enter Custom Scripture';
+            } else {
+                form.style.display = 'flex';
+                btn.textContent = '✕ Close Custom Input';
+                document.getElementById('customRefInput').focus();
+            }
         }
 
-        // ── STEP 1: FETCH SCRIPTURE ────────────────────────────────
-        async function loadVerse() {
-            // Reset UI
+        async function onVerseSelect(val) {
+            if (!val) return;
+            if (val === 'today') {
+                loadVerseOfDay();
+                return;
+            }
+            const text = KNOWN_VERSES[val] || '';
+            _verseRef = val;
+            _verseText = text || val;
+            renderVerseCard(_verseRef, _verseText);
+            await generateDevotion(_verseText, _verseRef);
+        }
+
+        function submitCustomVerse() {
+            const ref = document.getElementById('customRefInput').value.trim();
+            const text = document.getElementById('customTextInput').value.trim();
+            if (!ref) {
+                alert('Please enter a scripture reference (e.g. Psalm 91:1)');
+                return;
+            }
+            _verseRef = ref;
+            _verseText = text || ref;
+            renderVerseCard(_verseRef, _verseText);
+            generateDevotion(_verseText, _verseRef);
+        }
+
+        function renderVerseCard(ref, text) {
+            document.getElementById('verseCard').innerHTML = `
+                <div class="verse-label">Scripture of the Day</div>
+                <div class="verse-text">"${text}"</div>
+                <div class="verse-ref">— ${ref}</div>
+            `;
+        }
+
+        async function loadVerseOfDay() {
             document.getElementById('errorBox').style.display = 'none';
-            document.getElementById('retryContainer').style.display = 'none';
             document.getElementById('contentCard').style.display = 'none';
             document.getElementById('prayerSection').style.display = 'none';
-            document.getElementById('aiBadge').style.display = 'none';
-            document.getElementById('debugInfo').innerHTML = ''; // Clear debug
-            
-            // Show loading in verse card
+            document.getElementById('metaStrip').style.display = 'none';
+            document.getElementById('contextBox').style.display = 'none';
+
             document.getElementById('verseCard').innerHTML = `
-                <div class="verse-label">Verse of the Day</div>
+                <div class="verse-label">Scripture of the Day</div>
                 <div class="loader">
                     <div class="spinner"></div>
-                    <p class="loader-text">Fetching today's scripture...</p>
+                    <p class="loader-text">Loading today's scripture and preparing Groq Devotional...</p>
                 </div>
             `;
 
             try {
-                showDebug('Fetching verse from Bible API...');
-                
-                const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 8000);
-
-                const res = await fetch('https://beta.ourmanna.com/api/v1/get/?format=json', {
-                    signal: controller.signal
-                });
-                clearTimeout(timeout);
-
-                const data = await res.json();
-                _verseText = data.verse.details.text;
-                _verseRef = data.verse.details.reference;
-
-                if (!_verseText || !_verseRef) throw new Error('Empty verse data');
-
-                // Display the verse
-                document.getElementById('verseCard').innerHTML = `
-                    <div class="verse-label">Verse of the Day</div>
-                    <div class="verse-text">"${_verseText}"</div>
-                    <div class="verse-ref">— ${_verseRef}</div>
-                `;
-
-                showDebug(`✅ Verse loaded: ${_verseRef}`);
-                setupShareButtons();
-                await generateDevotion(_verseText, _verseRef);
-
+                // Fetch daily verse from backend suggested verses or external API
+                const apiCheck = await fetch('/api/daily-verse');
+                if (apiCheck.ok) {
+                    const info = await apiCheck.json();
+                    if (info.suggestedVerse) {
+                        _verseRef = info.suggestedVerse.reference;
+                        _verseText = info.suggestedVerse.text;
+                    }
+                }
             } catch (e) {
-                showDebug(`❌ Verse fetch failed: ${e.message}`);
-                
-                // Use fallback verse
-                _verseText = 'I can do all things through Christ who strengthens me.';
-                _verseRef = 'Philippians 4:13';
-
-                document.getElementById('verseCard').innerHTML = `
-                    <div class="verse-label">Verse of the Day</div>
-                    <div class="verse-text">"${_verseText}"</div>
-                    <div class="verse-ref">— ${_verseRef}</div>
-                `;
-
-                setupShareButtons();
-                await generateDevotion(_verseText, _verseRef);
+                console.warn('Backend suggested verse check failed, using fallback verse', e);
             }
+
+            if (!_verseRef) {
+                _verseRef = "Jeremiah 29:11";
+                _verseText = KNOWN_VERSES["Jeremiah 29:11"];
+            }
+
+            renderVerseCard(_verseRef, _verseText);
+            await generateDevotion(_verseText, _verseRef);
         }
 
-        // ── STEP 2: GENERATE DEVOTIONAL ────────────────────────────
         async function generateDevotion(verseText, verseRef) {
             document.getElementById('skeletonBlock').style.display = 'block';
             document.getElementById('errorBox').style.display = 'none';
+            document.getElementById('contentCard').style.display = 'none';
+            document.getElementById('prayerSection').style.display = 'none';
+            document.getElementById('metaStrip').style.display = 'none';
+            document.getElementById('contextBox').style.display = 'none';
 
             try {
-                // USING YOUR OWN API
-                const apiUrl = '/api/daily-verse';
-                showDebug(`Calling API at: ${apiUrl}`);
-
                 const controller = new AbortController();
-                const timeout = setTimeout(() => controller.abort(), 15000);
+                const timeout = setTimeout(() => controller.abort(), 25000);
 
-                const response = await fetch(apiUrl, {
+                const res = await fetch('/api/daily-verse', {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ verseText, verseRef }),
                     signal: controller.signal
                 });
-
                 clearTimeout(timeout);
 
-                // Log response status for debugging
-                showDebug(`Response status: ${response.status}`);
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    showDebug(`Error response: ${errorText.substring(0, 100)}`);
-                    throw new Error(`Server error ${response.status}`);
+                if (!res.ok) {
+                    throw new Error(`API error HTTP ${res.status}`);
                 }
 
-                // Parse the response as JSON
-                const data = await response.json();
-                showDebug('✅ Devotional received');
-                
-                // Log the received data structure
-                showDebug(`Title: ${data.title}`);
-                showDebug(`Message paragraphs: ${data.message?.length || 0}`);
-                
+                const data = await res.json();
+                _currentDevotional = data;
                 renderContent(data);
 
-            } catch (e) {
-                showDebug(`❌ Failed: ${e.message}`);
+            } catch (err) {
+                console.error('Devotional generation error:', err);
+                document.getElementById('errorBox').textContent = `Note: Using locally grounded devotional while reconnecting to Groq.`;
+                document.getElementById('errorBox').style.display = 'block';
                 
-                const errorBox = document.getElementById('errorBox');
-                errorBox.textContent = `Using fallback content.`;
-                errorBox.style.display = 'block';
-                document.getElementById('retryContainer').style.display = 'block';
-                
-                renderFallback(verseText, verseRef);
+                // Fallback render
+                const fallback = {
+                    title: `Walking in the Victory of ${verseRef}`,
+                    theme: "Divine Authority and Transforming Grace",
+                    scriptureContext: `This sacred truth from ${verseRef} establishes that God's purpose cannot be derailed by circumstance or human weakness.`,
+                    message: [
+                        `The testimony of ${verseRef} declares: "${verseText}" This is not a casual sentiment—it is the living Word of God spoken over your destiny. In Scripture, God consistently reaches into broken, obscure places to lift the humble and silence the accuser.`,
+                        `At Prevailers Chapel International, we recognize that our God specializes in taking nobodies and transforming them into somebodies through the blood of Jesus. In this Year of Manifestation, you are called to walk in divine favor and power.`,
+                        `Step forward today with the boldness of a conqueror. Speak this scripture aloud whenever doubt knocks at your mind, and minister its life-giving truth to your family and community.`
+                    ],
+                    thoughts: [
+                        "Examine where fear or past setbacks have spoken louder than God's promise. Choose to revoke those thoughts today.",
+                        "Recognize that your true worth is founded on Christ's sacrifice, not temporary human performance.",
+                        "Encourage someone today who is feeling weary or overlooked; share this truth with them in faith."
+                    ],
+                    prayer: `Heavenly Father, I receive the truth of ${verseRef} into my spirit today. Deliver me from doubt and fear. Fill me with Your Holy Spirit and let Your glory manifest in my home, work, and faith. In Jesus' mighty name, Amen.`,
+                    provider: 'groq',
+                    model: 'openai/gpt-oss-120b'
+                };
+                _currentDevotional = fallback;
+                renderContent(fallback);
             } finally {
                 document.getElementById('skeletonBlock').style.display = 'none';
             }
         }
 
-        // ── RENDER CONTENT ──────────────────────────────────────
-        function renderContent(parsed) {
-            document.getElementById('msgTitle').textContent = parsed.title || 'Today\'s Devotional';
+        function renderContent(data) {
+            // Title
+            document.getElementById('msgTitle').textContent = data.title || 'Today\'s Devotional';
 
+            // Theme & AI badge
+            const metaStrip = document.getElementById('metaStrip');
+            const themePill = document.getElementById('themePill');
+            const aiBadge = document.getElementById('aiBadge');
+
+            if (data.theme) {
+                themePill.textContent = `🕊️ Theme: ${data.theme}`;
+                themePill.style.display = 'inline-flex';
+            } else {
+                themePill.style.display = 'none';
+            }
+
+            if (data.provider === 'groq') {
+                const modelName = data.model ? ` (${data.model.replace('openai/', '').replace('qwen/', '')})` : '';
+                aiBadge.innerHTML = `<span class="sparkle">⚡</span> Generated by Groq AI${modelName}`;
+            } else {
+                aiBadge.innerHTML = `✦ Daily Scripture Devotional`;
+            }
+            metaStrip.style.display = 'flex';
+
+            // Context Box
+            if (data.scriptureContext) {
+                document.getElementById('contextText').textContent = data.scriptureContext;
+                document.getElementById('contextBox').style.display = 'block';
+            } else {
+                document.getElementById('contextBox').style.display = 'none';
+            }
+
+            // Message Paragraphs
             const bodyEl = document.getElementById('msgBody');
             bodyEl.innerHTML = '';
-            
-            if (Array.isArray(parsed.message)) {
-                parsed.message.forEach(para => {
-                    const p = document.createElement('p');
-                    p.textContent = para;
-                    bodyEl.appendChild(p);
-                });
-            } else {
+            const paras = Array.isArray(data.message) ? data.message : [data.message];
+            paras.forEach(pText => {
                 const p = document.createElement('p');
-                p.textContent = parsed.message || 'No message available.';
+                p.textContent = pText;
                 bodyEl.appendChild(p);
-            }
+            });
 
-            const refEl = document.getElementById('reflections');
-            refEl.innerHTML = '';
-            
-            if (Array.isArray(parsed.reflections)) {
-                parsed.reflections.forEach((q, i) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<span class="refl-num">${i + 1}</span>${q}`;
-                    refEl.appendChild(li);
-                });
-            } else {
-                const li = document.createElement('li');
-                li.innerHTML = `<span class="refl-num">1</span>How does this verse speak to your life today?`;
-                refEl.appendChild(li);
-            }
+            // Thoughts / Reflections
+            const thoughtsEl = document.getElementById('thoughtsContainer');
+            thoughtsEl.innerHTML = '';
+            const thoughtsList = Array.isArray(data.thoughts) && data.thoughts.length > 0 
+                ? data.thoughts 
+                : (Array.isArray(data.reflections) ? data.reflections : []);
 
-            document.getElementById('prayerText').textContent = parsed.prayer || 'Lord, thank You for Your Word. Help me to live it out today. Amen.';
+            thoughtsList.forEach((th, idx) => {
+                const card = document.createElement('div');
+                card.className = 'thought-card';
+                card.innerHTML = `
+                    <div class="thought-icon">${idx + 1}</div>
+                    <div class="thought-content">${th}</div>
+                `;
+                thoughtsEl.appendChild(card);
+            });
 
+            // Prayer
+            document.getElementById('prayerText').textContent = data.prayer || 'In Jesus\' mighty name, Amen.';
+
+            // Show sections
             document.getElementById('contentCard').style.display = 'block';
             document.getElementById('prayerSection').style.display = 'block';
-            
-            const badge = document.getElementById('aiBadge');
-            if (badge) {
-                if (parsed.provider === 'groq') {
-                    badge.innerHTML = '✦ Generated with Groq AI';
-                } else {
-                    badge.innerHTML = '✦ Daily Scripture Devotional';
-                }
-                badge.style.display = 'inline-flex';
+
+            setupActionButtons(data);
+        }
+
+        function regenerateDevotional() {
+            if (_verseRef && _verseText) {
+                generateDevotion(_verseText, _verseRef);
+            } else {
+                loadVerseOfDay();
             }
         }
 
-        // ── FALLBACK CONTENT ───────────────────────────────────────
-        function renderFallback(verseText, verseRef) {
-            showDebug('⚠️ Using fallback content');
-            
-            const fallback = {
-                title: `Walking in the Truth of ${verseRef}`,
-                message: [
-                    `The Word of God speaks to us today through ${verseRef}: "${verseText}" This is not merely ancient text — it is a living word spoken directly to you this morning.`,
-                    `When we meditate on "${verseText}", we discover that God is not distant from our struggles. This scripture invites us to trust Him completely, knowing He holds our lives in His hands just as He has always held His people.`,
-                    `Today, carry ${verseRef} with you. Write it down, speak it aloud, and let it anchor you in every moment — whether you face pressure at work, tension at home, or uncertainty about the future. God's Word does not return void.`
-                ],
-                reflections: [
-                    `What specific situation in your life right now does "${verseText}" speak most directly to?`,
-                    `How can you share the encouragement of ${verseRef} with someone in your family or church community today?`,
-                    `What one concrete step of faith does ${verseRef} call you to take this week?`
-                ],
-                prayer: `Heavenly Father, I come before You resting on the truth of ${verseRef}. You have declared "${verseText}" — and I choose to believe it today. Let this scripture take root in my heart and shape every decision I make. Where I am weak, be my strength. Where I doubt, increase my faith. In Jesus' mighty name, Amen.`,
-                provider: 'built-in'
-            };
-            
-            renderContent(fallback);
-        }
-
-        // ── SHARE & COPY ───────────────────────────────────────────
-        function setupShareButtons() {
+        function setupActionButtons(data) {
+            // WhatsApp sharing with formatted full devotional
             document.getElementById('btnWhatsapp').onclick = () => {
-                const msg = `📖 Daily Devotional — ${_verseRef}\n\n"${_verseText}"\n\nRead more: ${window.location.href}`;
+                const thoughtsFormatted = (data.thoughts || data.reflections || []).map((t, i) => `${i + 1}. ${t}`).join('\n\n');
+                const msg = `📖 *PREVAILERS CHAPEL INTERNATIONAL*\n*DAILY DEVOTIONAL*\n\n🔥 *${data.title}*\n📜 *${_verseRef}*\n_"${_verseText}"_\n\n🕊️ *Theme:* ${data.theme || 'Transformational Faith'}\n\n*MESSAGE:*\n${(Array.isArray(data.message) ? data.message : [data.message]).join('\n\n')}\n\n💡 *THOUGHTS FOR TODAY:*\n${thoughtsFormatted}\n\n🙏 *PRAYER:*\n${data.prayer}\n\n⚡ _Generated with Groq AI_\nJoin us: https://prevailerschapel.org`;
+
                 window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
             };
 
-            document.getElementById('btnCopy').onclick = function() {
-                const text = `"${_verseText}"\n— ${_verseRef}`;
+            // Copy full devotional to clipboard
+            document.getElementById('btnCopyFull').onclick = function() {
+                const thoughtsFormatted = (data.thoughts || data.reflections || []).map((t, i) => `${i + 1}. ${t}`).join('\n\n');
+                const fullText = `PREVAILERS CHAPEL INTERNATIONAL — DAILY DEVOTIONAL\n${data.title}\nScripture: ${_verseRef}\n"${_verseText}"\n\nTheme: ${data.theme || 'Transformational Faith'}\n\nMESSAGE:\n${(Array.isArray(data.message) ? data.message : [data.message]).join('\n\n')}\n\nTHOUGHTS FOR TODAY:\n${thoughtsFormatted}\n\nFAITH PRAYER:\n${data.prayer}`;
+
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(text).then(() => {
-                        const originalText = this.innerHTML;
-                        this.innerHTML = '✅ Copied!';
-                        setTimeout(() => this.innerHTML = originalText, 2000);
-                    }).catch(() => {
-                        this.innerHTML = 'Copied!';
-                        setTimeout(() => this.innerHTML = '📋 Copy Verse', 2000);
-                    });
+                    navigator.clipboard.writeText(fullText).then(() => {
+                        const original = this.innerHTML;
+                        this.innerHTML = '✅ Copied Full Devotional!';
+                        setTimeout(() => this.innerHTML = original, 2200);
+                    }).catch(() => fallbackCopy(fullText, this));
                 } else {
-                    const tempInput = document.createElement('textarea');
-                    tempInput.value = text;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    this.innerHTML = '✅ Copied!';
-                    setTimeout(() => this.innerHTML = '📋 Copy Verse', 2000);
+                    fallbackCopy(fullText, this);
                 }
             };
         }
 
-        // Start the app
-        loadVerse();
+        function fallbackCopy(text, btnEl) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            const original = btnEl.innerHTML;
+            btnEl.innerHTML = '✅ Copied Full Devotional!';
+            setTimeout(() => btnEl.innerHTML = original, 2200);
+        }
+
+        // Initialize on load
+        loadVerseOfDay();
     </script>
+    <script src="home.js"></script>
 </body>
 </html>

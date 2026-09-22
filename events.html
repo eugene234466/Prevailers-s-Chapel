@@ -11,15 +11,32 @@
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
+:root {
+    --church-navy: #003d5c;
+    --church-blue: #1e3a8a;
+    --church-deep: #00273c;
+    --church-gold: #ffd700;
+    --church-sky: #0ea5e9;
+    --church-light: #f8fafc;
+    --church-text: #1e293b;
+    --church-muted: #64748b;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
 }
 
 body {
-    background: #f5f7fb;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #f8fafc;
+    color: var(--church-text);
+    line-height: 1.65;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* NAVBAR */
@@ -82,6 +99,7 @@ nav a {
     border-radius: 6px;
     font-size: 0.95rem;
     transition: all 0.25s;
+    display: inline-block;
 }
 
 nav a:hover,
@@ -90,94 +108,197 @@ nav a.active {
     color: #ffffff;
 }
 
+.menu-toggle {
+    display: none;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    font-size: 1.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    line-height: 1;
+}
+
 @media (max-width: 768px) {
-    nav { padding: 0.75rem 1rem; }
-    nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
-    nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+    .menu-toggle {
+        display: block;
+        z-index: 1001;
+    }
+
+    nav ul {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: #003d5c;
+        flex-direction: column;
+        padding: 1.25rem 0;
+        gap: 0.25rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        border-bottom: 2px solid var(--church-gold);
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li {
+        width: 100%;
+        text-align: center;
+        padding: 0.25rem 1.5rem;
+    }
+
+    nav ul li a {
+        display: block;
+        padding: 0.75rem 1rem;
+    }
 }
 
 /* PAGE HEADER */
 .page-header {
     text-align: center;
-    padding: 50px 15px 30px;
+    padding: 50px 20px 25px;
 }
 
 .page-header h1 {
-    color: #003d5c;
+    color: var(--church-navy);
     font-size: clamp(2rem, 5vw, 2.75rem);
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .page-header p {
-    color: #64748b;
+    color: var(--church-muted);
     max-width: 650px;
     margin: 0 auto;
     font-size: 1.1rem;
     line-height: 1.6;
 }
 
-/* EVENTS SECTION */
-.events-container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px 15px 60px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
+/* MAIN CONTENT */
+main {
+    flex: 1;
 }
 
-/* SIMPLE EVENT CARD */
+/* EVENTS SECTION */
+.events-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 20px 70px;
+}
+
+/* NO EVENTS CARD */
+.no-events-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 3.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 39, 60, 0.08);
+    border: 1px solid #e2e8f0;
+    border-top: 4px solid var(--church-gold);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.no-events-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.no-events-card h2 {
+    color: var(--church-navy);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.no-events-card p {
+    color: var(--church-muted);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 620px;
+    margin: 0 auto 2rem;
+}
+
+.btn-services {
+    display: inline-block;
+    background: var(--church-navy);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.85rem 2.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 39, 60, 0.2);
+}
+
+.btn-services:hover {
+    background: #00273c;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 39, 60, 0.28);
+}
+
+/* EVENT CARDS (FOR WHEN EVENTS ARE SCHEDULED) */
 .event-card {
     background: #ffffff;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 20px rgba(0, 39, 60, 0.08);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 2rem;
 }
 
 .event-banner {
     width: 100%;
     height: 320px;
     object-fit: cover;
+    object-position: center;
     cursor: pointer;
-    padding: center;
+    display: block;
 }
 
 .event-info {
-    padding: 20px;
+    padding: 24px;
     text-align: center;
 }
 
 .event-info h3 {
-    color: #1e3a8a;
-    font-size: 28px;
+    color: var(--church-navy);
+    font-size: 1.6rem;
     margin-bottom: 8px;
+    font-weight: 700;
 }
 
 .event-date {
-    font-weight: bold;
-    color: #1e3a8a;
+    font-weight: 700;
+    color: var(--church-blue);
+    font-size: 1rem;
 }
 
 .event-time {
-    margin: 8px 0;
-    font-size: 18px;
+    margin: 6px 0;
+    font-size: 1.05rem;
+    color: var(--church-text);
 }
 
 .event-desc {
-    color: #555;
-    line-height: 1.6;
-    margin: 10px 0;
+    color: var(--church-muted);
+    line-height: 1.65;
+    margin: 12px 0 16px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .event-location {
     display: inline-block;
     background: #eef2ff;
-    color: #1e3a8a;
-    padding: 8px 14px;
+    color: var(--church-blue);
+    padding: 6px 16px;
     border-radius: 20px;
     font-weight: 600;
-    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
 /* GALLERY MODAL */
@@ -185,7 +306,7 @@ nav a.active {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.9);
     z-index: 3000;
     justify-content: center;
     align-items: center;
@@ -196,21 +317,34 @@ nav a.active {
     max-width: 90%;
     max-height: 80%;
     border-radius: 10px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.5);
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-    .event-banner {
-        height: 220px;
-    }
+/* FOOTER */
+footer {
+    background: linear-gradient(135deg, #002b40 0%, #003d5c 100%);
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-top: 2px solid rgba(255, 215, 0, 0.3);
+    margin-top: auto;
+}
 
-    .event-info h3 {
-        font-size: 24px;
-    }
+footer p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
 
-    .page-header h1 {
-        font-size: 34px;
-    }
+footer .tagline {
+    color: var(--church-gold);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -224,7 +358,8 @@ nav a.active {
             <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
             <span class="logo-text">PCI</span>
         </a>
-        <ul>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
+        <ul id="navMenu">
             <li><a href="home.html">Home</a></li>
             <li><a href="devotional.html">Devotional</a></li>
             <li><a href="services.html">Services</a></li>
@@ -235,66 +370,36 @@ nav a.active {
     </div>
 </nav>
 
-<!-- PAGE HEADER -->
-<div class="page-header">
-    <h1>Our Gatherings & Events</h1>
-    <p>Join us for powerful moments of worship, prayer, and fellowship as we grow together in Christ.</p>
-</div>
-
-<!-- EVENTS -->
-<div class="events-container">
-
-    <!-- Event Card 1 -->
-    <div class="event-card">
-        <img src="5.jpeg" alt="Sunday Worship Service" class="event-banner" onclick="openGallery(this.src)">
-        <div class="event-info">
-            <h3>Sunday Praise & Worship</h3>
-            <p class="event-date">Every Sunday Morning</p>
-            <p class="event-time">8:00 AM – 10:30 AM</p>
-            <p class="event-desc">
-                Experience transformative worship, inspiring Biblical teaching, and heartfelt fellowship in God's presence.
-            </p>
-            <span class="event-location">📍 Main Auditorium</span>
-        </div>
+<main>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Our Events & Programs</h1>
+        <p>Stay connected with our community as we gather in worship, prayer, and fellowship.</p>
     </div>
 
-    <!-- Event Card 2 -->
-    <div class="event-card">
-        <img src="2.jpeg" alt="Mid-Week Bible Study" class="event-banner" onclick="openGallery(this.src)">
-        <div class="event-info">
-            <h3>Mid-Week Bible Study</h3>
-            <p class="event-date">Every Wednesday Evening</p>
-            <p class="event-time">6:30 PM – 8:00 PM</p>
-            <p class="event-desc">
-                Dive deep into God's Word with verse-by-verse teaching and interactive spiritual growth.
-            </p>
-            <span class="event-location">📍 Main Auditorium</span>
+    <!-- EVENTS -->
+    <div class="events-container">
+        <div class="no-events-card">
+            <div class="no-events-icon">📅</div>
+            <h2>No Events Available Yet</h2>
+            <p>There are currently no upcoming special events scheduled at this time. Stay tuned for future church announcements, conferences, and celebrations! In the meantime, you are warmly invited to join our weekly worship and Bible study services.</p>
+            <a href="services.html" class="btn-services">View Weekly Services</a>
         </div>
     </div>
-
-    <!-- Event Card 3 -->
-    <div class="event-card">
-        <img src="4.jpeg" alt="Prayer Meeting" class="event-banner" onclick="openGallery(this.src)">
-        <div class="event-info">
-            <h3>Friday Prayer & Deliverance</h3>
-            <p class="event-date">Every Friday Evening</p>
-            <p class="event-time">6:30 PM – 7:30 PM</p>
-            <p class="event-desc">
-                A sacred atmosphere of corporate prayer, intercession, and seeking God's divine favor.
-            </p>
-            <span class="event-location">📍 Main Auditorium</span>
-        </div>
-    </div>
-
-</div>
+</main>
 
 <!-- GALLERY MODAL -->
 <div class="gallery" id="gallery" onclick="closeGallery(event)">
-    <img id="galleryImage">
+    <img id="galleryImage" alt="Event preview">
 </div>
 
+<footer>
+    <p>&copy; 2026 Prevailers Chapel International. All rights reserved.</p>
+    <p class="tagline">A House of Transformation where Nobodies are made Somebody</p>
+</footer>
+
+<script src="home.js"></script>
 <script>
-// Simple modal gallery for any event card
 function openGallery(src) {
     document.getElementById('galleryImage').src = src;
     document.getElementById('gallery').style.display = 'flex';

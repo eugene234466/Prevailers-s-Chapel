@@ -12,8 +12,86 @@ function getGroqClient() {
     return groqClient;
 }
 
+// Curated pool of breakthrough scriptures used when needed or requested
+export const INSPIRING_VERSES = [
+    {
+        reference: "Jeremiah 29:11",
+        text: "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future."
+    },
+    {
+        reference: "Romans 8:31",
+        text: "What, then, shall we say in response to these things? If God is for us, who can be against us?"
+    },
+    {
+        reference: "Isaiah 40:31",
+        text: "Those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint."
+    },
+    {
+        reference: "Philippians 4:13",
+        text: "I can do all this through him who gives me strength."
+    },
+    {
+        reference: "2 Corinthians 5:17",
+        text: "Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!"
+    },
+    {
+        reference: "Joshua 1:9",
+        text: "Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go."
+    },
+    {
+        reference: "Psalm 23:1-3",
+        text: "The LORD is my shepherd, I lack nothing. He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul."
+    },
+    {
+        reference: "Proverbs 3:5-6",
+        text: "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."
+    },
+    {
+        reference: "Ephesians 3:20-21",
+        text: "Now to him who is able to do immeasurably more than all we ask or imagine, according to his power that is at work within us, to him be glory in the church and in Christ Jesus throughout all generations."
+    },
+    {
+        reference: "Romans 8:37",
+        text: "No, in all these things we are more than conquerors through him who loved us."
+    }
+];
+
+// Available models on Groq in priority order (fastest high-quality direct JSON first)
+const GROQ_MODELS = [
+    'qwen/qwen3.8-27b',
+    'openai/gpt-oss-120b',
+    'openai/gpt-oss-20b'
+];
+
+function extractJson(text) {
+    if (!text) return null;
+    const trimmed = text.trim();
+    try {
+        return JSON.parse(trimmed);
+    } catch (_) {}
+
+    // Match code block
+    const codeMatch = trimmed.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    if (codeMatch) {
+        try {
+            return JSON.parse(codeMatch[1].trim());
+        } catch (_) {}
+    }
+
+    // Match outermost { ... }
+    const firstBrace = trimmed.indexOf('{');
+    const lastBrace = trimmed.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+        try {
+            return JSON.parse(trimmed.substring(firstBrace, lastBrace + 1));
+        } catch (_) {}
+    }
+
+    return null;
+}
+
 export default async function handler(req, res) {
-    // CORS
+    // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -23,10 +101,14 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
+        const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+        const todaysVerse = INSPIRING_VERSES[dayOfYear % INSPIRING_VERSES.length];
+
         return res.status(200).json({
             message: 'Devotional API is ready 🚀',
-            instructions: 'Send POST with verseText and verseRef',
             hasGroq: !!process.env.GROQ_API_KEY,
+            suggestedVerse: todaysVerse,
+            allVerses: INSPIRING_VERSES,
             status: 'online'
         });
     }
@@ -36,296 +118,155 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { verseText = '', verseRef = '' } = req.body || {};
+        const { verseText = '', verseRef = '', themeHint = '' } = req.body || {};
 
-        if (!verseText || !verseRef) {
+        if (!verseText && !verseRef) {
             return res.status(400).json({
-                error: 'Missing verseText or verseRef'
+                error: 'Please provide verseText and verseRef'
             });
         }
 
-        console.log('Generating devotional for:', verseRef);
+        const safeRef = verseRef.trim() || 'Scripture of the Day';
+        const safeText = verseText.trim() || 'Thy word is a lamp unto my feet, and a light unto my path.';
 
-        let devotional = null;
+        console.log(`[Groq Devotional] Generating devotional for: ${safeRef}`);
+
         const groq = getGroqClient();
+        let devotional = null;
+        let lastError = null;
 
         if (groq) {
-            try {
-                const completion = await groq.chat.completions.create({
-                    model: 'llama-3.3-70b-versatile',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: `You are an uplifting and doctrinally sound pastor and devotional writer for Prevailers Chapel International ("A House of Transformation where Nobodies are made Somebody").
-Write an inspiring, spirit-filled daily devotional based on the provided scripture.
-Return strictly valid JSON only (no markdown, no backticks, no extra text) with this structure:
-{
-  "title": "Inspiring Title (3-6 words)",
-  "message": [
-    "Paragraph 1: An engaging, relatable opening that connects with everyday struggles or life situations.",
-    "Paragraph 2: Deep spiritual insight showing how this scripture reveals God's power and victory in Christ.",
-    "Paragraph 3: An empowering closing encouraging the believer to prevail in faith today."
-  ],
-  "reflections": [
-    "First reflection question for personal meditation.",
-    "Second reflection question for practical daily application."
-  ],
-  "prayer": "A heartfelt prayer of faith, surrender, and breakthrough, ending with Amen."
-}`
-                        },
-                        {
-                            role: 'user',
-                            content: `Scripture: ${verseRef}\n"${verseText}"`
-                        }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 900,
-                    response_format: { type: 'json_object' }
-                });
+            const systemPrompt = `You are an anointed, biblically grounded pastor, teacher, and devotional writer for Prevailers Chapel International.
+Church Identity: "A House of Transformation where Nobodies are made Somebody."
+Church Year Declaration: "2026 – Our Year of Manifestation (manifesting God's glory, power, favor, and grace in every sphere of life)."
 
-                const rawContent = completion.choices?.[0]?.message?.content;
-                if (rawContent) {
-                    const cleaned = rawContent.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
-                    const parsed = JSON.parse(cleaned);
-                    if (parsed.title && parsed.message && parsed.prayer) {
-                        devotional = {
-                            title: parsed.title,
-                            message: Array.isArray(parsed.message) ? parsed.message : [parsed.message],
-                            reflections: Array.isArray(parsed.reflections) ? parsed.reflections : [parsed.reflections],
-                            prayer: parsed.prayer,
-                            provider: 'groq'
-                        };
+YOUR SACRED MANDATE:
+Write an exceptionally deep, spiritually invigorating, and NON-GENERIC daily devotional based on the exact scripture given.
+NEVER use cliché, vague, or interchangeable platitudes (e.g. avoid empty phrases like "some days are hard", "just hold on", "life is busy", "take a deep breath", or generic one-liners).
+Instead, anchor deeply in:
+1. The exact biblical, theological, and linguistic heart of this specific scripture.
+2. How this truth shatters defeat, raises the broken, and empowers ordinary believers into divine champions of faith.
+3. Practical, penetrating, soul-searching thoughts that challenge real-world behavior and thinking today.
+4. A fervent, authoritative prayer of faith that specifically addresses the verse's themes.
+
+You must respond with strictly valid JSON only (no markdown code blocks, no backticks, no text before or after).
+Use this exact JSON schema:
+{
+  "title": "A captivating, non-generic title (4-7 words)",
+  "theme": "Core spiritual theme (e.g. 'Unshakable Divine Advocacy', 'From Wilderness to Dominion')",
+  "scriptureContext": "A clear, insightful 1-2 sentence context explaining the historical or theological setting of this scripture",
+  "message": [
+    "Paragraph 1 (80-110 words): Deep exposition of the verse, unpacking key terms, context, and the heart of God in this scripture.",
+    "Paragraph 2 (80-110 words): Transformational spiritual revelation: connecting this divine truth to our identity in Christ and how it turns nobodies into somebodies.",
+    "Paragraph 3 (80-110 words): Victorious pastoral call to action: practical empowerment for the believer to walk in dominion and manifestation today."
+  ],
+  "thoughts": [
+    "First deep thought: A penetrating spiritual insight with a real-life question or concrete application for today.",
+    "Second deep thought: An examination of personal faith, mindset, or relationships anchored directly in this text.",
+    "Third deep thought: A strategic action or bold declaration for manifesting this truth today."
+  ],
+  "prayer": "A rich, heartfelt, authoritative prayer (85-120 words) steeped in this scripture, declaring victory, spiritual transformation, and ending in Jesus' mighty name, Amen."
+}`;
+
+            const userPrompt = `Scripture Reference: ${safeRef}
+Scripture Text: "${safeText}"
+${themeHint ? `Focus Area: ${themeHint}` : ''}
+
+Generate the complete, deep, non-generic devotional now.`;
+
+            // Try available Groq models in sequence
+            for (const model of GROQ_MODELS) {
+                try {
+                    console.log(`[Groq Devotional] Attempting generation with model: ${model}`);
+                    const completion = await groq.chat.completions.create({
+                        model,
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            { role: 'user', content: userPrompt }
+                        ],
+                        temperature: 0.65,
+                        max_tokens: 1200
+                    });
+
+                    const rawContent = completion.choices?.[0]?.message?.content;
+                    if (rawContent) {
+                        const parsed = extractJson(rawContent);
+
+                        if (parsed && parsed.title && parsed.message && parsed.prayer) {
+                            const messageArr = Array.isArray(parsed.message) ? parsed.message : [parsed.message];
+                            const thoughtsArr = Array.isArray(parsed.thoughts) ? parsed.thoughts : 
+                                               (Array.isArray(parsed.reflections) ? parsed.reflections : [parsed.thoughts || parsed.reflections]);
+
+                            devotional = {
+                                title: parsed.title,
+                                theme: parsed.theme || "Transformational Faith",
+                                scriptureContext: parsed.scriptureContext || `A living revelation given to empower believers through ${safeRef}.`,
+                                message: messageArr,
+                                thoughts: thoughtsArr.filter(Boolean),
+                                reflections: thoughtsArr.filter(Boolean), // for backward compatibility
+                                prayer: parsed.prayer,
+                                provider: 'groq',
+                                model: model,
+                                verseRef: safeRef,
+                                verseText: safeText
+                            };
+                            console.log(`[Groq Devotional] Successfully generated with model: ${model}`);
+                            break; // Successfully generated, break out of loop
+                        }
                     }
+                } catch (err) {
+                    console.warn(`[Groq Devotional] Model ${model} error:`, err.message);
+                    lastError = err;
                 }
-            } catch (groqErr) {
-                console.warn('Groq generation error, falling back to local generator:', groqErr.message);
             }
         }
 
+        // High quality theological fallback if Groq is temporarily unreachable
         if (!devotional) {
-            devotional = generateDevotional(verseRef, verseText);
-            devotional.provider = 'built-in';
+            console.warn('[Groq Devotional] Using rich biblical fallback:', lastError ? lastError.message : 'No Groq client');
+            devotional = buildBiblicalDevotional(safeRef, safeText);
         }
 
         return res.status(200).json(devotional);
 
     } catch (error) {
-        console.error('Error:', error.message);
-
+        console.error('[Groq Devotional] Uncaught error:', error.message);
         const { verseText = '', verseRef = '' } = req.body || {};
+        const safeRef = verseRef || 'Scripture of the Day';
+        const safeText = verseText || 'Thy word is a lamp unto my feet, and a light unto my path.';
 
-        return res.status(200).json({
-            title: `A Word for Today`,
-            message: [
-                `Sometimes you just need something simple to hold onto.`,
-                `${verseRef || 'Scripture'} reminds us: "${verseText || 'God is with you'}"`,
-                `That's enough. You're not alone today.`
-            ],
-            reflections: [
-                `What do you need from God right now?`,
-                `Who around you might need encouragement today?`
-            ],
-            prayer: `God, be with me. That's all. Amen.`,
-            provider: 'fallback'
-        });
+        const fallback = buildBiblicalDevotional(safeRef, safeText);
+        return res.status(200).json(fallback);
     }
 }
 
-/* =========================
-   MAIN GENERATOR
-========================= */
-
-function generateDevotional(verseRef, verseText) {
-    const text = verseText.toLowerCase();
-    const ref = verseRef.toLowerCase();
-
-    // 🔥 SPECIAL CASE (kept)
-    if (
-        ref.includes('ephesians 1:13') ||
-        ref.includes('ephesians 1:14') ||
-        text.includes('sealed') ||
-        text.includes('inheritance') ||
-        text.includes('guarantee')
-    ) {
-        return {
-            title: "For When You Doubt You Belong",
-            message: [
-                `Ever feel like you don't quite fit?`,
-                `${verseRef} says: "${verseText}"`,
-                `You've been sealed. Marked as His.`,
-                `You don't have to prove anything today. Just rest in that truth.`
-            ],
-            reflections: [
-                `What makes you feel like you don't belong?`,
-                `What changes if you believe you are already His?`
-            ],
-            prayer: `God, remind me that I am Yours. Help me rest in that today. Amen.`
-        };
-    }
-
-    return generateDynamicDevotional(verseRef, verseText);
-}
-
-/* =========================
-   THEME DETECTION
-========================= */
-
-function detectThemes(text) {
-    const themes = {
-        fear: ['fear', 'afraid', 'anxious', 'worry'],
-        love: ['love', 'loved'],
-        waiting: ['wait', 'patient', 'patience'],
-        strength: ['strength', 'strong', 'weak'],
-        hope: ['hope'],
-        peace: ['peace', 'calm'],
-        forgiveness: ['forgive', 'forgiveness'],
-        grace: ['grace', 'mercy'],
-        service: ['serve', 'help', 'give'],
-
-        // 🔥 GOD-CENTERED THEMES
-        sovereignty: ['almighty', 'king', 'lord', 'reign', 'throne'],
-        eternity: ['forever', 'eternal', 'beginning', 'end', 'alpha', 'omega'],
-        presence: ['with you', 'always', 'never leave', 'who is', 'who was', 'to come'],
-        power: ['power', 'mighty', 'authority'],
-        holiness: ['holy', 'righteous'],
-        faithfulness: ['faithful', 'promise', 'covenant']
-    };
-
-    let scores = {};
-
-    for (let theme in themes) {
-        scores[theme] = 0;
-
-        themes[theme].forEach(word => {
-            if (text.includes(word)) scores[theme]++;
-        });
-    }
-
-    return Object.entries(scores)
-        .filter(([_, score]) => score > 0)
-        .sort((a, b) => b[1] - a[1])
-        .map(([theme]) => theme);
-}
-
-/* =========================
-   CONTENT LIBRARY
-========================= */
-
-const openings = {
-    fear: [
-        "Your mind won't slow down, will it?",
-        "The anxiety keeps creeping in."
-    ],
-    waiting: [
-        "You're tired of waiting.",
-        "Nothing seems to be changing."
-    ],
-    love: [
-        "Love isn't always easy.",
-        "Your heart feels stretched."
-    ],
-    strength: [
-        "You're running on empty.",
-        "You've got nothing left."
-    ],
-    hope: [
-        "Hope feels far away.",
-        "You're trying to hold on."
-    ],
-    peace: [
-        "Everything feels loud right now.",
-        "Life is chaotic."
-    ],
-    sovereignty: [
-        "God is bigger than everything you're facing.",
-        "Nothing is outside His control."
-    ],
-    eternity: [
-        "Before anything existed—He was.",
-        "God isn't bound by time like you are."
-    ],
-    presence: [
-        "You're not alone in this.",
-        "God is right here with you."
-    ]
-};
-
-const insights = {
-    fear: [
-        "Fear gets loud, but it doesn't get the final say."
-    ],
-    waiting: [
-        "Waiting seasons are not wasted."
-    ],
-    love: [
-        "Love is about showing up, not perfection."
-    ],
-    strength: [
-        "God meets you best in your weakness."
-    ],
-    hope: [
-        "Hope means you're not alone."
-    ],
-    peace: [
-        "Peace exists even in chaos."
-    ],
-    sovereignty: [
-        "If He is Almighty, your situation is not."
-    ],
-    eternity: [
-        "The One who holds the beginning holds your future."
-    ],
-    presence: [
-        "Even when you don't feel it, He is there."
-    ]
-};
-
-/* =========================
-   GENERATOR
-========================= */
-
-function generateDynamicDevotional(verseRef, verseText) {
-    const text = verseText.toLowerCase();
-    let themes = detectThemes(text);
-
-    // 🚨 HARD FALLBACK FIX (never empty)
-    if (themes.length === 0) {
-        themes = ['eternity', 'sovereignty', 'hope'];
-    }
-
-    const mainTheme = themes[0];
-    const secondaryTheme = themes[1];
-
+/**
+ * Generates a deeply substantive, non-generic biblical devotional if network/API is completely offline.
+ */
+function buildBiblicalDevotional(verseRef, verseText) {
     return {
-        title: pickRandom([
-            "For This Moment",
-            "Just for Today",
-            "A Word for You",
-            "Right Where You Are"
-        ]),
-
+        title: `Standing Victorious in ${verseRef}`,
+        theme: "Divine Authority and Transforming Grace",
+        scriptureContext: `This sacred truth from ${verseRef} speaks directly into seasons of trial and transition, establishing that God's covenant purpose cannot be derailed by human weakness or circumstance.`,
         message: [
-            pickRandom(openings[mainTheme] || ["Some days are heavy."]),
-            `${verseRef} says: "${verseText}"`,
-            pickRandom(insights[mainTheme] || ["God is present with you."]),
-            secondaryTheme ? pickRandom(insights[secondaryTheme] || []) : null,
-            "Take this with you today. You don't have to carry everything at once."
-        ].filter(Boolean),
-
-        reflections: [
-            "What stands out to you in this verse?",
-            "Where do you need this truth today?"
+            `The sacred testimony of ${verseRef} declares: "${verseText}" This is not a casual sentiment or an ancient relic—it is the living, active breath of the Almighty spoken directly over your destiny. In Scripture, God consistently reaches into broken, obscure places to lift the humble and silence the accuser. When this Word takes root within your spirit, it immediately dismantles the false narratives of insufficiency, fear, and stagnation that the enemy has whispered against your life.`,
+            `At Prevailers Chapel International, we recognize that our God specializes in taking nobodies and transforming them into somebodies through the power of the blood of Jesus. When you anchor your heart in "${verseText}", you align yourself with the reality of 2026 as Our Year of Manifestation. You are not a victim of circumstance; you are a redeemed child of the Most High, carrying divine favor, resurrection power, and the wisdom of heaven to overcome every obstacle standing in your path.`,
+            `Step out today with the boldness of a conqueror who knows the battle has already been settled at the cross. Do not shrink back in timidity, compromise your values, or settle for mediocrity. Speak this scripture aloud whenever doubt knocks at the door of your mind, and minister its life-giving truth to your family, your workplace, and your community. The same God who decreed this Word is faithful to perform it in your life today.`
         ],
-
-        prayer: `God, help me hold onto Your truth today. Amen.`
+        thoughts: [
+            `Deep Examination: Where in your daily routine have you allowed fear or past failures to speak louder than God's promise in ${verseRef}? Make a deliberate decision right now to revoke that negative voice and declare God's truth over that situation.`,
+            `Transformational Mindset: What shifts in your confidence, decisions, and prayers when you truly believe that God has chosen to make you a vessel of His manifestation rather than a bystander to defeat?`,
+            `Practical Action: Identify one person or family member today who is struggling with discouragement. Share this truth with them and pray over them with the authority God has placed in your hands.`
+        ],
+        reflections: [
+            `Where in your daily routine have you allowed fear or past failures to speak louder than God's promise in ${verseRef}?`,
+            `What shifts in your confidence and decisions when you truly believe that God has chosen to manifest His glory through your life?`,
+            `Identify one person who is struggling with discouragement and share this truth with them today.`
+        ],
+        prayer: `Sovereign Father, Creator of heaven and earth, I bow my heart before Your holy throne with thanksgiving and praise. Your Word in ${verseRef} declares that "${verseText}"—and today, I receive it into the deepest depths of my soul. Deliver me from every seed of doubt, fear, and insignificance. Transform my mind, renew my strength, and empower me to walk as a child of light and dominion. In this Year of Manifestation, let Your glory, power, and favor be clearly seen in my character, my family, and my labor. I thank You that the battle is already won. In the mighty and victorious name of Jesus Christ, Amen.`,
+        provider: 'built-in',
+        model: 'scriptural-exposition',
+        verseRef,
+        verseText
     };
-}
-
-/* =========================
-   UTIL
-========================= */
-
-function pickRandom(arr) {
-    if (!arr || arr.length === 0) return "";
-    return arr[Math.floor(Math.random() * arr.length)];
 }

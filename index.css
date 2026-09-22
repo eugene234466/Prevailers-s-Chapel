@@ -3,14 +3,23 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --church-navy: #003d5c;
+    --church-blue: #1e3a8a;
+    --church-deep: #00273c;
+    --church-gold: #ffd700;
+}
+
 body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #003d5c 0%, #005580 50%, #006994 100%);
-    overflow: hidden;
+    background: linear-gradient(135deg, #00273c 0%, #003d5c 40%, #005580 75%, #006994 100%);
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -19,39 +28,42 @@ body::before{
     position: absolute;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at 20% 50%, 
-    rgba(255,255,255,0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0% transparent 50%), 
-    radial-gradient(circle at 40% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), 
+                radial-gradient(circle at 40% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
     animation: float 20s ease-in-out infinite;
+    pointer-events: none;
 }
+
 @keyframes float{
-    0%, 100% {transform: translate(0,0);}
-        50% {transform: translate(-50px,-50px); }
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-40px, -40px); }
 }
 
 .welcome-container{
     text-align: center;
     color: white;
     z-index: 1;
-    padding: 2rem;
-    max-width: 800px;
+    padding: 2.5rem 1.5rem;
+    max-width: 820px;
+    margin: 0 auto;
     animation: fadeInUp 1s ease-out;
 }
 
 @keyframes fadeInUp{
     from{
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(24px);
     }
     to{
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 .logo-container{
     margin-bottom: 2rem;
-    animation: fadeIn 1.5s ease-out;
+    animation: fadeIn 1.2s ease-out;
 }
 
 @keyframes fadeIn{
@@ -72,136 +84,148 @@ body::before{
     align-items: center;
     margin: 0 auto 1.5rem;
     position: relative;
+    background: #ffffff;
+    padding: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
+
 .logo img{
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 40px rgba(0,0,0,0.3));
-    border-radius: 100%;
+    border-radius: 50%;
 }
 
 h1{
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 800;
     letter-spacing: 1.5px;
     margin-bottom: 0.75rem;
-    text-shadow: 0 2px 14px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 14px rgba(0,0,0,0.35);
+    line-height: 1.2;
 }
+
 .tagline{
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: #ffd700;
-    margin-bottom: 2.5rem;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.25);
+    font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--church-gold);
+    margin-bottom: 2.25rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
 }
 
 .welcome-message{
-    font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
     line-height: 1.8;
-    margin-bottom: 3rem;
+    margin-bottom: 2.75rem;
     font-weight: 400;
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    animation: fadeIn 2s ease-out;
-    color: rgba(255,255,255,0.95);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    animation: fadeIn 1.8s ease-out;
+    color: rgba(255,255,255,0.92);
 }
+
 .enter-btn{
     display: inline-block;
     padding: 1rem 3.5rem;
-    background: white;
-    color: #003d5c;
+    background: #ffffff;
+    color: var(--church-navy);
     text-decoration: none;
     font-size: 1.15rem;
     font-weight: 700;
     letter-spacing: 0.5px;
     border-radius: 50px;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    animation: fadeIn 2.5s ease-out;
+    animation: fadeIn 2.2s ease-out;
+    cursor: pointer;
 }
 
 .enter-btn:hover{
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.45);
     background: #f0f9ff;
-    color: #00263a;
+    color: #002235;
+}
+
+.enter-btn:active {
+    transform: translateY(-1px);
 }
 
 .float-element{
     position: absolute;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.07);
     border-radius: 50%;
-    animation: floatAround 15s ease-in-out infinite;
+    animation: floatAround 18s ease-in-out infinite;
+    pointer-events: none;
 }
-.float-element :nth-child(1){
+
+.float-element:nth-child(1){
     width: 80px;
     height: 80px;
-    top: 10%;
-    left: 10%;
+    top: 12%;
+    left: 8%;
     animation-delay: 0s;
 }
 
 .float-element:nth-child(2){
     width: 60px;
     height: 60px;
-    top: 70%;
-    left: 80%;
-    animation-delay: 2s;
+    top: 72%;
+    left: 82%;
+    animation-delay: 3s;
 }
+
 .float-element:nth-child(3){
     width: 100px;
     height: 100px;
-    top: 50%;
-    left: 5%;
-    animation-delay: 4s;
+    top: 48%;
+    left: 4%;
+    animation-delay: 6s;
 }
 
 @keyframes floatAround{
     0%, 100%{
-        transform: translate(0,0) rotate(0 deg);
+        transform: translate(0, 0) rotate(0deg);
     }
     25%{
-        transform: translate(30px, -30px) rotate(90deg);
+        transform: translate(25px, -25px) rotate(90deg);
     }
     50%{
-        transform: translate(0, -60px) rotate(180deg);
+        transform: translate(0, -50px) rotate(180deg);
     }
     75%{
-        transform: translate(-30px, -30px) rotate(270deg);
+        transform: translate(-25px, -25px) rotate(270deg);
     }
 }
 
 @media (max-width: 768px){
-    h1{
-        font-size: 2rem;
+    .welcome-container{
+        padding: 2rem 1.25rem;
     }
-
-.welcome-message{
-    font-size: 1.2rem;
-}
-.logo{
-    width: 120px;
-    height: 120px;
-}
-.enter-btn{
-    padding: 0.875rem 2.5rem;
-    font-size: 1rem;
-}
+    .logo{
+        width: 100px;
+        height: 100px;
+    }
+    .enter-btn{
+        padding: 0.875rem 2.75rem;
+        font-size: 1.05rem;
+    }
 }
 
 @media (max-width: 480px){
     h1{
-        font-size: 1.5rem;
-        letter-spacing: 1px;
+        font-size: 1.6rem;
+        letter-spacing: 0.5px;
     }
     .tagline{
-        font-size: 1.5rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
     }
     .welcome-message{
-        font-size: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
 }

@@ -10,6 +10,17 @@
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
     <style>
+        :root {
+            --church-navy: #003d5c;
+            --church-blue: #1e3a8a;
+            --church-deep: #00273c;
+            --church-gold: #ffd700;
+            --church-sky: #0ea5e9;
+            --church-light: #f8fafc;
+            --church-text: #1e293b;
+            --church-muted: #64748b;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,8 +30,11 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #f8fafc;
-            color: #1e293b;
+            color: var(--church-text);
             line-height: 1.65;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -92,34 +106,82 @@
             color: #ffffff;
         }
 
+        .menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            font-size: 1.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
         @media (max-width: 768px) {
-            nav { padding: 0.75rem 1rem; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.25rem; }
-            nav a { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+            .menu-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            nav ul {
+                display: none;
+                position: fixed;
+                top: 65px;
+                left: 0;
+                right: 0;
+                background: #003d5c;
+                flex-direction: column;
+                padding: 1.25rem 0;
+                gap: 0.25rem;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                border-bottom: 2px solid var(--church-gold);
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 0.25rem 1.5rem;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
         }
 
         .contact-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 50px 20px 70px;
         }
 
         h1 {
-            color: #1e3a8a;
-            font-size: 42px;
-            margin-bottom: 20px;
+            color: var(--church-navy);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            margin-bottom: 12px;
             text-align: center;
+            font-weight: 700;
         }
 
         .subtitle {
             text-align: center;
-            color: #64748b;
-            font-size: 18px;
+            color: var(--church-muted);
+            font-size: 1.1rem;
             margin-bottom: 50px;
-            max-width: 800px;
+            max-width: 750px;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
         /* Contact Info Cards */
@@ -131,67 +193,81 @@
         }
 
         .contact-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 36px 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 39, 60, 0.08);
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid var(--church-navy);
             text-align: center;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .contact-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 16px 36px rgba(0, 39, 60, 0.14);
         }
 
         .contact-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 42px;
+            margin-bottom: 16px;
         }
 
         .contact-card h3 {
-            color: #1e3a8a;
-            margin-bottom: 15px;
-            font-size: 22px;
+            color: var(--church-navy);
+            margin-bottom: 12px;
+            font-size: 1.35rem;
+            font-weight: 700;
         }
 
         .contact-card p {
-            color: #64748b;
-            line-height: 1.8;
-            font-size: 16px;
+            color: var(--church-muted);
+            line-height: 1.75;
+            font-size: 0.98rem;
         }
 
         /* Google Form Section */
         .form-section {
-            background: white;
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 50px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 39, 60, 0.08);
+            border: 1px solid #e2e8f0;
             margin-bottom: 50px;
         }
 
         .form-section h2 {
-            color: #1e3a8a;
+            color: var(--church-navy);
             text-align: center;
-            margin-bottom: 15px;
-            font-size: 32px;
+            margin-bottom: 12px;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 700;
         }
 
         .form-section p {
             text-align: center;
-            color: #64748b;
+            color: var(--church-muted);
             margin-bottom: 30px;
-            font-size: 16px;
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .google-form-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 760px;
             margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
         }
 
         .google-form-container iframe {
             width: 100%;
-            min-height: 1200px;
+            max-width: 640px;
+            min-height: 1400px;
             border: none;
             border-radius: 10px;
         }
@@ -199,80 +275,95 @@
         /* Social Media Section */
         .social-section {
             text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 40px 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 39, 60, 0.08);
+            border: 1px solid #e2e8f0;
         }
 
         .social-section h2 {
-            color: #1e3a8a;
-            margin-bottom: 15px;
-            font-size: 28px;
+            color: var(--church-navy);
+            margin-bottom: 10px;
+            font-size: 1.75rem;
+            font-weight: 700;
         }
 
         .social-section p {
-            color: #64748b;
+            color: var(--church-muted);
             margin-bottom: 25px;
-            font-size: 16px;
+            font-size: 1.02rem;
         }
 
         .social-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 14px;
             flex-wrap: wrap;
         }
 
         .social-btn {
-            background: transparent;
-            border: 2px solid #1e3a8a;
-            color: #1e3a8a;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 16px;
+            background: #f8fafc;
+            border: 2px solid var(--church-navy);
+            color: var(--church-navy);
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.25s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .social-btn:hover {
-            background: #1e3a8a;
-            color: white;
+            background: var(--church-navy);
+            color: #ffffff;
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 39, 60, 0.2);
         }
 
-        /* Responsive Design */
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #002b40 0%, #003d5c 100%);
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            margin-top: auto;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        footer .tagline {
+            color: var(--church-gold);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
-            }
-
-            nav ul {
-                gap: 15px;
-            }
-
-            nav a {
-                font-size: 14px;
-                padding: 6px 12px;
-            }
-
             .contact-container {
-                padding: 40px 15px;
+                padding: 35px 15px 50px;
             }
 
             .form-section {
-                padding: 30px 20px;
-            }
-
-            .form-section h2 {
-                font-size: 26px;
+                padding: 30px 16px;
             }
 
             .google-form-container iframe {
-                min-height: 1400px;
+                min-height: 1550px;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+                max-width: 260px;
+                margin: 0 auto;
             }
         }
     </style>
@@ -285,7 +376,8 @@
                 <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
                 <span class="logo-text">PCI</span>
             </a>
-            <ul>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
+            <ul id="navMenu">
                 <li><a href="home.html">Home</a></li>
                 <li><a href="devotional.html">Devotional</a></li>
                 <li><a href="services.html">Services</a></li>
@@ -296,71 +388,64 @@
         </div>
     </nav>
 
-    <div class="contact-container">
-        <h1>Get In Touch</h1>
-        <p class="subtitle">
-            We'd love to hear from you! Whether you have questions, need prayer, prayer requests, 
-            or want to visit us, feel free to reach out using any of the methods below.
-        </p>
+    <main>
+        <div class="contact-container">
+            <h1>Get In Touch</h1>
+            <p class="subtitle">
+                We'd love to hear from you! Whether you have questions, need prayer, or want to visit us, feel free to reach out using any of the channels below.
+            </p>
 
-        <!-- Contact Information Cards -->
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="contact-icon">📍</div>
-                <h3>Visit Us</h3>
-                <p>Doboro<br>Main Auditurium Adjacent Ayebi New Mosque, Doboro<br>Ghana</p>
+            <!-- Contact Information Cards -->
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Visit Us</h3>
+                    <p>Doboro, Ghana<br>Main Auditorium Adjacent Ayebi New Mosque<br>Doboro, Greater Accra Region</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3>Call Us</h3>
+                    <p>Main: +233 24 501 8631<br>Prayer Line: +233 50 938 5013<br>Mon-Fri: 9:00 AM - 5:00 PM</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email Us</h3>
+                    <p>dzesefrank108@gmail.com<br>We respond promptly to all inquiries and prayer requests.</p>
+                </div>
             </div>
 
-            <div class="contact-card">
-                <div class="contact-icon">📞</div>
-                <h3>Call Us</h3>
-                <p>Main: (233) 24-501-8631<br>Prayer Line: (233) 50-938-5013<br>Mon-Fri: 9AM - 5PM</p>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-icon">📧</div>
-                <h3>Email Us</h3>
-                <p>dzesefrank108@gmail.com<br>We respond within 24 hours</p>
-            </div>
-        </div>
-
-        <!-- Google Form Section -->
-        <div class="form-section">
-            <h2>Send Us a Message</h2>
-            <p>Fill out the form below and we'll get back to you as soon as possible</p>
-            
-            <div class="google-form-container">
-                <!-- REPLACE THE URL BELOW WITH YOUR ACTUAL GOOGLE FORM EMBED URL -->
-                <!-- To get the embed URL:
-                     1. Open your Google Form
-                     2. Click "Send" button
-                     3. Click the embed icon (<>)
-                     4. Copy the URL from src="..." 
-                     5. Replace the URL below -->
+            <!-- Google Form Section -->
+            <div class="form-section">
+                <h2>Send Us a Message</h2>
+                <p>Fill out the form below and our ministry team will get back to you as soon as possible.</p>
                 
-                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7GgELO6maNwzOr3UT8f_M3rxbfPzNNnlddqWSaBAp4hYK_A/viewform?embedded=true" width="640" height="1560" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                <div class="google-form-container">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7GgELO6maNwzOr3UT8f_M3rxbfPzNNnlddqWSaBAp4hYK_A/viewform?embedded=true" width="640" height="1560" title="Contact Form">Loading…</iframe>
+                </div>
+            </div>
 
+            <!-- Social Media Section -->
+            <div class="social-section">
+                <h2>Connect With Us</h2>
+                <p>Follow us on social media for sermons, inspirational updates, and community highlights</p>
+                <div class="social-buttons">
+                    <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener noreferrer" class="social-btn">📘 Facebook</a>
+                    <a href="#" class="social-btn">📸 Instagram</a>
+                    <a href="#" class="social-btn">▶️ YouTube</a>
+                    <a href="#" class="social-btn">🐦 Twitter</a>
+                    <a href="#" class="social-btn">🔥 TikTok</a>
+                </div>
             </div>
         </div>
+    </main>
 
-        <!-- Social Media Section -->
-        <div class="social-section">
-            <h2>Connect With Us</h2>
-            <p>Follow us on social media for updates, inspiration, and community</p>
-            <div class="social-buttons">
-                <a href="https://www.facebook.com/debby.kutu1" class="social-btn">📘 Facebook</a>
-                <a href="#" class="social-btn">📸 Instagram</a>
-                <a href="#" class="social-btn">▶️ YouTube</a>
-                <a href="#" class="social-btn">🐦 Twitter</a>
-                <a href="#" class="social-btn">🔥 Tiktok</a>
-            </div>
-        </div>
-    </div>
+    <footer>
+        <p>&copy; 2026 Prevailers Chapel International. All rights reserved.</p>
+        <p class="tagline">A House of Transformation where Nobodies are made Somebody</p>
+    </footer>
+
+    <script src="home.js"></script>
 </body>
-
 </html>
-
-
-
-
-
