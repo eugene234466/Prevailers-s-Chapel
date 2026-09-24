@@ -6,11 +6,12 @@
         <title>Welcome - Prevailers Chapel International</title>
         <link rel="icon" href="3.JPG"> 
         <link rel="stylesheet" href="home.css">
+        <link rel="stylesheet" href="navbar.css">
         <script src="home.js" defer></script>
     </head>
     <body>
         <nav>
-            <div class="container">
+            <div class="nav-container">
                 <a href="home.html" class="logo">
                     <img src="3.JPG" alt="PCI Logo" class="logo-img"> 
                     <span class="logo-text">PCI</span>
@@ -33,7 +34,7 @@
             <p>A House of Transformation where Nobodies are made Somebody — Join Us in Fellowship</p>
             <div class="hero-buttons">
                 <a href="livestream.html" class="btn btn-primary">Watch us Live</a>
-                <a href="events.html" class="btn btn-secondary">Upcoming Events</a>
+                <a href="events.html" id="heroEventsBtn" class="btn btn-secondary">Upcoming Events</a>
             </div>
         </section>
 
@@ -99,13 +100,23 @@
         </section>
 
         <!-- Events Section -->
-        <section>
+        <section id="eventsSection">
             <div class="container">
-                <h2 class="section-title">Upcoming Events</h2>
-                <div class="notice-card">
-                    <h3>No Upcoming Events</h3>
-                    <p>There are currently no events scheduled. Please check back later or join us for our regular weekly services!</p>
-                    <a href="services.html" class="btn">View Service Times</a>
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 class="section-title" style="margin-bottom: 0.5rem; text-align: left;">Upcoming Events</h2>
+                        <p style="color: #64748b; font-size: 1.05rem;">Stay updated and join our transformational special services and programs.</p>
+                    </div>
+                    <a href="events.html" class="event-link" style="font-size: 1rem; font-weight: 700;">
+                        View All / Manage Events &rarr;
+                    </a>
+                </div>
+
+                <div id="homeEventsContainer">
+                    <div class="notice-card">
+                        <h3>Loading Events...</h3>
+                        <p>Checking latest church programs...</p>
+                    </div>
                 </div>
             </div>
         </section>
