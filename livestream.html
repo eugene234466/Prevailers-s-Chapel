@@ -280,6 +280,72 @@
             inset: 0;
         }
 
+        /* Fullscreen styles */
+        .video-wrapper:fullscreen,
+        .video-wrapper:-webkit-full-screen,
+        .video-wrapper:-moz-full-screen,
+        .video-wrapper:-ms-fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+            border-radius: 0 !important;
+            aspect-ratio: auto !important;
+            background: #000000 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .video-wrapper:fullscreen iframe,
+        .video-wrapper:-webkit-full-screen iframe,
+        .video-wrapper:fullscreen .fb-video,
+        .video-wrapper:-webkit-full-screen .fb-video,
+        .video-wrapper:fullscreen .fb_iframe_widget,
+        .video-wrapper:-webkit-full-screen .fb_iframe_widget,
+        .video-wrapper:fullscreen .fb_iframe_widget span,
+        .video-wrapper:-webkit-full-screen .fb_iframe_widget span,
+        .video-wrapper:fullscreen .fb_iframe_widget iframe,
+        .video-wrapper:-webkit-full-screen .fb_iframe_widget iframe {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(0, 0, 0, 0.72);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: #ffd700;
+            color: #ffd700;
+            transform: scale(1.04);
+        }
+
+        .video-wrapper:fullscreen .fullscreen-btn,
+        .video-wrapper:-webkit-full-screen .fullscreen-btn {
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+        }
+
         .video-info {
             margin-top: 22px;
         }
@@ -529,6 +595,12 @@
         <!-- Main Video Section -->
         <div class="video-section">
             <div class="video-wrapper">
+                <!-- Fullscreen Toggle Button -->
+                <button type="button" class="fullscreen-btn" id="fsToggleBtn" onclick="toggleVideoFullscreen()" title="Toggle Fullscreen" aria-label="Toggle Fullscreen">
+                    <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                    <span id="fsBtnText">Fullscreen</span>
+                </button>
+
                 <!-- Facebook XFBML / oEmbed Video Container -->
                 <div class="fb-video" 
                      data-href="https://www.facebook.com/debby.kutu1/videos/2189708211611099" 
@@ -541,12 +613,14 @@
                 <!-- Modern Meta Video Iframe Fallback -->
                 <iframe 
                     id="fbFallbackIframe"
-                    src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fdebby.kutu1%2Fvideos%2F2189708211611099%2F&show_text=false&width=560&t=0" 
+                    src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fdebby.kutu1%2Fvideos%2F2189708211611099%2F&show_text=false&width=560&t=0&allowfullscreen=true" 
                     scrolling="no" 
                     frameborder="0" 
                     allowfullscreen="true"
+                    webkitallowfullscreen="true"
+                    mozallowfullscreen="true"
                     loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+                    allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
                 </iframe>
             </div>
 
@@ -765,6 +839,75 @@
         } else {
             liveStatusEl.textContent = '⏰ NEXT SERVICE SOON';
         }
+    }
+
+    // Fullscreen Toggle Logic
+    function toggleVideoFullscreen() {
+        const wrapper = document.querySelector('.video-wrapper');
+        if (!wrapper) return;
+
+        const isFullscreen = document.fullscreenElement || 
+                             document.webkitFullscreenElement || 
+                             document.mozFullScreenElement || 
+                             document.msFullscreenElement;
+
+        if (!isFullscreen) {
+            if (wrapper.requestFullscreen) {
+                wrapper.requestFullscreen();
+            } else if (wrapper.webkitRequestFullscreen) {
+                wrapper.webkitRequestFullscreen();
+            } else if (wrapper.mozRequestFullScreen) {
+                wrapper.mozRequestFullScreen();
+            } else if (wrapper.msRequestFullscreen) {
+                wrapper.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    }
+
+    function handleFullscreenChange() {
+        const isFullscreen = document.fullscreenElement || 
+                             document.webkitFullscreenElement || 
+                             document.mozFullScreenElement || 
+                             document.msFullscreenElement;
+        const fsText = document.getElementById('fsBtnText');
+        if (fsText) {
+            fsText.textContent = isFullscreen ? 'Exit Fullscreen' : 'Fullscreen';
+        }
+    }
+
+    ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(evt => {
+        document.addEventListener(evt, handleFullscreenChange);
+    });
+
+    // Ensure all existing and dynamically generated iframes have fullscreen permissions allowed
+    function applyFullscreenAttributes() {
+        document.querySelectorAll('.video-wrapper iframe').forEach(function(el) {
+            el.setAttribute('allowfullscreen', 'true');
+            el.setAttribute('webkitallowfullscreen', 'true');
+            el.setAttribute('mozallowfullscreen', 'true');
+            const currentAllow = el.getAttribute('allow') || '';
+            if (!currentAllow.includes('fullscreen')) {
+                el.setAttribute('allow', 'fullscreen; ' + currentAllow);
+            }
+        });
+    }
+
+    applyFullscreenAttributes();
+
+    const wrapperEl = document.querySelector('.video-wrapper');
+    if (wrapperEl) {
+        const fsObserver = new MutationObserver(applyFullscreenAttributes);
+        fsObserver.observe(wrapperEl, { childList: true, subtree: true });
     }
 
     // Initialize

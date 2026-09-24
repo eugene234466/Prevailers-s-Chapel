@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dailyVerseHandler from './api/daily-verse.js';
 import testHandler from './api/test.js';
+import eventsHandler from './api/events.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +26,29 @@ app.all('/api/daily-verse', async (req, res) => {
         await dailyVerseHandler(req, res);
     } catch (err) {
         console.error('Error handling /api/daily-verse:', err);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+});
+
+app.all('/api/events', async (req, res) => {
+    try {
+        await eventsHandler(req, res);
+    } catch (err) {
+        console.error('Error handling /api/events:', err);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+});
+
+app.delete('/api/events/:id', async (req, res) => {
+    try {
+        req.query.id = req.params.id;
+        await eventsHandler(req, res);
+    } catch (err) {
+        console.error('Error deleting /api/events/:id:', err);
         if (!res.headersSent) {
             res.status(500).json({ error: 'Internal Server Error' });
         }

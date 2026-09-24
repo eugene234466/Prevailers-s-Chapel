@@ -7,7 +7,7 @@
     "dev": "node server.js",
     "start": "node server.js",
     "build": "node -e \"console.log('Build completed')\"",
-    "lint": "node --check server.js api/daily-verse.js home.js"
+    "lint": "node --check server.js api/daily-verse.js api/events.js home.js"
   },
   "dependencies": {
     "express": "^4.21.2",

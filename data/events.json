@@ -1,0 +1,24 @@
+[
+  {
+    "id": "evt_1727100001",
+    "title": "Night of Prevailing Wonders & Prophetic Encounter",
+    "date": "2026-10-16",
+    "time": "6:30 PM - 9:30 PM",
+    "location": "PCI Main Auditorium, Prevailers Chapel",
+    "category": "Prayer & Revival",
+    "bannerImage": "4.jpeg",
+    "description": "Join us for an extraordinary evening of deep worship, fervent prayer, prophetic ministry, and supernatural breakthrough. Come expecting God to transform situations and release fresh grace for the season ahead.",
+    "createdAt": "2026-09-23T12:00:00.000Z"
+  },
+  {
+    "id": "evt_1727100002",
+    "title": "Annual Thanksgiving & Harvest Celebration",
+    "date": "2026-11-22",
+    "time": "9:00 AM - 1:00 PM",
+    "location": "PCI Main Sanctuary & Grounds",
+    "category": "Celebration",
+    "bannerImage": "5.jpeg",
+    "description": "A joyous gathering of our entire church family as we return all praise, glory, and honor to God for His faithfulness throughout the year. Featuring special choral presentations, family thanksgiving, and fellowship banquet.",
+    "createdAt": "2026-09-23T12:30:00.000Z"
+  }
+]
