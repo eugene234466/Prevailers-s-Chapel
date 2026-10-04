@@ -59,8 +59,8 @@ export const INSPIRING_VERSES = [
 // Available models on Groq in priority order (fastest high-quality direct JSON first)
 const GROQ_MODELS = [
     'qwen/qwen3.8-27b',
-    'openai/gpt-oss-120b',
-    'openai/gpt-oss-20b'
+    'openai/gpt-oss-20b',
+    'openai/gpt-oss-120b'
 ];
 
 function extractJson(text) {
@@ -156,16 +156,16 @@ Use this exact JSON schema:
   "theme": "Core spiritual theme (e.g. 'Unshakable Divine Advocacy', 'From Wilderness to Dominion')",
   "scriptureContext": "A clear, insightful 1-2 sentence context explaining the historical or theological setting of this scripture",
   "message": [
-    "Paragraph 1 (80-110 words): Deep exposition of the verse, unpacking key terms, context, and the heart of God in this scripture.",
-    "Paragraph 2 (80-110 words): Transformational spiritual revelation: connecting this divine truth to our identity in Christ and how it turns nobodies into somebodies.",
-    "Paragraph 3 (80-110 words): Victorious pastoral call to action: practical empowerment for the believer to walk in dominion and manifestation today."
+    "Paragraph 1 (55-80 words): Deep exposition of the verse, unpacking key terms, context, and the heart of God in this scripture.",
+    "Paragraph 2 (55-80 words): Transformational spiritual revelation: connecting this divine truth to our identity in Christ and how it turns nobodies into somebodies.",
+    "Paragraph 3 (55-80 words): Victorious pastoral call to action: practical empowerment for the believer to walk in dominion and manifestation today."
   ],
   "thoughts": [
     "First deep thought: A penetrating spiritual insight with a real-life question or concrete application for today.",
     "Second deep thought: An examination of personal faith, mindset, or relationships anchored directly in this text.",
     "Third deep thought: A strategic action or bold declaration for manifesting this truth today."
   ],
-  "prayer": "A rich, heartfelt, authoritative prayer (85-120 words) steeped in this scripture, declaring victory, spiritual transformation, and ending in Jesus' mighty name, Amen."
+  "prayer": "A rich, heartfelt, authoritative prayer (60-85 words) steeped in this scripture, declaring victory, spiritual transformation, and ending in Jesus' mighty name, Amen."
 }`;
 
             const userPrompt = `Scripture Reference: ${safeRef}
@@ -185,8 +185,8 @@ Generate the complete, deep, non-generic devotional now.`;
                             { role: 'user', content: userPrompt }
                         ],
                         temperature: 0.65,
-                        max_tokens: 1200
-                    });
+                        max_tokens: 800
+                    }, { timeout: 25000 });
 
                     const rawContent = completion.choices?.[0]?.message?.content;
                     if (rawContent) {
