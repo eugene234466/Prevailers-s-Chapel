@@ -30,13 +30,31 @@ async function loadHomeEvents() {
     const container = document.getElementById('homeEventsContainer');
     if (!container) return;
 
+    let deletedIds = new Set();
+    try {
+        const rawDel = localStorage.getItem('pci_deleted_event_ids');
+        if (rawDel) {
+            const parsedDel = JSON.parse(rawDel);
+            if (Array.isArray(parsedDel)) {
+                deletedIds = new Set(parsedDel.map(String));
+            }
+        }
+    } catch (_) {}
+
     try {
         let events = [];
+        let serverOk = false;
         try {
-            const res = await fetch('/api/events');
+            const res = await fetch(`/api/events?t=${Date.now()}`, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
             if (res.ok) {
                 events = await res.json();
-                localStorage.setItem('pci_events_cache', JSON.stringify(events));
+                serverOk = true;
             } else {
                 throw new Error('Server returned ' + res.status);
             }
@@ -45,13 +63,36 @@ async function loadHomeEvents() {
             if (cached) {
                 try {
                     events = JSON.parse(cached);
+                    if (!Array.isArray(events)) events = [];
                 } catch (e) {
                     events = [];
                 }
             }
         }
 
-        renderHomeEvents(Array.isArray(events) ? events : []);
+        // Also merge local custom events if not already present
+        try {
+            const rawCustom = localStorage.getItem('pci_custom_events');
+            if (rawCustom) {
+                const parsedCustom = JSON.parse(rawCustom);
+                if (Array.isArray(parsedCustom)) {
+                    const existingIds = new Set(events.map(e => String(e.id)));
+                    parsedCustom.forEach(c => {
+                        if (c && c.id && !existingIds.has(String(c.id))) {
+                            events.push(c);
+                        }
+                    });
+                }
+            }
+        } catch (_) {}
+
+        // Always filter out deleted events
+        const filteredEvents = (Array.isArray(events) ? events : []).filter(
+            e => e && e.id && !deletedIds.has(String(e.id))
+        );
+
+        localStorage.setItem('pci_events_cache', JSON.stringify(filteredEvents));
+        renderHomeEvents(filteredEvents);
     } catch (err) {
         console.error('Error loading events on home page:', err);
     }

@@ -32,23 +32,24 @@ app.all('/api/daily-verse', async (req, res) => {
     }
 });
 
-app.all('/api/events', async (req, res) => {
+app.all('/api/events/:id', async (req, res) => {
     try {
+        req.query = req.query || {};
+        req.query.id = req.params.id;
         await eventsHandler(req, res);
     } catch (err) {
-        console.error('Error handling /api/events:', err);
+        console.error('Error handling /api/events/:id:', err);
         if (!res.headersSent) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 });
 
-app.delete('/api/events/:id', async (req, res) => {
+app.all('/api/events', async (req, res) => {
     try {
-        req.query.id = req.params.id;
         await eventsHandler(req, res);
     } catch (err) {
-        console.error('Error deleting /api/events/:id:', err);
+        console.error('Error handling /api/events:', err);
         if (!res.headersSent) {
             res.status(500).json({ error: 'Internal Server Error' });
         }

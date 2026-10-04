@@ -1029,9 +1029,77 @@ footer .tagline {
 
 <script src="home.js"></script>
 <script>
+// Storage Keys
+const STORAGE_EVENTS_CACHE = 'pci_events_cache';
+const STORAGE_DELETED_IDS = 'pci_deleted_event_ids';
+const STORAGE_CUSTOM_EVENTS = 'pci_custom_events';
+
 // State
 let allEvents = [];
 let pendingDeleteId = null;
+
+function getDeletedEventIds() {
+    try {
+        const raw = localStorage.getItem(STORAGE_DELETED_IDS);
+        if (!raw) return new Set();
+        const parsed = JSON.parse(raw);
+        return new Set(Array.isArray(parsed) ? parsed.map(String) : []);
+    } catch (_) {
+        return new Set();
+    }
+}
+
+function saveDeletedEventId(id) {
+    if (!id) return;
+    try {
+        const set = getDeletedEventIds();
+        set.add(String(id));
+        localStorage.setItem(STORAGE_DELETED_IDS, JSON.stringify([...set]));
+    } catch (err) {
+        console.error('Error saving deleted ID to localStorage:', err);
+    }
+}
+
+function removeDeletedEventId(id) {
+    if (!id) return;
+    try {
+        const set = getDeletedEventIds();
+        set.delete(String(id));
+        localStorage.setItem(STORAGE_DELETED_IDS, JSON.stringify([...set]));
+    } catch (err) {
+        console.error('Error removing deleted ID from localStorage:', err);
+    }
+}
+
+function getCustomEvents() {
+    try {
+        const raw = localStorage.getItem(STORAGE_CUSTOM_EVENTS);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (_) {
+        return [];
+    }
+}
+
+function saveCustomEvent(event) {
+    if (!event || !event.id) return;
+    try {
+        const customs = getCustomEvents().filter(e => String(e.id) !== String(event.id));
+        customs.push(event);
+        localStorage.setItem(STORAGE_CUSTOM_EVENTS, JSON.stringify(customs));
+        removeDeletedEventId(event.id);
+    } catch (err) {
+        console.error('Error saving custom event to localStorage:', err);
+    }
+}
+
+function removeCustomEvent(id) {
+    try {
+        const customs = getCustomEvents().filter(e => String(e.id) !== String(id));
+        localStorage.setItem(STORAGE_CUSTOM_EVENTS, JSON.stringify(customs));
+    } catch (_) {}
+}
 
 // Initial Load
 document.addEventListener('DOMContentLoaded', () => {
@@ -1048,30 +1116,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Fetch events from API with fallback to localStorage
+// Fetch events from API with robust fallback to localStorage & deleted ID filtering
 async function loadEvents() {
+    const deletedIds = getDeletedEventIds();
+    let serverEvents = [];
+    let serverOk = false;
+
     try {
-        const response = await fetch('/api/events');
+        const response = await fetch(`/api/events?t=${Date.now()}`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
+            }
+        });
         if (response.ok) {
             const data = await response.json();
-            allEvents = Array.isArray(data) ? data : [];
-            // Keep local backup in sync
-            localStorage.setItem('pci_events_cache', JSON.stringify(allEvents));
-        } else {
-            throw new Error('Server returned ' + response.status);
-        }
-    } catch (err) {
-        console.warn('Could not reach /api/events, loading from cache:', err);
-        const cached = localStorage.getItem('pci_events_cache');
-        if (cached) {
-            try {
-                allEvents = JSON.parse(cached);
-            } catch (_) {
-                allEvents = [];
+            if (Array.isArray(data)) {
+                serverEvents = data;
+                serverOk = true;
             }
         } else {
-            allEvents = [];
+            console.warn('Server returned status', response.status);
         }
+    } catch (err) {
+        console.warn('Could not reach /api/events, loading from local store:', err);
+    }
+
+    let combined = [];
+    if (serverOk) {
+        const customEvents = getCustomEvents();
+        const serverIdSet = new Set(serverEvents.map(e => String(e.id)));
+        const uniqueCustoms = customEvents.filter(e => !serverIdSet.has(String(e.id)));
+        combined = [...serverEvents, ...uniqueCustoms];
+    } else {
+        const cached = localStorage.getItem(STORAGE_EVENTS_CACHE);
+        let cachedEvents = [];
+        if (cached) {
+            try {
+                cachedEvents = JSON.parse(cached);
+                if (!Array.isArray(cachedEvents)) cachedEvents = [];
+            } catch (_) {
+                cachedEvents = [];
+            }
+        }
+        const customEvents = getCustomEvents();
+        const cachedIdSet = new Set(cachedEvents.map(e => String(e.id)));
+        const uniqueCustoms = customEvents.filter(e => !cachedIdSet.has(String(e.id)));
+        combined = [...cachedEvents, ...uniqueCustoms];
+    }
+
+    // STRICT FILTER: Never show any event whose ID was deleted
+    allEvents = combined.filter(evt => evt && evt.id && !deletedIds.has(String(evt.id)));
+
+    // Keep local cache clean
+    localStorage.setItem(STORAGE_EVENTS_CACHE, JSON.stringify(allEvents));
+
+    // If server returned any events that were previously deleted locally, sync deletion with server in background
+    if (serverOk) {
+        serverEvents.forEach(evt => {
+            if (evt && evt.id && deletedIds.has(String(evt.id))) {
+                fetch(`/api/events?id=${encodeURIComponent(evt.id)}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: evt.id })
+                }).catch(() => {});
+            }
+        });
     }
 
     renderEvents(allEvents);
@@ -1300,6 +1411,8 @@ async function handleEventSubmit(e) {
         description
     };
 
+    let savedEvent = null;
+
     try {
         const response = await fetch('/api/events', {
             method: 'POST',
@@ -1310,31 +1423,36 @@ async function handleEventSubmit(e) {
         if (response.ok) {
             const result = await response.json();
             if (result.event) {
-                allEvents.push(result.event);
+                savedEvent = result.event;
             }
             showToast('✅ Event scheduled and published successfully!', 'success');
         } else {
-            // Local fallback
-            const fallbackEvent = {
-                id: `evt_${Date.now()}`,
+            savedEvent = {
+                id: `evt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
                 ...payload,
                 createdAt: new Date().toISOString()
             };
-            allEvents.push(fallbackEvent);
             showToast('✅ Event added (saved locally)!', 'success');
         }
     } catch (err) {
         console.warn('Network error saving event, saving locally:', err);
-        const fallbackEvent = {
-            id: `evt_${Date.now()}`,
+        savedEvent = {
+            id: `evt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
             ...payload,
             createdAt: new Date().toISOString()
         };
-        allEvents.push(fallbackEvent);
         showToast('✅ Event added (saved locally)!', 'success');
     } finally {
+        if (savedEvent) {
+            saveCustomEvent(savedEvent);
+            removeDeletedEventId(savedEvent.id);
+            allEvents = allEvents.filter(e => String(e.id) !== String(savedEvent.id));
+            allEvents.push(savedEvent);
+            allEvents.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+        }
+
         // Save to cache
-        localStorage.setItem('pci_events_cache', JSON.stringify(allEvents));
+        localStorage.setItem(STORAGE_EVENTS_CACHE, JSON.stringify(allEvents));
         btn.disabled = false;
         btn.textContent = 'Save & Publish Event';
 
@@ -1352,31 +1470,46 @@ async function handleEventSubmit(e) {
 async function executeDeleteEvent() {
     if (!pendingDeleteId) return;
 
-    const idToDelete = pendingDeleteId;
+    const idToDelete = String(pendingDeleteId);
     const btn = document.getElementById('confirmDeleteBtn');
     btn.disabled = true;
     btn.textContent = 'Removing...';
 
+    // 1. Immediately persist deletion locally so it NEVER reappears on refresh
+    saveDeletedEventId(idToDelete);
+    removeCustomEvent(idToDelete);
+
+    // 2. Remove from active memory list and update localStorage cache
+    allEvents = allEvents.filter(e => String(e.id) !== idToDelete);
+    localStorage.setItem(STORAGE_EVENTS_CACHE, JSON.stringify(allEvents));
+
+    // 3. Immediately update UI and close modal
+    btn.disabled = false;
+    btn.textContent = 'Yes, Remove Event';
+    closeDeleteConfirmModal();
+    showToast('🗑️ Event removed from calendar.', 'danger');
+    handleSearchFilter();
+
+    // 4. Send delete to server across multiple supported routes
     try {
-        const response = await fetch(`/api/events/${encodeURIComponent(idToDelete)}`, {
-            method: 'DELETE'
-        });
-
-        if (!response.ok) {
-            console.warn('Server delete failed, updating local state.');
-        }
+        await Promise.any([
+            fetch(`/api/events?id=${encodeURIComponent(idToDelete)}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: idToDelete })
+            }),
+            fetch(`/api/events/${encodeURIComponent(idToDelete)}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            }),
+            fetch('/api/events', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'delete', id: idToDelete })
+            })
+        ]);
     } catch (err) {
-        console.warn('Network delete error, removing locally:', err);
-    } finally {
-        allEvents = allEvents.filter(e => String(e.id) !== String(idToDelete));
-        localStorage.setItem('pci_events_cache', JSON.stringify(allEvents));
-
-        btn.disabled = false;
-        btn.textContent = 'Yes, Remove Event';
-        closeDeleteConfirmModal();
-
-        showToast('🗑️ Event removed from calendar.', 'danger');
-        handleSearchFilter();
+        console.warn('Network delete error, persisted locally:', err);
     }
 }
 

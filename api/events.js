@@ -5,7 +5,9 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_FILE = path.join(__dirname, '..', 'data', 'events.json');
+const DATA_DIR = path.join(__dirname, '..', 'data');
+const DATA_FILE = path.join(DATA_DIR, 'events.json');
+const DELETED_FILE = path.join(DATA_DIR, 'deleted_events.json');
 
 const DEFAULT_EVENTS = [
     {
@@ -32,32 +34,84 @@ const DEFAULT_EVENTS = [
     }
 ];
 
-function readEvents() {
+function ensureDataDir() {
     try {
+        if (!fs.existsSync(DATA_DIR)) {
+            fs.mkdirSync(DATA_DIR, { recursive: true });
+        }
+    } catch (err) {
+        console.error('Error creating data directory:', err);
+    }
+}
+
+function readDeletedEventIds() {
+    try {
+        ensureDataDir();
+        if (!fs.existsSync(DELETED_FILE)) {
+            return [];
+        }
+        const data = fs.readFileSync(DELETED_FILE, 'utf-8');
+        const parsed = JSON.parse(data);
+        return Array.isArray(parsed) ? parsed.map(String) : [];
+    } catch (err) {
+        console.error('Error reading deleted_events file:', err);
+        return [];
+    }
+}
+
+function recordDeletedEventId(id) {
+    if (!id) return;
+    try {
+        ensureDataDir();
+        const deleted = readDeletedEventIds();
+        const strId = String(id);
+        if (!deleted.includes(strId)) {
+            deleted.push(strId);
+            fs.writeFileSync(DELETED_FILE, JSON.stringify(deleted, null, 2), 'utf-8');
+        }
+    } catch (err) {
+        console.error('Error recording deleted event ID:', err);
+    }
+}
+
+function removeDeletedEventId(id) {
+    if (!id) return;
+    try {
+        ensureDataDir();
+        const deleted = readDeletedEventIds();
+        const strId = String(id);
+        const filtered = deleted.filter(d => d !== strId);
+        fs.writeFileSync(DELETED_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+    } catch (err) {
+        console.error('Error removing deleted event ID:', err);
+    }
+}
+
+function readEvents() {
+    const deletedIds = new Set(readDeletedEventIds());
+    try {
+        ensureDataDir();
         if (!fs.existsSync(DATA_FILE)) {
-            const dir = path.dirname(DATA_FILE);
-            if (!fs.existsSync(dir)) {
-                fs.mkdirSync(dir, { recursive: true });
-            }
-            fs.writeFileSync(DATA_FILE, JSON.stringify(DEFAULT_EVENTS, null, 2), 'utf-8');
-            return [...DEFAULT_EVENTS];
+            const initial = DEFAULT_EVENTS.filter(e => !deletedIds.has(String(e.id)));
+            fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2), 'utf-8');
+            return initial;
         }
         const data = fs.readFileSync(DATA_FILE, 'utf-8');
         const parsed = JSON.parse(data);
-        return Array.isArray(parsed) ? parsed : [];
+        const list = Array.isArray(parsed) ? parsed : [];
+        return list.filter(e => e && e.id && !deletedIds.has(String(e.id)));
     } catch (err) {
         console.error('Error reading events file:', err);
-        return [...DEFAULT_EVENTS];
+        return DEFAULT_EVENTS.filter(e => !deletedIds.has(String(e.id)));
     }
 }
 
 function writeEvents(events) {
     try {
-        const dir = path.dirname(DATA_FILE);
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-        fs.writeFileSync(DATA_FILE, JSON.stringify(events, null, 2), 'utf-8');
+        ensureDataDir();
+        const deletedIds = new Set(readDeletedEventIds());
+        const filtered = (Array.isArray(events) ? events : []).filter(e => e && e.id && !deletedIds.has(String(e.id)));
+        fs.writeFileSync(DATA_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
         return true;
     } catch (err) {
         console.error('Error writing events file:', err);
@@ -69,18 +123,50 @@ export default async function handler(req, res) {
     // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Cache-Control, Pragma');
+
+    // Never cache events endpoints across client or intermediaries
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
-    // GET /api/events -> Returns all events
+    // GET /api/events -> Returns all active events
     if (req.method === 'GET') {
         const events = readEvents();
         // Sort chronologically by date
         events.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
         return res.status(200).json(events);
+    }
+
+    // DELETE /api/events or POST with { action: 'delete' }
+    const isDelete = req.method === 'DELETE' || (req.method === 'POST' && req.body && req.body.action === 'delete');
+    if (isDelete) {
+        try {
+            const id = req.query?.id || req.body?.id || req.params?.id;
+            if (!id) {
+                return res.status(400).json({ error: 'Event ID is required to delete.' });
+            }
+
+            const strId = String(id);
+            recordDeletedEventId(strId);
+
+            const events = readEvents();
+            const updated = events.filter(e => String(e.id) !== strId);
+            writeEvents(updated);
+
+            return res.status(200).json({
+                success: true,
+                message: 'Event removed successfully!',
+                removedId: strId
+            });
+        } catch (err) {
+            console.error('Error deleting event:', err);
+            return res.status(500).json({ error: 'Failed to delete event.' });
+        }
     }
 
     // POST /api/events -> Create new event
@@ -109,8 +195,9 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Event location is required.' });
             }
 
+            const newId = `evt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
             const newEvent = {
-                id: `evt_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                id: newId,
                 title: title.trim(),
                 date: date.trim(),
                 time: time.trim(),
@@ -120,6 +207,9 @@ export default async function handler(req, res) {
                 bannerImage: (bannerImage || '4.jpeg').trim(),
                 createdAt: new Date().toISOString()
             };
+
+            // Ensure not in deleted list
+            removeDeletedEventId(newId);
 
             const events = readEvents();
             events.push(newEvent);
@@ -133,35 +223,6 @@ export default async function handler(req, res) {
         } catch (err) {
             console.error('Error creating event:', err);
             return res.status(500).json({ error: 'Failed to create event.' });
-        }
-    }
-
-    // DELETE /api/events?id=... or body { id }
-    if (req.method === 'DELETE') {
-        try {
-            const id = req.query.id || req.body?.id || req.params?.id;
-            if (!id) {
-                return res.status(400).json({ error: 'Event ID is required to delete.' });
-            }
-
-            const events = readEvents();
-            const initialLength = events.length;
-            const updated = events.filter(e => String(e.id) !== String(id));
-
-            if (updated.length === initialLength) {
-                return res.status(404).json({ error: 'Event not found.' });
-            }
-
-            writeEvents(updated);
-
-            return res.status(200).json({
-                success: true,
-                message: 'Event removed successfully!',
-                removedId: id
-            });
-        } catch (err) {
-            console.error('Error deleting event:', err);
-            return res.status(500).json({ error: 'Failed to delete event.' });
         }
     }
 
