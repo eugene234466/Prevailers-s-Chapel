@@ -139,32 +139,204 @@
             padding: 20px;
         }
 
+        .video-player-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .video-player-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .video-format-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            color: var(--church-navy);
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .view-mode-buttons {
+            display: inline-flex;
+            gap: 4px;
+            background: #e2e8f0;
+            padding: 4px;
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .view-btn:hover {
+            color: var(--primary);
+        }
+
+        .view-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+
+        .view-btn .rec-tag {
+            font-size: 10px;
+            background: rgba(184, 134, 11, 0.18);
+            color: #92400e;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Video Container Wrapper */
         .video-wrapper {
             position: relative;
             width: 100%;
-            aspect-ratio: 16 / 9;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
-            background: #000000;
+            background: #020617;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .video-wrapper iframe,
-        .video-wrapper .fb-video,
-        .video-wrapper .fb_iframe_widget,
-        .video-wrapper .fb_iframe_widget span,
-        .video-wrapper .fb_iframe_widget iframe {
-            width: 100% !important;
+        /* 1. Native Portrait Mode (9:16) - Natural fit for vertical smartphone recording */
+        .video-wrapper.portrait-mode {
+            aspect-ratio: auto;
+            height: 640px;
+            max-height: 82vh;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+        }
+
+        .video-wrapper.portrait-mode iframe {
             height: 100% !important;
-            max-width: 100%;
+            width: auto !important;
+            aspect-ratio: 9 / 16;
+            max-width: 100% !important;
+            border: none !important;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 2. Standard Theater Mode (16:9) - Atmospheric widescreen stage presentation */
+        .video-wrapper.landscape-mode {
+            aspect-ratio: 16 / 9;
+            min-height: 480px;
+            max-height: 80vh;
+            background: radial-gradient(ellipse at center, #1e293b 0%, #090d16 65%, #020617 100%);
+            border: 1px solid rgba(255, 215, 0, 0.18);
+        }
+
+        .video-wrapper.landscape-mode iframe {
+            height: 94% !important;
+            width: auto !important;
+            aspect-ratio: 9 / 16;
+            max-width: 95% !important;
+            border: none !important;
+            margin: 0 auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 15px rgba(255, 215, 0, 0.1);
+        }
+
+        /* Ambient stage lighting accents in Standard mode */
+        .video-wrapper.landscape-mode::before,
+        .video-wrapper.landscape-mode::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            bottom: 15%;
+            width: 180px;
+            pointer-events: none;
+            opacity: 0.28;
+            filter: blur(45px);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .video-wrapper.landscape-mode::before {
+            left: 4%;
+            background: radial-gradient(circle, #b8860b 0%, transparent 70%);
+        }
+        .video-wrapper.landscape-mode::after {
+            right: 4%;
+            background: radial-gradient(circle, #1d4ed8 0%, transparent 70%);
+        }
+
+        /* 3. Zoom / Fill Mode (16:9 Crop) - Fills widescreen canvas without black side bars */
+        .video-wrapper.zoom-mode {
+            aspect-ratio: 16 / 9;
+            height: auto;
+            max-height: 80vh;
+            background: #020617;
+        }
+
+        .video-wrapper.zoom-mode iframe {
+            position: absolute;
+            width: 100% !important;
+            height: 178% !important;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             border: none !important;
         }
 
-        .video-wrapper iframe {
-            position: absolute;
-            inset: 0;
+        .video-note-banner {
+            margin-top: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--primary-soft);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .video-wrapper.portrait-mode {
+                height: auto;
+                aspect-ratio: 9 / 16;
+                width: 100%;
+                max-width: 440px;
+                margin: 0 auto;
+            }
+            .video-wrapper.landscape-mode {
+                min-height: auto;
+            }
         }
 
         /* Fullscreen styles */
@@ -181,22 +353,25 @@
             background: #000000 !important;
             padding: 0 !important;
             margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
 
         .video-wrapper:fullscreen iframe,
-        .video-wrapper:-webkit-full-screen iframe,
-        .video-wrapper:fullscreen .fb-video,
-        .video-wrapper:-webkit-full-screen .fb-video,
-        .video-wrapper:fullscreen .fb_iframe_widget,
-        .video-wrapper:-webkit-full-screen .fb_iframe_widget,
-        .video-wrapper:fullscreen .fb_iframe_widget span,
-        .video-wrapper:-webkit-full-screen .fb_iframe_widget span,
-        .video-wrapper:fullscreen .fb_iframe_widget iframe,
-        .video-wrapper:-webkit-full-screen .fb_iframe_widget iframe {
-            width: 100% !important;
-            height: 100% !important;
+        .video-wrapper:-webkit-full-screen iframe {
+            height: 100vh !important;
+            width: auto !important;
             max-width: 100vw !important;
-            max-height: 100vh !important;
+            aspect-ratio: 9 / 16 !important;
+            margin: 0 auto !important;
+        }
+
+        .video-wrapper.zoom-mode:fullscreen iframe,
+        .video-wrapper.zoom-mode:-webkit-full-screen iframe {
+            width: 100vw !important;
+            height: 100vh !important;
+            aspect-ratio: auto !important;
         }
 
         .fullscreen-btn {
@@ -418,36 +593,6 @@
 </head>
 
 <body>
-<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            xfbml: true,
-            version: 'v21.0'
-        });
-
-        if (FB.Event && FB.Event.subscribe) {
-            FB.Event.subscribe('xfbml.ready', function(msg) {
-                if (msg.type === 'video') {
-                    // Hide fallback iframe once SDK player renders
-                    const fallback = document.getElementById('fbFallbackIframe');
-                    if (fallback) {
-                        fallback.style.display = 'none';
-                    }
-                }
-            });
-        }
-    };
-
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
-
 <nav>
     <div class="nav-container">
         <a href="home.html" class="logo">
@@ -471,7 +616,7 @@
     <div class="hero">
         <div class="live-badge">
             <div class="live-dot"></div> 
-            <span id="liveStatus">LIVE NOW</span>
+            <span id="liveStatus">📼 LATEST SERVICE REPLAY</span>
         </div>
         <h1>Watch Our Service Live</h1>
         <p class="subtitle">Join us from anywhere in the world as we worship together</p>
@@ -481,26 +626,35 @@
 
         <!-- Main Video Section -->
         <div class="video-section">
-            <div class="video-wrapper">
+            <!-- Player Toolbar for Stream Aspect Ratio Controls -->
+            <div class="video-player-toolbar">
+                <div class="video-format-pill" id="formatPill">
+                    <span id="formatPillText">📱 Native Phone Format (Full Height)</span>
+                </div>
+                <div class="view-mode-buttons">
+                    <button type="button" class="view-btn active" id="btnPortrait" onclick="setVideoViewMode('portrait')">
+                        📱 Native <span class="rec-tag">Recommended</span>
+                    </button>
+                    <button type="button" class="view-btn" id="btnLandscape" onclick="setVideoViewMode('landscape')">
+                        🖥️ Standard (16:9 Theater)
+                    </button>
+                    <button type="button" class="view-btn" id="btnZoom" onclick="setVideoViewMode('zoom')">
+                        🔍 Zoom & Fill
+                    </button>
+                </div>
+            </div>
+
+            <div class="video-wrapper portrait-mode" id="streamPlayerWrapper">
                 <!-- Fullscreen Toggle Button -->
-                <button type="button" class="fullscreen-btn" id="fsToggleBtn" onclick="toggleVideoFullscreen()" title="Toggle Fullscreen" aria-label="Toggle Fullscreen">
+                <button type="button" class="fullscreen-btn" id="fsToggleBtn" onclick="toggleVideoFullscreen()" aria-label="Toggle Fullscreen">
                     <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
                     <span id="fsBtnText">Fullscreen</span>
                 </button>
 
-                <!-- Facebook XFBML / oEmbed Video Container -->
-                <div class="fb-video" 
-                     data-href="https://www.facebook.com/debby.kutu1/videos/1784189176163856/" 
-                     data-width="auto" 
-                     data-show-text="false" 
-                     data-allowfullscreen="true" 
-                     data-lazy="true">
-                </div>
-
-                <!-- Modern Meta Video Iframe Fallback -->
+                <!-- Modern Meta / Facebook Video Player Iframe -->
                 <iframe 
-                    id="fbFallbackIframe"
-                    src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fdebby.kutu1%2Fvideos%2F1784189176163856%2F&show_text=false&width=560&t=0&allowfullscreen=true" 
+                    id="fbStreamIframe"
+                    src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fweb.facebook.com%2Fdebby.kutu1%2Fvideos%2F3133583133641207%2F&show_text=false&t=0&allowfullscreen=true" 
                     scrolling="no" 
                     frameborder="0" 
                     allowfullscreen="true"
@@ -511,19 +665,26 @@
                 </iframe>
             </div>
 
+            <!-- Helpful Camera Recording Note Banner -->
+            <div class="video-note-banner">
+                <span>📹 <strong>Camera Format Notice:</strong> This service was broadcast live via mobile in vertical (9:16) format. <strong>Native</strong> provides full height; <strong>Standard</strong> centers the stream in an ambient 16:9 theater frame.</span>
+                <a href="https://web.facebook.com/debby.kutu1/videos/3133583133641207/" target="_blank" rel="noopener" style="font-weight: 600; color: var(--primary-soft); text-decoration: none;">Open on Facebook ↗</a>
+            </div>
+
             <div class="video-info">
-                <h2>Sunday Service</h2>
+                <h2>PREVAILERS CHAPEL INTERNATIONAL</h2>
+                <h3 style="font-size: 18px; color: var(--primary); margin-top: 4px; font-weight: 600;">Life Transforming Service with God's Servant Apostle Frank E. K. Dzese</h3>
                 <div class="video-meta">
-                    <span>📅 <strong>Sunday  9AM</strong></span>
+                    <span>📅 <strong>Sunday Service • 9:00 AM GMT</strong></span>
                     <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown">Starting soon...</span></span>
-                    <span>👥 Watch on <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener">Facebook</a></span>
+                    <span>👥 Watch on <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener">Facebook (@debby.kutu1)</a></span>
                 </div>
-                <a href="https://www.facebook.com/debby.kutu1/videos/1784189176163856/" target="_blank" rel="noopener" class="facebook-link">
+                <a href="https://web.facebook.com/debby.kutu1/videos/3133583133641207/" target="_blank" rel="noopener" class="facebook-link">
                     ▶️ Watch directly on Facebook
                 </a>
                 <p class="video-description">
-                    Sunday Service
-                    First time here? Fill out our <a href="contact.html">contact card</a> to connect with us.
+                    Join God's Servant Apostle Frank E. K. Dzese for a life transforming worship and prophetic encounter.
+                    First time here? Fill out our <a href="contact.html">contact card</a> to connect with our church family.
                 </p>
             </div>
         </div>
@@ -720,11 +881,45 @@
         
         const liveStatusEl = document.getElementById('liveStatus');
         
-        // Sunday 9am - 11am
-        if (day === 0 && hour >= 9 && hour < 11) {
-            liveStatusEl.textContent = '🔴 LIVE NOW';
+        // Check if it's currently live service time (Sunday 9:00 AM - 11:30 AM GMT)
+        const isLiveWindow = (day === 0 && (hour > 9 || (hour === 9 && now.getMinutes() >= 0)) && (hour < 11 || (hour === 11 && now.getMinutes() <= 30)));
+        const heroTitle = document.querySelector('.hero h1');
+
+        if (isLiveWindow) {
+            liveStatusEl.textContent = '🔴 LIVE BROADCAST';
+            if (heroTitle) heroTitle.textContent = 'Watch Our Service Live';
         } else {
-            liveStatusEl.textContent = '⏰ NEXT SERVICE SOON';
+            liveStatusEl.textContent = '📼 LATEST SERVICE REPLAY';
+            if (heroTitle) heroTitle.textContent = 'Watch Latest Church Service';
+        }
+    }
+
+    // View Mode Toggle (Native 9:16 vs Standard 16:9 Theater vs Zoom & Fill)
+    function setVideoViewMode(mode) {
+        const wrapper = document.getElementById('streamPlayerWrapper') || document.querySelector('.video-wrapper');
+        const btnPortrait = document.getElementById('btnPortrait');
+        const btnLandscape = document.getElementById('btnLandscape');
+        const btnZoom = document.getElementById('btnZoom');
+        const pillText = document.getElementById('formatPillText');
+        if (!wrapper) return;
+
+        wrapper.classList.remove('portrait-mode', 'landscape-mode', 'zoom-mode');
+        if (btnPortrait) btnPortrait.classList.remove('active');
+        if (btnLandscape) btnLandscape.classList.remove('active');
+        if (btnZoom) btnZoom.classList.remove('active');
+
+        if (mode === 'portrait') {
+            wrapper.classList.add('portrait-mode');
+            if (btnPortrait) btnPortrait.classList.add('active');
+            if (pillText) pillText.textContent = '📱 Native Phone Format (Full Height)';
+        } else if (mode === 'landscape') {
+            wrapper.classList.add('landscape-mode');
+            if (btnLandscape) btnLandscape.classList.add('active');
+            if (pillText) pillText.textContent = '🖥️ Standard 16:9 (Theater Stage View)';
+        } else if (mode === 'zoom') {
+            wrapper.classList.add('zoom-mode');
+            if (btnZoom) btnZoom.classList.add('active');
+            if (pillText) pillText.textContent = '🔍 16:9 Fill Mode (No Side Bars)';
         }
     }
 
