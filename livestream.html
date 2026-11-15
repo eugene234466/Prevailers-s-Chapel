@@ -667,8 +667,8 @@
 
             <!-- Helpful Camera Recording Note Banner -->
             <div class="video-note-banner">
-                <span>📹 <strong>Camera Format Notice:</strong> This service was broadcast live via mobile in vertical (9:16) format. <strong>Native</strong> provides full height; <strong>Standard</strong> centers the stream in an ambient 16:9 theater frame.</span>
-                <a href="https://web.facebook.com/debby.kutu1/videos/2095379674433512/" target="_blank" rel="noopener" style="font-weight: 600; color: var(--primary-soft); text-decoration: none;">Open on Facebook ↗</a>
+                <span id="cameraFormatNotice">📹 <strong>Camera Format Notice:</strong> This service was broadcast live via mobile in vertical (9:16) format. <strong>Native</strong> provides full height; <strong>Standard</strong> centers the stream in an ambient 16:9 theater frame.</span>
+                <a id="openOnFacebookLink" href="https://web.facebook.com/debby.kutu1/videos/2095379674433512/" target="_blank" rel="noopener" style="font-weight: 600; color: var(--primary-soft); text-decoration: none;">Open on Facebook ↗</a>
             </div>
 
             <div class="video-info">
@@ -679,7 +679,7 @@
                     <span>⏰ <strong>Next Service:</strong> <span id="nextServiceCountdown">Starting soon...</span></span>
                     <span>👥 Watch on <a href="https://www.facebook.com/debby.kutu1" target="_blank" rel="noopener">Facebook (@debby.kutu1)</a></span>
                 </div>
-                <a href="https://web.facebook.com/debby.kutu1/videos/2095379674433512/" target="_blank" rel="noopener" class="facebook-link">
+                <a id="watchDirectlyLink" href="https://web.facebook.com/debby.kutu1/videos/2095379674433512/" target="_blank" rel="noopener" class="facebook-link">
                     ▶️ Watch directly on Facebook
                 </a>
                 <p class="video-description">
@@ -873,7 +873,11 @@
         }, 5000);
     }
     
-    // Check if it's currently service time (Sunday 9am-11am)
+    let currentStreamId = '2095379674433512';
+    let currentStreamIsLive = false;
+    let userSelectedViewMode = false;
+
+    // Check if it's currently service time or live on Facebook
     function updateLiveStatus() {
         const now = new Date();
         const day = now.getDay(); // 0 = Sunday
@@ -881,21 +885,80 @@
         
         const liveStatusEl = document.getElementById('liveStatus');
         
-        // Check if it's currently live service time (Sunday 9:00 AM - 11:30 AM GMT)
+        // Live if Facebook reports active broadcast OR during Sunday 9:00 AM - 11:30 AM window
         const isLiveWindow = (day === 0 && (hour > 9 || (hour === 9 && now.getMinutes() >= 0)) && (hour < 11 || (hour === 11 && now.getMinutes() <= 30)));
         const heroTitle = document.querySelector('.hero h1');
 
-        if (isLiveWindow) {
-            liveStatusEl.textContent = '🔴 LIVE BROADCAST';
+        if (currentStreamIsLive || isLiveWindow) {
+            if (liveStatusEl) liveStatusEl.textContent = '🔴 LIVE BROADCAST';
             if (heroTitle) heroTitle.textContent = 'Watch Our Service Live';
         } else {
-            liveStatusEl.textContent = '📼 LATEST SERVICE REPLAY';
+            if (liveStatusEl) liveStatusEl.textContent = '📼 LATEST SERVICE REPLAY';
             if (heroTitle) heroTitle.textContent = 'Watch Latest Church Service';
+        }
+    }
+
+    // Automatically sync with the latest Sunday stream from /api/latest-stream
+    async function syncLatestStream() {
+        try {
+            const res = await fetch(`/api/latest-stream?t=${Date.now()}`, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
+            if (!res.ok) return;
+            const stream = await res.json();
+            if (!stream || !stream.id) return;
+
+            currentStreamIsLive = Boolean(stream.isLive);
+            updateLiveStatus();
+
+            if (stream.id !== currentStreamId) {
+                currentStreamId = stream.id;
+                const iframe = document.getElementById('fbStreamIframe');
+                const openLink = document.getElementById('openOnFacebookLink');
+                const watchLink = document.getElementById('watchDirectlyLink');
+
+                if (iframe && stream.embedUrl) {
+                    iframe.src = stream.embedUrl;
+                }
+                if (openLink && stream.url) {
+                    openLink.href = stream.url;
+                }
+                if (watchLink && stream.url) {
+                    watchLink.href = stream.url;
+                }
+            }
+
+            // Adjust default layout if future recording is landscape vs portrait
+            if (!userSelectedViewMode && stream.orientation) {
+                const notice = document.getElementById('cameraFormatNotice');
+                if (stream.orientation === 'landscape') {
+                    applyViewModeClass('landscape');
+                    if (notice) {
+                        notice.innerHTML = '📹 <strong>Camera Format Notice:</strong> This service was broadcast in standard widescreen (16:9) format.';
+                    }
+                } else {
+                    applyViewModeClass('portrait');
+                    if (notice) {
+                        notice.innerHTML = '📹 <strong>Camera Format Notice:</strong> This service was broadcast live via mobile in vertical (9:16) format. <strong>Native</strong> provides full height; <strong>Standard</strong> centers the stream in an ambient 16:9 theater frame.';
+                    }
+                }
+            }
+        } catch (_) {
+            // Silently fall back to embedded stream URL
         }
     }
 
     // View Mode Toggle (Native 9:16 vs Standard 16:9 Theater vs Zoom & Fill)
     function setVideoViewMode(mode) {
+        userSelectedViewMode = true;
+        applyViewModeClass(mode);
+    }
+
+    function applyViewModeClass(mode) {
         const wrapper = document.getElementById('streamPlayerWrapper') || document.querySelector('.video-wrapper');
         const btnPortrait = document.getElementById('btnPortrait');
         const btnLandscape = document.getElementById('btnLandscape');
@@ -995,12 +1058,21 @@
     // Initialize
     updateCountdown();
     updateLiveStatus();
+    syncLatestStream();
     
     // Update countdown every minute
     setInterval(updateCountdown, 60000);
     
     // Update live status every minute
     setInterval(updateLiveStatus, 60000);
+
+    // Periodically check for a newly started Sunday broadcast (every 90s on Sunday, 10m otherwise)
+    setInterval(() => {
+        const isSunday = new Date().getDay() === 0;
+        if (isSunday || !currentStreamIsLive) {
+            syncLatestStream();
+        }
+    }, new Date().getDay() === 0 ? 90000 : 600000);
 </script>
 
 <footer>

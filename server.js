@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import dailyVerseHandler from './api/daily-verse.js';
 import testHandler from './api/test.js';
 import eventsHandler from './api/events.js';
+import latestStreamHandler, { startSundayStreamScheduler } from './api/latest-stream.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,6 +57,17 @@ app.all('/api/events', async (req, res) => {
     }
 });
 
+app.all('/api/latest-stream', async (req, res) => {
+    try {
+        await latestStreamHandler(req, res);
+    } catch (err) {
+        console.error('Error handling /api/latest-stream:', err);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
+});
+
 app.all('/api/test', async (req, res) => {
     try {
         await testHandler(req, res);
@@ -85,4 +97,5 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://0.0.0.0:${PORT}`);
+    startSundayStreamScheduler();
 });
